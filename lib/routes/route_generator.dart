@@ -11,8 +11,8 @@ class RouteGenerator {
     switch (settings.name) {
 
       /// STARTUP ROUTE
-      case RouteName.splashScreen:
-        return RouteBuilder(child: const SplashScreen());
+      // case RouteName.splashScreen:
+      //   return RouteBuilder(child: const SplashScreen());
 
       /// AUTH ROUTE
       case RouteName.login:
