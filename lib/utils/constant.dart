@@ -1,0 +1,24 @@
+import 'package:flutter/cupertino.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+class Constant {
+  static const double sidePadding = 16.0;
+  static const double topPadding = 24.0;
+
+  static const Color backgroundColor = Color(0xffFFFFFF);
+  static const Color lightestColor = Color(0xffCCE3F2);
+  static const Color lighterColor = Color(0xffAAD0E9);
+  static const Color lightColor = Color(0xff55A0D2);
+  static const Color baseColor = Color(0xff0071BC);
+  static const Color darkColor = Color(0xff005E9D);
+  static const Color darker = Color(0xff00395E);
+  static const Color darkest = Color(0xff001726);
+
+  static TextStyle primaryTextStyle = GoogleFonts.poppins(color: darker);
+  static TextStyle secondaryTextStyle = GoogleFonts.poppins(color: darkColor);
+
+  static const FontWeight boldFontWeight = FontWeight.w700;
+  static const FontWeight semiBoldFontWeight = FontWeight.w600;
+  static const FontWeight mediumFontWeight = FontWeight.w600;
+  static const FontWeight regularFontWeight = FontWeight.w400;
+}
