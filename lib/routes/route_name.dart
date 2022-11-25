@@ -10,4 +10,5 @@ class RouteName {
   /// DOCTOR ROUTE
   static const String home = '/home';
   static const String profile = '/profile';
+  static const String patientData = '/patient_data';
 }
