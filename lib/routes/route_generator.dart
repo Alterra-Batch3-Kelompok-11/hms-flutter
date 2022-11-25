@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hospital_management_system/routes/route_builder.dart';
 import 'package:hospital_management_system/routes/route_name.dart';
 import 'package:hospital_management_system/screens/auth/login_screen.dart';
-import 'package:hospital_management_system/screens/startup/splash_screen.dart';
+import 'package:hospital_management_system/screens/patient_data/patient_data_screen.dart';
 
 import '../screens/profile/profile_screen.dart';
 
@@ -21,6 +21,9 @@ class RouteGenerator {
       /// DOCTOR ROUTE
       case RouteName.profile:
         return RouteBuilder(child: const ProfileScreen());
+
+      case RouteName.patientData:
+        return RouteBuilder(child: const PatientDataScreen());
 
       default:
         return _errorRoute();

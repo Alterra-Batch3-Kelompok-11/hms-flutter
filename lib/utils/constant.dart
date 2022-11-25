@@ -1,11 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Constant {
-  static const double sidePadding = 16.0;
-  static const double topPadding = 24.0;
+  static const double horizontalPadding = 16.0;
+  static const double verticalPadding = 24.0;
 
-  static const Color backgroundColor = Color(0xffFFFFFF);
+  static const Color backgroundColor = Color(0xffF3F3F3);
   static const Color lightestColor = Color(0xffCCE3F2);
   static const Color lighterColor = Color(0xffAAD0E9);
   static const Color lightColor = Color(0xff55A0D2);
@@ -15,10 +15,24 @@ class Constant {
   static const Color darkest = Color(0xff001726);
 
   static TextStyle primaryTextStyle = GoogleFonts.poppins(color: darker);
-  static TextStyle secondaryTextStyle = GoogleFonts.poppins(color: darkColor);
+  static TextStyle secondaryTextStyle = GoogleFonts.poppins(color: baseColor);
+
+  static const double firstTitleSize = 18.0;
+  static const double secondTitleFontSize = 16.0;
+  static const double subtitleFontSize = 14.0;
+  static const double bodyFontSize = 12.0;
+  static const double captionFontSize = 10.0;
 
   static const FontWeight boldFontWeight = FontWeight.w700;
   static const FontWeight semiBoldFontWeight = FontWeight.w600;
-  static const FontWeight mediumFontWeight = FontWeight.w600;
+  static const FontWeight mediumFontWeight = FontWeight.w500;
   static const FontWeight regularFontWeight = FontWeight.w400;
+
+  static List<BoxShadow> cardShadow = [
+    const BoxShadow(
+        color: Colors.black26,
+        blurRadius: 1.5,
+        spreadRadius: 0.5,
+        offset: Offset(0, 1))
+  ];
 }
