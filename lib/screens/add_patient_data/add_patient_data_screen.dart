@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
+import 'package:hospital_management_system/screens/global_widgets/global_text_field.dart';
 import 'package:hospital_management_system/utils/constant.dart';
+import 'package:hospital_management_system/utils/helper_dialog.dart';
 
 class AddPatientDataScreen extends StatefulWidget {
   const AddPatientDataScreen({Key? key}) : super(key: key);
@@ -13,25 +15,31 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
   late TextEditingController _inputAlergyController;
   late TextEditingController _inputConditionController;
   late TextEditingController _inputDrugController;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  List<bool> selectedOutpatient = [true, false];
+  late String _inputPatientStatus;
 
-  final FocusNode fieldInputAlergyFocus = FocusNode();
-  final FocusNode fieldInputConditionFocus = FocusNode();
-  final FocusNode fieldInputDrugFocus = FocusNode();
-  var colorField = ValueNotifier(Colors.white);
+  final List<String> patientStatus = ["Outpatient", "Inpatient"];
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final FocusNode fieldAlergyFocusNode = FocusNode();
+  final FocusNode fieldConditionFocusNode = FocusNode();
+  final FocusNode fieldDrugFocusNode = FocusNode();
+  ValueNotifier<bool> onFieldAlergyFocus = ValueNotifier(false);
+  ValueNotifier<bool> onFiedlConditionFocus = ValueNotifier(false);
+  ValueNotifier<bool> onFiedlDrugFocus = ValueNotifier(false);
+  ValueNotifier<bool> onSelectedStatusPatient = ValueNotifier(false);
+
+  updatePatientStatus(String status) {
+    var result = (status == "");
+    onSelectedStatusPatient.value = result;
+  }
 
   @override
   void initState() {
     _inputAlergyController = TextEditingController();
     _inputConditionController = TextEditingController();
     _inputDrugController = TextEditingController();
+    _inputPatientStatus = "";
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
   }
 
   @override
@@ -44,7 +52,7 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("berulang");
+    print("BERULANG");
     return Scaffold(
       backgroundColor: Constant.backgroundColor,
       appBar: AppBar(
@@ -78,20 +86,14 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
             const SizedBox(
               height: 10,
             ),
-            TextFormField(
-              validator: (value) => null,
-              controller: _inputAlergyController,
-              onTap: () {},
-              decoration: InputDecoration(
-                  filled: true,
-                  enabledBorder: const OutlineInputBorder(),
-                  disabledBorder: const OutlineInputBorder(),
-                  hintText: 'Masukkan riwayat alergi pasien',
-                  fillColor: (fieldInputAlergyFocus.hasFocus)
-                      ? colorField.value
-                      : Colors.white),
-              focusNode: fieldInputAlergyFocus,
-            ),
+            GlobalTextField(
+                fieldController: _inputAlergyController,
+                validator: (value) {
+                  return null;
+                },
+                hintText: "Masukkan riwayat alergi pasien",
+                valueNotifier: onFieldAlergyFocus,
+                focusNode: fieldAlergyFocusNode),
             const SizedBox(
               height: 20,
             ),
@@ -105,26 +107,21 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
             const SizedBox(
               height: 10,
             ),
-            TextFormField(
-              validator: (value) => null,
-              controller: _inputConditionController,
-              maxLines: 5,
-              maxLength: 120,
-              decoration: InputDecoration(
-                  filled: true,
-                  enabledBorder: const OutlineInputBorder(),
-                  disabledBorder: const OutlineInputBorder(),
-                  hintText: 'Masukkan kondisi terkini pasien',
-                  fillColor: (fieldInputConditionFocus.hasFocus)
-                      ? colorField.value
-                      : Colors.white),
-              focusNode: fieldInputConditionFocus,
-            ),
+            GlobalTextField(
+                fieldController: _inputConditionController,
+                validator: (value) {
+                  return null;
+                },
+                maxLength: 120,
+                maxLine: 5,
+                hintText: "Masukkan kondisi terkini pasien",
+                valueNotifier: onFiedlConditionFocus,
+                focusNode: fieldConditionFocusNode),
             const SizedBox(
               height: 20,
             ),
             Text(
-              "Alergi",
+              "Obat",
               style: Constant.primaryTextStyle.copyWith(
                 fontSize: Constant.secondTitleFontSize,
                 fontWeight: Constant.boldFontWeight,
@@ -133,23 +130,61 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
             const SizedBox(
               height: 10,
             ),
-            TextFormField(
-              validator: (value) => null,
-              controller: _inputDrugController,
-              onTap: () {},
-              decoration: InputDecoration(
-                  filled: true,
-                  enabledBorder: const OutlineInputBorder(),
-                  disabledBorder: const OutlineInputBorder(),
-                  hintText: 'Masukkan Obat',
-                  fillColor: (fieldInputAlergyFocus.hasFocus)
-                      ? colorField.value
-                      : Colors.white),
-              focusNode: fieldInputAlergyFocus,
+            GlobalTextField(
+              fieldController: _inputDrugController,
+              validator: (value) {
+                return null;
+              },
+              hintText: "Masukkan Obat",
+              valueNotifier: onFiedlDrugFocus,
+              focusNode: fieldDrugFocusNode,
             ),
             const SizedBox(
               height: 20,
             ),
+            Text(
+              "Status Pasien",
+              style: Constant.primaryTextStyle.copyWith(
+                fontSize: Constant.secondTitleFontSize,
+                fontWeight: Constant.boldFontWeight,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Wrap(
+              spacing: 20,
+              children: patientStatus.map((status) {
+                return ValueListenableBuilder(
+                  valueListenable: onSelectedStatusPatient,
+                  builder: ((context, value, child) {
+                    return ChoiceChip(
+                      selectedColor: Constant.lighterColor,
+                      backgroundColor: Colors.white,
+                      label: Container(
+                        margin: const EdgeInsets.all(10),
+                        child: Text(status,
+                            style: Constant.primaryTextStyle.copyWith(
+                              fontSize: Constant.subtitleFontSize,
+                              color: Constant.baseColor,
+                              fontWeight: Constant.semiBoldFontWeight,
+                            )),
+                      ),
+                      selected: _inputPatientStatus == status,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          side: const BorderSide(color: Constant.baseColor)),
+                      onSelected: (bool selected) {
+                        setState(() {
+                          _inputPatientStatus = (selected ? status : null)!;
+                          print(_inputPatientStatus);
+                        });
+                      },
+                    );
+                  }),
+                );
+              }).toList(),
+            )
           ],
         ),
       ),
@@ -157,7 +192,15 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
         margin: const EdgeInsets.symmetric(
             horizontal: Constant.horizontalPadding,
             vertical: Constant.verticalPadding),
-        child: GlobalButton(onPressed: () {}, buttonTitle: "Simpan"),
+        child: GlobalButton(
+            onPressed: () {
+              HelperDialog.alertDialog(context,
+                  titleText: "titleText",
+                  buttonSubmitText: "submit",
+                  icon: Icons.abc,
+                  onSubmit: () {});
+            },
+            buttonTitle: "Simpan"),
       ),
     );
   }

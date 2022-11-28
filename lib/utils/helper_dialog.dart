@@ -51,7 +51,7 @@ class HelperDialog {
       barrierDismissible: false,
       builder: (context) {
         return WillPopScope(
-          onWillPop: () async => false,
+          onWillPop: () async => true,
           child: AlertDialog(
             backgroundColor: Constant.backgroundColor,
             shape:
@@ -90,6 +90,7 @@ class HelperDialog {
                       buttonSubmitText,
                       style: Constant.primaryTextStyle.copyWith(
                         fontSize: 13,
+                        color: Constant.backgroundColor,
                         fontWeight: Constant.semiBoldFontWeight,
                       ),
                     ),
