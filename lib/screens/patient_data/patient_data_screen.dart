@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/screens/patient_data/widgets/patient_complaints_card.dart';
 import 'package:hospital_management_system/screens/patient_data/widgets/patient_schedule_card.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
@@ -81,7 +82,12 @@ class PatientDataScreen extends StatelessWidget {
           const SizedBox(
             height: 24,
           ),
-          GlobalButton(onPressed: () {}, buttonTitle: "Tambah Kondisi Pasien")
+          GlobalButton(
+              onPressed: () => Navigator.pushNamed(
+                    context,
+                    RouteNames.addPatientData,
+                  ),
+              buttonTitle: "Tambah Kondisi Pasien")
         ],
       ),
     );
