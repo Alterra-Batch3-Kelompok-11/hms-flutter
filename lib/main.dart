@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hospital_management_system/routes/route_generator.dart';
-import 'package:hospital_management_system/routes/route_name.dart';
+import 'package:hospital_management_system/routes/route_names.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: RouteName.login,
+      initialRoute: RouteNames.addPatientData,
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }

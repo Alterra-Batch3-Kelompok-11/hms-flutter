@@ -14,6 +14,9 @@ class Constant {
   static const Color darker = Color(0xff00395E);
   static const Color darkest = Color(0xff001726);
 
+  static Color successColor = Colors.green.shade500;
+  static Color errorColor = Colors.red.shade900;
+
   static TextStyle primaryTextStyle = GoogleFonts.poppins(color: darker);
   static TextStyle secondaryTextStyle = GoogleFonts.poppins(color: baseColor);
 

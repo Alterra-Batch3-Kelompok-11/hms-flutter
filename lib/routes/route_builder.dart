@@ -4,7 +4,7 @@ class RouteBuilder extends PageRouteBuilder {
   final Widget child;
   final AxisDirection direction;
 
-  RouteBuilder({required this.child, this.direction = AxisDirection.right})
+  RouteBuilder({required this.child, this.direction = AxisDirection.left})
       : super(
           transitionDuration: const Duration(milliseconds: 200),
           reverseTransitionDuration: const Duration(milliseconds: 200),
