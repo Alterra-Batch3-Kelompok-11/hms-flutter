@@ -1,4 +1,4 @@
-class RouteName {
+class RouteNames {
   /// STARTUP ROUTE
   static const String splashScreen = '/splash-screen';
 
@@ -10,5 +10,6 @@ class RouteName {
   /// DOCTOR ROUTE
   static const String home = '/home';
   static const String profile = '/profile';
-  static const String patientData = '/patient_data';
+  static const String patientData = '/patient-data';
+  static const String addPatientData = '/add-patient-data';
 }
