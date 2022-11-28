@@ -16,7 +16,7 @@ class RouteGenerator {
 
       /// AUTH ROUTE
       case RouteName.login:
-        return RouteBuilder(child: const LoginScreen());
+        return RouteBuilder(child:  LoginScreen());
 
       /// DOCTOR ROUTE
       case RouteName.profile:

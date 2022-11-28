@@ -4,6 +4,7 @@ import 'package:hospital_management_system/screens/patient_data/widgets/patient_
 import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
+import '../condition_patient_data/condition_patient_data_screen.dart';
 import 'widgets/patient_medical_history_card.dart';
 import 'widgets/patient_profile_card.dart';
 
@@ -81,7 +82,13 @@ class PatientDataScreen extends StatelessWidget {
           const SizedBox(
             height: 24,
           ),
-          GlobalButton(onPressed: () {}, buttonTitle: "Tambah Kondisi Pasien")
+          GlobalButton(onPressed: () {
+              Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ConditionPatientDataScreen()));
+          }, 
+          
+          
+          buttonTitle: "Tambah Kondisi Pasien")
         ],
       ),
     );

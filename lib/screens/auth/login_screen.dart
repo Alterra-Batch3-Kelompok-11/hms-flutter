@@ -1,9 +1,82 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../patient_data/patient_data_screen.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final richTextKey = GlobalKey();
+  // RichText? richText;
+  buildhint() {
+    // setState(() {
+    //   richText = richTextKey.currentWidget as RichText;
+    // });
+
+    RichText richText = RichText(
+      key: richTextKey,
+      text: TextSpan(
+        text: 'FIRST NAME',
+        children: <InlineSpan>[
+          TextSpan(
+            text: '*',
+            style: TextStyle(color: Colors.green),
+          ),
+        ],
+        style: TextStyle(color: Colors.green),
+      ),
+    );
+    return richText.text.toPlainText();
+  }
+//   setHint(){
+// setState(() {
+
+// });
+
+//   }
+
+  FocusNode textFieldFocus = FocusNode();
+  FocusNode textFieldFocus1 = FocusNode();
+
+  Color color = Colors.white;
+  Color color1 = Colors.white;
+
+  focusColor() {
+    textFieldFocus.addListener(() {
+      if (textFieldFocus.hasFocus) {
+        setState(() {
+          color = Colors.blue.withOpacity(0.2);
+        });
+      } else {
+        setState(() {
+          color = Colors.white;
+        });
+      }
+    });
+    textFieldFocus1.addListener(() {
+      if (textFieldFocus1.hasFocus) {
+        setState(() {
+          color1 = Colors.blue.withOpacity(0.2);
+        });
+      } else {
+        setState(() {
+          color1 = Colors.white;
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    focusColor();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +85,7 @@ class LoginScreen extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
             alignment: Alignment.topCenter,
-            image: Image(
+            image: const Image(
               image: AssetImage('assets/images/login_background.png'),
             ).image,
             fit: BoxFit.fitWidth,
@@ -50,6 +123,7 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 10),
                   // ignore: prefer_const_constructors
                   TextField(
+                    focusNode: textFieldFocus,
                     style: GoogleFonts.poppins(
                       color: Colors.blueAccent,
                       fontSize: 16,
@@ -57,42 +131,54 @@ class LoginScreen extends StatelessWidget {
                     decoration: InputDecoration(
                       filled: true,
                       hoverColor: Colors.indigo.shade200,
-                      enabledBorder: OutlineInputBorder(),
-                      disabledBorder: OutlineInputBorder(),
+                      enabledBorder: const OutlineInputBorder(),
+                      disabledBorder: const OutlineInputBorder(),
                       // borderRadius: BorderRadius.circular(25),
                       // borderSide: BorderSide(color: Colors.blueAccent)),
-
-                      prefixIcon: Icon(Icons.person_outline),
-
-                      hintText: 'Nomer lisensi*',
-                      focusColor: Colors.blue.withOpacity(0.2),
+                      fillColor: color,
+                      prefixIcon: const Icon(Icons.person_outline),
+                      suffixText: '*',
+                      suffixStyle: TextStyle(
+                        color: Colors.red,
+                      ),
+                      hintText: 'Nomer lisensi',
+                      // focusColor: Colors.blue.withOpacity(0.2),
                     ),
                   ),
                   const SizedBox(height: 20),
                   TextField(
+                    focusNode: textFieldFocus1,
+                    // autofocus: false,
+                    obscuringCharacter: "⋆",
                     obscureText: true,
                     style: GoogleFonts.poppins(
                       color: Colors.blueAccent,
                       fontSize: 16,
                     ),
                     decoration: InputDecoration(
-                      hoverColor: Colors.blueAccent,
-                      enabledBorder: OutlineInputBorder(),
-                      disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: BorderSide(color: Colors.blueAccent)),
-                      prefixIcon: Icon(Icons.lock_outline),
-                      fillColor: Colors.blue.withOpacity(0.2),
-                      filled: true,
-                      hintText: 'Sandi*',
-                      focusColor: Colors.blue.withOpacity(0.2),
-                    ),
+                        hoverColor: Colors.blueAccent,
+                        enabledBorder: OutlineInputBorder(),
+                        disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide:
+                                const BorderSide(color: Colors.blueAccent)),
+                        prefixIcon: const Icon(Icons.lock_outline),
+                        fillColor: color1,
+                        filled: true,
+                        hintText: 'Sandi',
+                        suffixText: '*',
+                        suffixStyle: TextStyle(
+                          color: Colors.red,
+                        )
+
+                        // focusColor: Colors.blue,
+                        ),
                   ),
                   Row(
                     children: [
                       Checkbox(
                         onChanged: (bool? value) {},
-                        value: false,
+                        value: true,
                       ),
                       Text(
                         'Ingat saya',
@@ -103,17 +189,22 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  
+
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size.fromHeight(50),
-                      maximumSize: Size.fromHeight(100),
+                      minimumSize: const Size.fromHeight(50),
+                      maximumSize: const Size.fromHeight(100),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      backgroundColor: Color.fromARGB(255, 13, 95, 218),
+                      backgroundColor: const Color.fromARGB(255, 13, 95, 218),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PatientDataScreen()));
+                    },
                     child: Text(
                       'Masuk',
                       style: GoogleFonts.poppins(
@@ -131,11 +222,6 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
 
 
 
