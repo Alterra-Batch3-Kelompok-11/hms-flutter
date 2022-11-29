@@ -139,52 +139,6 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
               valueNotifier: onFiedlDrugFocus,
               focusNode: fieldDrugFocusNode,
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              "Status Pasien",
-              style: Constant.primaryTextStyle.copyWith(
-                fontSize: Constant.secondTitleFontSize,
-                fontWeight: Constant.boldFontWeight,
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Wrap(
-              spacing: 20,
-              children: patientStatus.map((status) {
-                return ValueListenableBuilder(
-                  valueListenable: onSelectedStatusPatient,
-                  builder: ((context, value, child) {
-                    return ChoiceChip(
-                      selectedColor: Constant.lighterColor,
-                      backgroundColor: Colors.white,
-                      label: Container(
-                        margin: const EdgeInsets.all(10),
-                        child: Text(status,
-                            style: Constant.primaryTextStyle.copyWith(
-                              fontSize: Constant.subtitleFontSize,
-                              color: Constant.baseColor,
-                              fontWeight: Constant.semiBoldFontWeight,
-                            )),
-                      ),
-                      selected: _inputPatientStatus == status,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          side: const BorderSide(color: Constant.baseColor)),
-                      onSelected: (bool selected) {
-                        setState(() {
-                          _inputPatientStatus = (selected ? status : null)!;
-                          print(_inputPatientStatus);
-                        });
-                      },
-                    );
-                  }),
-                );
-              }).toList(),
-            )
           ],
         ),
       ),
