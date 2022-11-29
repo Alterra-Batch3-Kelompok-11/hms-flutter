@@ -3,6 +3,7 @@ import 'package:hospital_management_system/routes/route_builder.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/screens/add_patient_data/add_patient_data_screen.dart';
 import 'package:hospital_management_system/screens/auth/login_screen.dart';
+import 'package:hospital_management_system/screens/detail_medical_history/detail_medical_history_screen.dart';
 import 'package:hospital_management_system/screens/patient_data/patient_data_screen.dart';
 
 import '../screens/profile/profile_screen.dart';
@@ -26,6 +27,8 @@ class RouteGenerator {
         return RouteBuilder(child: const PatientDataScreen());
       case RouteNames.addPatientData:
         return RouteBuilder(child: const AddPatientDataScreen());
+      case RouteNames.detailMedicalHistory:
+        return RouteBuilder(child: const DetailMedicalHistoryScreen());
 
       default:
         return _errorRoute();
