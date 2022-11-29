@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_text_field.dart';
 import 'package:hospital_management_system/utils/constant.dart';
-import 'package:hospital_management_system/utils/helper_dialog.dart';
 
 class AddPatientDataScreen extends StatefulWidget {
   const AddPatientDataScreen({Key? key}) : super(key: key);
@@ -148,11 +148,7 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
             vertical: Constant.verticalPadding),
         child: GlobalButton(
             onPressed: () {
-              HelperDialog.alertDialog(context,
-                  titleText: "titleText",
-                  buttonSubmitText: "submit",
-                  icon: Icons.abc,
-                  onSubmit: () {});
+              Navigator.pushNamed(context, RouteNames.patientSchedule);
             },
             buttonTitle: "Simpan"),
       ),

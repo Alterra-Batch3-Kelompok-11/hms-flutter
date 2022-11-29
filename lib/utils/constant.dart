@@ -5,6 +5,7 @@ class Constant {
   static const double horizontalPadding = 16.0;
   static const double verticalPadding = 24.0;
 
+  static const Color whiteColor = Color(0xffffffff);
   static const Color backgroundColor = Color(0xffF3F3F3);
   static const Color lightestColor = Color(0xffCCE3F2);
   static const Color lighterColor = Color(0xffAAD0E9);
@@ -14,8 +15,8 @@ class Constant {
   static const Color darker = Color(0xff00395E);
   static const Color darkest = Color(0xff001726);
 
-  static Color successColor = Colors.green.shade500;
-  static Color errorColor = Colors.red.shade900;
+  static Color successColor = const Color(0xff70BE03);
+  static Color errorColor = const Color(0xffFF3333);
 
   static TextStyle primaryTextStyle = GoogleFonts.poppins(color: darker);
   static TextStyle secondaryTextStyle = GoogleFonts.poppins(color: baseColor);
@@ -31,11 +32,13 @@ class Constant {
   static const FontWeight mediumFontWeight = FontWeight.w500;
   static const FontWeight regularFontWeight = FontWeight.w400;
 
-  static List<BoxShadow> cardShadow = [
-    const BoxShadow(
+  static const List<BoxShadow> cardShadow = [
+    BoxShadow(
         color: Colors.black26,
         blurRadius: 1.5,
         spreadRadius: 0.5,
         offset: Offset(0, 1))
   ];
+
+  static BorderRadius cardBorderRadius = BorderRadius.circular(12);
 }
