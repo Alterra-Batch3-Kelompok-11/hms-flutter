@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hospital_management_system/screens/patient_schedule.dart/patient_visit_requests.dart';
-import 'package:hospital_management_system/screens/patient_schedule.dart/patient_visit_schedule.dart';
+import 'package:hospital_management_system/screens/history/patient_consent_history.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
-class PatienScheduleScreen extends StatelessWidget {
-  const PatienScheduleScreen({Key? key}) : super(key: key);
+import 'patient_visit_history.dart';
+
+class HistoryScreen extends StatelessWidget {
+  const HistoryScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class PatienScheduleScreen extends StatelessWidget {
           backgroundColor: Constant.lightColor,
           elevation: 0,
           title: Text(
-            "Jadwal",
+            "Riwayat",
             style: Constant.primaryTextStyle.copyWith(
               fontWeight: Constant.boldFontWeight,
               fontSize: Constant.firstTitleSize,
@@ -39,10 +40,10 @@ class PatienScheduleScreen extends StatelessWidget {
                 splashBorderRadius: BorderRadius.circular(12),
                 tabs: const [
                   Tab(
-                    text: "Permintaan Kunjungan",
+                    text: "Riwayat Kunjungan",
                   ),
                   Tab(
-                    text: "Jadwal Kunjungan",
+                    text: "Riwayat Persetujuan",
                   ),
                 ],
               ),
@@ -51,8 +52,8 @@ class PatienScheduleScreen extends StatelessWidget {
         ),
         body: const TabBarView(
           children: [
-            PatientVisitRequests(),
-            PatientVisitSchedule(),
+            PatientVisitHistory(),
+            PatientConsentHistory(),
           ],
         ),
       ),
