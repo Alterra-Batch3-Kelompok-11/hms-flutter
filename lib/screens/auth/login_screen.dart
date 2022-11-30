@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hospital_management_system/screens/navbar/navbar.dart';
 
 import '../patient_data/patient_data_screen.dart';
 
@@ -203,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const PatientDataScreen()));
+                              builder: (context) => const NavBar()));
                     },
                     child: Text(
                       'Masuk',

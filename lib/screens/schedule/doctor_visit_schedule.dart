@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
 import 'widgets/card_doctor_visit_schedule.dart';
@@ -15,7 +16,9 @@ class DoctorVisitSchedule extends StatelessWidget {
       ),
       children: ["Jono", "Joni", "Jojo"].map((patient) {
         return GestureDetector(
-          onTap: () {},
+          onTap: () {
+             Navigator.pushNamed(context, RouteNames.patientData);
+          },
           child: CardDoctorVisitSchedule(
               patientName: patient, visitDate: "10 November 2022"),
         );

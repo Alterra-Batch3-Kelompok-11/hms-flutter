@@ -148,7 +148,7 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
             vertical: Constant.verticalPadding),
         child: GlobalButton(
             onPressed: () {
-              Navigator.pushNamed(context, RouteNames.schedule);
+              Navigator.pushNamed(context, RouteNames.patientData);
             },
             buttonTitle: "Simpan"),
       ),
