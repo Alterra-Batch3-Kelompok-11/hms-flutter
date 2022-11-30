@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
-class CardPatientVisitRequest extends StatelessWidget {
-  const CardPatientVisitRequest({
+class CardDoctorVisitRequest extends StatelessWidget {
+  const CardDoctorVisitRequest({
     Key? key,
     required this.patientName,
     required this.requestDate,

@@ -16,7 +16,7 @@ class Constant {
   static const Color darkest = Color(0xff001726);
 
   static Color successColor = const Color(0xff70BE03);
-  static Color errorColor = const Color(0xffFF3333);
+  static Color errorColor = const Color(0xffB3261E);
 
   static TextStyle primaryTextStyle = GoogleFonts.poppins(color: darker);
   static TextStyle secondaryTextStyle = GoogleFonts.poppins(color: baseColor);

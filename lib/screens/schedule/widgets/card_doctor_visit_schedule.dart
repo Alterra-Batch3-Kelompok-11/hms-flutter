@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
-class CardPatientVisitSchedule extends StatelessWidget {
-  const CardPatientVisitSchedule({
+class CardDoctorVisitSchedule extends StatelessWidget {
+  const CardDoctorVisitSchedule({
     Key? key,
     required this.patientName,
     required this.visitDate,
