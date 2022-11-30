@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
 class PatientMedicalHistoryCard extends StatelessWidget {
@@ -111,7 +112,9 @@ class PatientMedicalHistoryCard extends StatelessWidget {
           Align(
             alignment: Alignment.bottomRight,
             child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                   Navigator.pushNamed(context, RouteNames.detailMedicalHistory);
+                },
                 child: Text(
                   "Selengkapnya",
                   style: Constant.secondaryTextStyle.copyWith(
