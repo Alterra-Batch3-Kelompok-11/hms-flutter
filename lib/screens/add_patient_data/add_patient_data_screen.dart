@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_text_field.dart';
 import 'package:hospital_management_system/utils/constant.dart';
-import 'package:hospital_management_system/utils/helper_dialog.dart';
 
 class AddPatientDataScreen extends StatefulWidget {
   const AddPatientDataScreen({Key? key}) : super(key: key);
@@ -139,52 +139,6 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
               valueNotifier: onFiedlDrugFocus,
               focusNode: fieldDrugFocusNode,
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              "Status Pasien",
-              style: Constant.primaryTextStyle.copyWith(
-                fontSize: Constant.secondTitleFontSize,
-                fontWeight: Constant.boldFontWeight,
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Wrap(
-              spacing: 20,
-              children: patientStatus.map((status) {
-                return ValueListenableBuilder(
-                  valueListenable: onSelectedStatusPatient,
-                  builder: ((context, value, child) {
-                    return ChoiceChip(
-                      selectedColor: Constant.lighterColor,
-                      backgroundColor: Colors.white,
-                      label: Container(
-                        margin: const EdgeInsets.all(10),
-                        child: Text(status,
-                            style: Constant.primaryTextStyle.copyWith(
-                              fontSize: Constant.subtitleFontSize,
-                              color: Constant.baseColor,
-                              fontWeight: Constant.semiBoldFontWeight,
-                            )),
-                      ),
-                      selected: _inputPatientStatus == status,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          side: const BorderSide(color: Constant.baseColor)),
-                      onSelected: (bool selected) {
-                        setState(() {
-                          _inputPatientStatus = (selected ? status : null)!;
-                          print(_inputPatientStatus);
-                        });
-                      },
-                    );
-                  }),
-                );
-              }).toList(),
-            )
           ],
         ),
       ),
@@ -194,11 +148,7 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
             vertical: Constant.verticalPadding),
         child: GlobalButton(
             onPressed: () {
-              HelperDialog.alertDialog(context,
-                  titleText: "titleText",
-                  buttonSubmitText: "submit",
-                  icon: Icons.abc,
-                  onSubmit: () {});
+              Navigator.pushNamed(context, RouteNames.patientSchedule);
             },
             buttonTitle: "Simpan"),
       ),
