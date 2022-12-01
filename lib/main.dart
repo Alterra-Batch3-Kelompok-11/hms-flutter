@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_system/routes/route_generator.dart';
-import 'package:hospital_management_system/routes/route_names.dart';
+import 'package:hospital_management_system/screens/startup/splash_screen.dart';
 import 'package:hospital_management_system/services/auth_service.dart';
 import 'package:hospital_management_system/view_model/auth_view_model/auth_bloc.dart';
 
@@ -19,14 +19,14 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) =>
-                AuthBloc(authService: context.read<AuthService>()),
-          )
+              create: (context) =>
+                  AuthBloc(authService: context.read<AuthService>()))
         ],
         child: const MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: RouteNames.login,
+          // initialRoute: RouteNames.login,
           onGenerateRoute: RouteGenerator.generateRoute,
+          home: SplashScreen(),
         ),
       ),
     );
