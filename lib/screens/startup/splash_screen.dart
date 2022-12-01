@@ -13,8 +13,8 @@ class SplashScreen extends StatelessWidget {
       speed: 50,
       pageRouteTransition: PageRouteTransition.CupertinoPageRoute,
       backgroundColor: Constant.lightColor,
-      colors: [Colors.blue],
-      navigateRoute: LoginScreen(),
+      colors: const [Colors.blue],
+      navigateRoute: const LoginScreen(),
       duration: 500,
       imageSize: 600,
       imageSrc:

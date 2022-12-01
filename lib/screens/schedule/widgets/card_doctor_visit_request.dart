@@ -82,7 +82,14 @@ class CardDoctorVisitRequest extends StatelessWidget {
                 children: [
                   GlobalButton(
                     onPressed: onAcceptButton,
-                    buttonTitle: "Terima",
+                    buttonChild: Text(
+                      "Terima",
+                      style: Constant.primaryTextStyle.copyWith(
+                        fontSize: Constant.subtitleFontSize,
+                        fontWeight: Constant.semiBoldFontWeight,
+                        color: Colors.white,
+                      ),
+                    ),
                     fixedWidth: MediaQuery.of(context).size.width / 3,
                   ),
                   const SizedBox(
@@ -90,7 +97,14 @@ class CardDoctorVisitRequest extends StatelessWidget {
                   ),
                   GlobalButton(
                     onPressed: onRejectButton,
-                    buttonTitle: "Tolak",
+                    buttonChild: Text(
+                      "Tolak",
+                      style: Constant.primaryTextStyle.copyWith(
+                        fontSize: Constant.subtitleFontSize,
+                        fontWeight: Constant.semiBoldFontWeight,
+                        color: Colors.white,
+                      ),
+                    ),
                     fixedWidth: MediaQuery.of(context).size.width / 3,
                     color: Constant.errorColor,
                   ),

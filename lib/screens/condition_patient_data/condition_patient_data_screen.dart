@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import '../../utils/constant.dart';
 
@@ -11,7 +8,7 @@ class ConditionPatientDataScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
- backgroundColor: Constant.backgroundColor,
+      backgroundColor: Constant.backgroundColor,
       appBar: AppBar(
         backgroundColor: Constant.lightColor,
         elevation: 0,
@@ -24,20 +21,6 @@ class ConditionPatientDataScreen extends StatelessWidget {
           ),
         ),
       ),
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
     );
   }
 }

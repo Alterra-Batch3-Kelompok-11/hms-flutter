@@ -11,6 +11,8 @@ class GlobalTextField extends StatelessWidget {
       required this.focusNode,
       required this.validator,
       this.maxLine,
+      this.prefixIcon,
+      this.obscureText,
       this.maxLength})
       : super(key: key);
 
@@ -19,10 +21,12 @@ class GlobalTextField extends StatelessWidget {
   // final ValueListenable<bool> valueListenable;
   // final void Function() updateFillColor;
   final FocusNode focusNode;
-  final String? Function(String? value) validator;
+  final Function(String? value) validator;
   final int? maxLine;
   final int? maxLength;
   final ValueNotifier<bool> valueNotifier;
+  final IconData? prefixIcon;
+  final bool? obscureText;
 
   updateFillColor() {
     focusNode.addListener(() {
@@ -48,11 +52,18 @@ class GlobalTextField extends StatelessWidget {
               fontWeight: Constant.mediumFontWeight),
           cursorColor: Constant.baseColor,
           maxLines: maxLine,
-          validator: validator,
+          validator: (value) {
+            if (value == null) {
+              return "requird";
+            }
+            return null;
+          },
           controller: fieldController,
           onTap: updateFillColor,
           decoration: InputDecoration(
               filled: true,
+              prefixIcon:
+                  (prefixIcon == null) ? const Icon(null) : Icon(prefixIcon),
               focusedBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Constant.baseColor, width: 2)),
               enabledBorder: const OutlineInputBorder(

@@ -5,14 +5,14 @@ import '../schedule/schedule_screen.dart';
 import '../../screens/profile/profile_screen.dart';
 import '../../screens/history/history_screen.dart';
 
-class NavBar extends StatefulWidget {
-  const NavBar({Key? key}) : super(key: key);
+class NavbarScreen extends StatefulWidget {
+  const NavbarScreen({Key? key}) : super(key: key);
 
   @override
-  State<NavBar> createState() => _NavBarState();
+  State<NavbarScreen> createState() => _NavbarScreenState();
 }
 
-class _NavBarState extends State<NavBar> {
+class _NavbarScreenState extends State<NavbarScreen> {
   List pages = [
     HomeScreen(),
     const ScheduleScreen(),
@@ -34,7 +34,7 @@ class _NavBarState extends State<NavBar> {
       body: pages[currentIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
           color: Colors.white,
           boxShadow: [
             BoxShadow(
@@ -65,7 +65,7 @@ class _NavBarState extends State<NavBar> {
                   borderRadius: BorderRadius.all(Radius.circular(27)),
                   color: Constant.lightestColor,
                 ),
-                child: Icon(Icons.home),
+                child: const Icon(Icons.home),
               ),
             ),
             BottomNavigationBarItem(
@@ -78,7 +78,7 @@ class _NavBarState extends State<NavBar> {
                   borderRadius: BorderRadius.all(Radius.circular(27)),
                   color: Constant.lightestColor,
                 ),
-                child: Icon(Icons.calendar_today),
+                child: const Icon(Icons.calendar_today),
               ),
             ),
             BottomNavigationBarItem(
@@ -91,7 +91,7 @@ class _NavBarState extends State<NavBar> {
                   borderRadius: BorderRadius.all(Radius.circular(27)),
                   color: Constant.lightestColor,
                 ),
-                child: Icon(Icons.access_time),
+                child: const Icon(Icons.access_time),
               ),
             ),
             BottomNavigationBarItem(
@@ -104,7 +104,7 @@ class _NavBarState extends State<NavBar> {
                   borderRadius: BorderRadius.all(Radius.circular(27)),
                   color: Constant.lightestColor,
                 ),
-                child: Icon(Icons.person),
+                child: const Icon(Icons.person),
               ),
             ),
           ],
