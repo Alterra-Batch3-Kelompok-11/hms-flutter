@@ -5,13 +5,13 @@ class GlobalButton extends StatelessWidget {
   const GlobalButton(
       {Key? key,
       required this.onPressed,
-      required this.buttonTitle,
+      required this.buttonChild,
       this.color,
       this.fixedWidth = 0})
       : super(key: key);
 
   final void Function() onPressed;
-  final String buttonTitle;
+  final Widget buttonChild;
   final double fixedWidth;
   final Color? color;
   @override
@@ -24,14 +24,7 @@ class GlobalButton extends StatelessWidget {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))),
       onPressed: onPressed,
-      child: Text(
-        buttonTitle,
-        style: Constant.primaryTextStyle.copyWith(
-          fontSize: Constant.subtitleFontSize,
-          fontWeight: Constant.semiBoldFontWeight,
-          color: Colors.white,
-        ),
-      ),
+      child: buttonChild,
     );
   }
 }

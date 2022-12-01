@@ -82,11 +82,19 @@ class PatientDataScreen extends StatelessWidget {
             height: 24,
           ),
           GlobalButton(
-              onPressed: () => Navigator.pushNamed(
-                    context,
-                    RouteNames.addPatientData,
-                  ),
-              buttonTitle: "Tambah Kondisi Pasien")
+            onPressed: () => Navigator.pushNamed(
+              context,
+              RouteNames.addPatientData,
+            ),
+            buttonChild: Text(
+              "Terima",
+              style: Constant.primaryTextStyle.copyWith(
+                fontSize: Constant.subtitleFontSize,
+                fontWeight: Constant.semiBoldFontWeight,
+                color: Colors.white,
+              ),
+            ),
+          )
         ],
       ),
     );

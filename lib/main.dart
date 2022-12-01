@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_system/routes/route_generator.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
+import 'package:hospital_management_system/services/auth_service.dart';
+import 'package:hospital_management_system/view_model/auth_view_model/auth_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,30 +14,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      // theme: ThemeData(
-      //   bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      //     selectedItemColor: Colors.red,
-      //     unselectedItemColor: Colors.grey,
-      //     backgroundColor: Colors.red,
-      //     type: BottomNavigationBarType.fixed,
-      //   ),
-      //   tabBarTheme: TabBarTheme(
-      //     indicator: BoxDecoration(
-      //       color: Color.fromARGB(255, 136, 157, 174),
-      //       borderRadius: BorderRadius.circular(50),
-
-      //     ),
-      //     unselectedLabelColor: Colors.black,
-      //     labelStyle: TextStyle(
-      //       fontSize: 16,
-      //       fontWeight: FontWeight.bold,
-      //     ),
-      //   ),
-      // ),
-      debugShowCheckedModeBanner: false,
-      initialRoute: RouteNames.login,
-      onGenerateRoute: RouteGenerator.generateRoute,
+    return MultiRepositoryProvider(
+      providers: [RepositoryProvider(create: (context) => AuthService())],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+                AuthBloc(authService: context.read<AuthService>()),
+          )
+        ],
+        child: const MaterialApp(
+          debugShowCheckedModeBanner: false,
+          initialRoute: RouteNames.login,
+          onGenerateRoute: RouteGenerator.generateRoute,
+        ),
+      ),
     );
   }
 }

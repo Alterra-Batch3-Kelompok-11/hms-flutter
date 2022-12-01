@@ -147,10 +147,18 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
             horizontal: Constant.horizontalPadding,
             vertical: Constant.verticalPadding),
         child: GlobalButton(
-            onPressed: () {
-              Navigator.pushNamed(context, RouteNames.patientData);
-            },
-            buttonTitle: "Simpan"),
+          onPressed: () {
+            Navigator.pushNamed(context, RouteNames.patientData);
+          },
+          buttonChild: Text(
+            "Simpan",
+            style: Constant.primaryTextStyle.copyWith(
+              fontSize: Constant.subtitleFontSize,
+              fontWeight: Constant.semiBoldFontWeight,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ),
     );
   }
