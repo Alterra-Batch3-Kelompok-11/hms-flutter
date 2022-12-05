@@ -8,6 +8,7 @@ import 'package:hospital_management_system/view_model/auth_view_model/auth_bloc.
 import 'package:splash_screen_view/SplashScreenView.dart';
 
 import '../auth/login_screen.dart';
+import '../notification/notification_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -45,6 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
         backgroundColor: Constant.lightColor,
         colors: const [Colors.blue],
         navigateRoute: const LoginScreen(),
+
         duration: 3000,
         imageSize: 600,
         imageSrc:
