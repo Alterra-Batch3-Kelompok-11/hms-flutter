@@ -22,3 +22,7 @@ class ErrorLoginState extends AuthState {
   @override
   List<Object> get props => [message];
 }
+
+class IsLogin extends AuthState {}
+
+class IsNotLogin extends AuthState {}
