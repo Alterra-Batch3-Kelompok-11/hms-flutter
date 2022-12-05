@@ -10,6 +10,7 @@ import 'package:hospital_management_system/screens/navbar/navbar.dart';
 import 'package:hospital_management_system/screens/patient_data/patient_data_screen.dart';
 import 'package:hospital_management_system/screens/schedule/schedule_screen.dart';
 
+import '../screens/notification/notification_screen.dart';
 import '../screens/profile/profile_screen.dart';
 import '../screens/startup/splash_screen.dart';
 
@@ -42,6 +43,8 @@ class RouteGenerator {
         return RouteBuilder(child: const HistoryScreen());
       case RouteNames.navbar:
         return RouteBuilder(child: const NavbarScreen());
+      case RouteNames.notification:
+        return RouteBuilder(child: const NotificationScreen());
 
       default:
         return _errorRoute();

@@ -25,4 +25,6 @@ class ErrorLoginState extends AuthState {
 
 class IsLogin extends AuthState {}
 
+class IsLogout extends AuthState {}
+
 class IsNotLogin extends AuthState {}

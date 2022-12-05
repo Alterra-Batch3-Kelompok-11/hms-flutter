@@ -7,16 +7,14 @@ class AuthService {
 
   Future<AuthModel> login(
       {required String username, required String password}) async {
-    await dotenv.load(fileName: "assets/.env_development");
+    String baseUrl = dotenv.env['BASE_URL'].toString();
     try {
-      var response = await _dio.post("${dotenv.env['API_KEY']}/login", data: {
+      var response = await _dio.post("$baseUrl/login", data: {
         "username": username,
         "password": password,
       });
       if (response.statusCode == 200) {}
       final AuthModel authModel = AuthModel.fromJson(response.data['data']);
-      print(authModel.token);
-      print(authModel.name);
       return authModel;
     } on Dio {
       rethrow;

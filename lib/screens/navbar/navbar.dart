@@ -14,7 +14,7 @@ class NavbarScreen extends StatefulWidget {
 
 class _NavbarScreenState extends State<NavbarScreen> {
   List pages = [
-    const HomeScreen(),
+    HomeScreen(),
     const ScheduleScreen(),
     const HistoryScreen(),
     const ProfileScreen(),

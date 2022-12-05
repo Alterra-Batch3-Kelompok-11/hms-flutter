@@ -5,8 +5,8 @@ import 'package:flutter/src/widgets/framework.dart';
 
 import '../../utils/constant.dart';
 
-class NotficationScreen extends StatelessWidget {
-  const NotficationScreen({Key? key}) : super(key: key);
+class NotificationScreen extends StatelessWidget {
+  const NotificationScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class NotficationScreen extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(10.0),
           child: Container(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),

@@ -3,9 +3,14 @@ import 'package:hospital_management_system/screens/profile/widgets/detail_doctor
 import 'package:hospital_management_system/screens/profile/widgets/list_jadwal_card.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

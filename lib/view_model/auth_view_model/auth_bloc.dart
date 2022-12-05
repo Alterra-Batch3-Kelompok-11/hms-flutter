@@ -32,13 +32,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoadingState());
 
       _preferences = await SharedPreferences.getInstance();
-      final String token = _preferences.getString("token")!;
+      String? token = _preferences.getString("token");
 
-      if (token.isEmpty) {
+      if (token == null) {
         emit(IsNotLogin());
       } else {
         emit(IsLogin());
       }
+    });
+
+    on<Logout>((event, emit) async {
+      _preferences = await SharedPreferences.getInstance();
+      await _preferences.clear();
+      emit(IsLogout());
     });
   }
 }

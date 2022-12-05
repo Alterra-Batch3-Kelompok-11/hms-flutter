@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hospital_management_system/routes/route_generator.dart';
 import 'package:hospital_management_system/services/auth_service.dart';
 import 'package:hospital_management_system/view_model/auth_view_model/auth_bloc.dart';
 
-import 'screens/startup/splash_screen.dart';
+import 'routes/route_names.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: "assets/.env_development");
   runApp(const MyApp());
 }
 
@@ -16,7 +18,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
-      providers: [RepositoryProvider(create: (context) => AuthService())],
+      providers: [
+        RepositoryProvider(create: (context) => AuthService()),
+      ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -25,9 +29,8 @@ class MyApp extends StatelessWidget {
         ],
         child: const MaterialApp(
           debugShowCheckedModeBanner: false,
-          // initialRoute: RouteNames.login,
+          initialRoute: RouteNames.login,
           onGenerateRoute: RouteGenerator.generateRoute,
-          home: SplashScreen(),
         ),
       ),
     );
