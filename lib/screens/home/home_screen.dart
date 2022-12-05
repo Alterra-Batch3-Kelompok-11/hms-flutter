@@ -80,7 +80,7 @@ class HomeScreen extends StatelessWidget {
           leading: Transform.translate(
             offset: const Offset(15, 0),
             child: const CircleAvatar(
-              backgroundImage: AssetImage('assets/images/profile.png'),
+              backgroundImage: AssetImage('assets/images/login_background.png'),
             ),
           ),
           leadingWidth: 50,
@@ -206,8 +206,8 @@ class HomeScreen extends StatelessWidget {
                             Row(
                               children: [
                                 const CircleAvatar(
-                                  backgroundImage:
-                                      AssetImage('assets/images/profile.png'),
+                                  backgroundImage: AssetImage(
+                                      'assets/images/login_background.png'),
                                   radius: 20,
                                 ),
                                 const SizedBox(width: 10),

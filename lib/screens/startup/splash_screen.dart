@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
         if (state is IsLogin) {
           Navigator.pushNamedAndRemoveUntil(
               context, RouteNames.navbar, (route) => false);
-        } else {
+        } else if (state is IsNotLogin) {
           Navigator.pushNamedAndRemoveUntil(
               context, RouteNames.login, (route) => false);
         }
@@ -34,23 +34,6 @@ class _SplashScreenState extends State<SplashScreen> {
     });
 
     super.initState();
-  }
-
-  @override
-  void dispose() async {
-    // final SharedPreferences _preferences =
-    //     await SharedPreferences.getInstance();
-
-    // String token = _preferences.getString("token")!;
-    // print("CURRENT TOKEN : " + token);
-    // if (token.isEmpty) {
-    //   Navigator.pushNamedAndRemoveUntil(
-    //       context, RouteNames.login, (route) => false);
-    // } else {
-    //   Navigator.pushNamedAndRemoveUntil(
-    //       context, RouteNames.navbar, (route) => false);
-    // }
-    super.dispose();
   }
 
   @override
