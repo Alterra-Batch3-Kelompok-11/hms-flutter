@@ -128,11 +128,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       GlobalButton(
                         onPressed: () {
-                          if (_key.currentState!.validate()) {
-                            context.read<AuthBloc>().add(AuthLogin(
-                                username: _usernameController.text,
-                                password: _passwordController.text));
-                          }
+                          // if (_key.currentState!.validate()) {
+                          //   context.read<AuthBloc>().add(AuthLogin(
+                          //       username: _usernameController.text,
+                          //       password: _passwordController.text));
+                          // }
+
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, RouteNames.navbar, (route) => false);
                         },
                         buttonChild: BlocBuilder<AuthBloc, AuthState>(
                           builder: (context, state) {

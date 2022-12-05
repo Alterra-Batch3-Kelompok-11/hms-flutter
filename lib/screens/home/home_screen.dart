@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hospital_management_system/models/doctor_model.dart';
+import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/screens/home/widgets/list_doctor_card.dart';
 import 'package:hospital_management_system/screens/home/widgets/pasient_count_card.dart';
 import '../../utils/constant.dart';
@@ -90,7 +91,9 @@ class HomeScreen extends StatelessWidget {
           ),
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, RouteNames.notification);
+              },
               icon: const Icon(Icons.notifications),
             ),
           ],

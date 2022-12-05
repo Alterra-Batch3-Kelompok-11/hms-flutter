@@ -16,4 +16,5 @@ class RouteNames {
   static const String schedule = '/schedule';
   static const String history = '/history';
   static const String navbar = '/navbar';
+  static const String notification = '/notification';
 }
