@@ -11,14 +11,15 @@ import 'package:hospital_management_system/screens/patient_data/patient_data_scr
 import 'package:hospital_management_system/screens/schedule/schedule_screen.dart';
 
 import '../screens/profile/profile_screen.dart';
+import '../screens/startup/splash_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
 
       /// STARTUP ROUTE
-      // case RouteName.splashScreen:
-      //   return RouteBuilder(child: const SplashScreen());
+      case RouteNames.splashScreen:
+        return RouteBuilder(child: const SplashScreen());
 
       /// AUTH ROUTE
       case RouteNames.login:
