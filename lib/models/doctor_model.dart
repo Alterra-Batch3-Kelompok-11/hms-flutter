@@ -1,12 +1,15 @@
 class DoctorModel {
   final int id;
+  
   final String name;
+  final String photo;
   final String startTime;
   final String endTime;
 
   DoctorModel({
     required this.id,
     required this.name,
+    required this.photo,
     required this.startTime,
     required this.endTime,
   });
@@ -15,6 +18,7 @@ class DoctorModel {
     return DoctorModel(
       id: data['id'],
       name: data['name'],
+      photo: data['photo'],
       startTime: data['start_time'],
       endTime: data['end_time'],
     );
@@ -24,6 +28,7 @@ class DoctorModel {
     return {
       "id": doctorModel.id,
       "name": doctorModel.name,
+      "photo": doctorModel.photo,
       "start_time": doctorModel.startTime,
       "end_time": doctorModel.endTime,
     };
