@@ -5,7 +5,7 @@ import 'package:hospital_management_system/routes/route_generator.dart';
 import 'package:hospital_management_system/services/auth_service.dart';
 import 'package:hospital_management_system/view_model/auth_view_model/auth_bloc.dart';
 
-import 'screens/startup/splash_screen.dart';
+import 'routes/route_names.dart';
 
 void main() async {
   await dotenv.load(fileName: "assets/.env_development");
@@ -29,9 +29,8 @@ class MyApp extends StatelessWidget {
         ],
         child: const MaterialApp(
           debugShowCheckedModeBanner: false,
-          // initialRoute: RouteNames.login,
+          initialRoute: RouteNames.navbar,
           onGenerateRoute: RouteGenerator.generateRoute,
-          home: SplashScreen(),
         ),
       ),
     );

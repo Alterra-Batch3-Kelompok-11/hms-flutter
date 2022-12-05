@@ -56,7 +56,8 @@ class _NavbarScreenState extends State<NavbarScreen> {
           elevation: 0,
           items: [
             BottomNavigationBarItem(
-              icon: const Icon(Icons.home),
+              icon: const SizedBox(
+                  width: 65, height: 33, child: Icon(Icons.home)),
               label: 'Beranda',
               activeIcon: Container(
                 width: 65,
@@ -69,7 +70,8 @@ class _NavbarScreenState extends State<NavbarScreen> {
               ),
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.calendar_today),
+              icon: const SizedBox(
+                  width: 65, height: 33, child: Icon(Icons.calendar_today)),
               label: 'Jadwal',
               activeIcon: Container(
                 width: 65,
@@ -82,7 +84,8 @@ class _NavbarScreenState extends State<NavbarScreen> {
               ),
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.access_time),
+              icon: const SizedBox(
+                  width: 65, height: 33, child: Icon(Icons.access_time)),
               label: 'Riwayat',
               activeIcon: Container(
                 width: 65,
@@ -95,7 +98,8 @@ class _NavbarScreenState extends State<NavbarScreen> {
               ),
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.person),
+              icon: const SizedBox(
+                  width: 65, height: 33, child: Icon(Icons.person)),
               label: 'Profil',
               activeIcon: Container(
                 width: 65,
