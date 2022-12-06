@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
 class HelperDialog {
@@ -44,6 +45,7 @@ class HelperDialog {
     required String titleText,
     required String buttonSubmitText,
     required IconData icon,
+    Color? color,
     required void Function() onSubmit,
   }) async {
     return showDialog(
@@ -51,50 +53,58 @@ class HelperDialog {
       barrierDismissible: false,
       builder: (context) {
         return WillPopScope(
-          onWillPop: () async => true,
+          onWillPop: () async => false,
           child: AlertDialog(
-            backgroundColor: Constant.backgroundColor,
+            backgroundColor: Constant.whiteColor,
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
             title: Center(
-              child: Text(
-                titleText,
-                style: Constant.primaryTextStyle.copyWith(
-                  fontSize: 18,
-                  fontWeight: Constant.boldFontWeight,
-                ),
+              child: Column(
+                children: [
+                  Icon(
+                    icon,
+                    size: 50,
+                    color: color ?? Constant.darker,
+                  ),
+                  const SizedBox(
+                    height: 19,
+                  ),
+                  Text(
+                    titleText,
+                    style: Constant.primaryTextStyle.copyWith(
+                      fontSize: Constant.firstTitleSize,
+                      fontWeight: Constant.semiBoldFontWeight,
+                    ),
+                  ),
+                ],
               ),
             ),
-            content: Icon(
-              icon,
-              size: 100,
-              color: Constant.darker,
-            ),
-            contentPadding: const EdgeInsets.all(5),
+            // content: Icon(
+            //   icon,
+            //   size: 100,
+            //   color: Constant.darker,
+            // ),
+            // contentPadding: const EdgeInsets.all(5),
             actionsAlignment: MainAxisAlignment.spaceEvenly,
-            titlePadding: const EdgeInsets.symmetric(vertical: 20),
-            actionsPadding: const EdgeInsets.symmetric(vertical: 20),
+            titlePadding:
+                const EdgeInsets.symmetric(vertical: Constant.verticalPadding),
+            actionsPadding: const EdgeInsets.only(
+              bottom: Constant.verticalPadding,
+              right: Constant.horizontalPadding,
+              left: Constant.horizontalPadding,
+            ),
             actions: [
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    fixedSize:
-                        Size(MediaQuery.of(context).size.width / 2.3, 43),
-                    backgroundColor: Constant.lightColor,
+              GlobalButton(
+                onPressed: onSubmit,
+                buttonChild: Text(
+                  buttonSubmitText,
+                  style: Constant.primaryTextStyle.copyWith(
+                    fontSize: 13,
+                    color: Constant.backgroundColor,
+                    fontWeight: Constant.semiBoldFontWeight,
                   ),
-                  onPressed: onSubmit,
-                  child: Center(
-                    child: Text(
-                      buttonSubmitText,
-                      style: Constant.primaryTextStyle.copyWith(
-                        fontSize: 13,
-                        color: Constant.backgroundColor,
-                        fontWeight: Constant.semiBoldFontWeight,
-                      ),
-                    ),
-                  ))
+                ),
+              )
             ],
           ),
         );
@@ -105,9 +115,11 @@ class HelperDialog {
   static Future<void> confirmationDialog(
     BuildContext context, {
     required String titleText,
+    required String subTitle,
     required String buttonSubmitText,
     required IconData icon,
     required Color buttonSubmitColor,
+    Color? color,
     required void Function() onSubmit,
     bool? isLoading = false,
   }) async {
@@ -115,60 +127,70 @@ class HelperDialog {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: Constant.backgroundColor,
+          backgroundColor: Constant.whiteColor,
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
           title: Center(
-            child: Text(
-              titleText,
-              style: Constant.primaryTextStyle.copyWith(
-                fontSize: 17,
-                fontWeight: Constant.boldFontWeight,
-              ),
+            child: Column(
+              children: [
+                Icon(
+                  icon,
+                  size: 50,
+                  color: color ?? Constant.baseColor,
+                ),
+                const SizedBox(
+                  height: 19,
+                ),
+                Text(
+                  titleText,
+                  style: Constant.primaryTextStyle.copyWith(
+                    fontSize: Constant.firstTitleSize,
+                    fontWeight: Constant.semiBoldFontWeight,
+                  ),
+                ),
+              ],
             ),
           ),
-          content: Icon(
-            icon,
-            size: 100,
-            color: Constant.baseColor,
+          content: Text(
+            subTitle,
+            style: Constant.primaryTextStyle.copyWith(
+              fontSize: Constant.subtitleFontSize,
+              fontWeight: Constant.regularFontWeight,
+            ),
+            textAlign: TextAlign.center,
           ),
-          contentPadding: const EdgeInsets.all(5),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: Constant.horizontalPadding,
+          ),
           actionsAlignment: MainAxisAlignment.spaceEvenly,
           titlePadding:
               const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
           actionsPadding: const EdgeInsets.symmetric(vertical: 20),
           actions: [
-            ElevatedButton(
+            GlobalButton(
                 onPressed: () => Navigator.pop(context),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    side: const BorderSide(
-                      color: Constant.baseColor,
-                    ),
-                  ),
-                  fixedSize: Size(MediaQuery.of(context).size.width / 4, 40),
-                  backgroundColor: Constant.baseColor,
+                color: Constant.whiteColor,
+                side: const BorderSide(
+                  color: Constant.baseColor,
                 ),
-                child: Text(
+                fixedWidth: MediaQuery.of(context).size.width / 3,
+                buttonChild: Text(
                   "Back",
                   style: Constant.primaryTextStyle.copyWith(
                     fontSize: 15,
+                    color: Constant.baseColor,
+                    fontWeight: Constant.mediumFontWeight,
                   ),
                 )),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  fixedSize: Size(MediaQuery.of(context).size.width / 4, 40),
-                  backgroundColor: buttonSubmitColor,
-                ),
+            GlobalButton(
                 onPressed: onSubmit,
-                child: Text(
+                fixedWidth: MediaQuery.of(context).size.width / 3,
+                buttonChild: Text(
                   buttonSubmitText,
                   style: Constant.primaryTextStyle.copyWith(
                     fontSize: 15,
+                    color: Constant.whiteColor,
+                    fontWeight: Constant.mediumFontWeight,
                   ),
                   textAlign: TextAlign.center,
                 ))
