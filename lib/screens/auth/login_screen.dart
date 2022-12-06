@@ -5,6 +5,7 @@ import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_text_field.dart';
 import 'package:hospital_management_system/utils/constant.dart';
+import 'package:hospital_management_system/utils/helper_dialog.dart';
 
 import '../../view_model/auth_view_model/auth_bloc.dart';
 
@@ -46,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is SuccessLoginState) {
+          if (state is AuthSuccessLoginState) {
             Navigator.pushNamedAndRemoveUntil(
                 context, RouteNames.navbar, (route) => false);
           }
@@ -105,8 +106,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           prefixIcon: Icons.lock,
                           // obscureText: true,
                           validator: (value) {
-                            if (value == null) {
-                              print("data ko");
+                            if (value!.isEmpty) {
+                              print("data kosong");
                               return "required";
                             }
                             return null;
@@ -129,13 +130,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       GlobalButton(
                         onPressed: () {
                           // if (_key.currentState!.validate()) {
-                          //   context.read<AuthBloc>().add(AuthLogin(
+                          //   context.read<AuthBloc>().add(Login(
                           //       username: _usernameController.text,
                           //       password: _passwordController.text));
                           // }
 
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, RouteNames.navbar, (route) => false);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              HelperDialog.snackBarMessage(
+                                  title: "title", message: "message"));
                         },
                         buttonChild: BlocBuilder<AuthBloc, AuthState>(
                           builder: (context, state) {

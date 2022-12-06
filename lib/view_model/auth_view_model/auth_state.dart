@@ -11,7 +11,7 @@ class AuthInitial extends AuthState {}
 
 class AuthLoadingState extends AuthState {}
 
-class SuccessLoginState extends AuthState {}
+class AuthSuccessLoginState extends AuthState {}
 
 class ErrorLoginState extends AuthState {
   final String message;
@@ -23,8 +23,8 @@ class ErrorLoginState extends AuthState {
   List<Object> get props => [message];
 }
 
-class IsLogin extends AuthState {}
+class AuthIsLogin extends AuthState {}
 
-class IsLogout extends AuthState {}
+class AuthIsLogout extends AuthState {}
 
-class IsNotLogin extends AuthState {}
+class AuthIsNotLogin extends AuthState {}

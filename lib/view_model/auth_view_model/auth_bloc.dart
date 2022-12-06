@@ -12,16 +12,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthService authService;
   late SharedPreferences _preferences;
   AuthBloc({required this.authService}) : super(AuthInitial()) {
-    on<AuthLogin>((event, emit) async {
-      emit(AuthLoadingState());
+    on<Login>((event, emit) async {
       try {
+        emit(AuthLoadingState());
         final AuthModel authModel = await authService.login(
             username: event.username, password: event.password);
+        bool loginAsDoctor = authModel.doctor == null ? false : true;
 
         /// SIMPAN TOKEN DI LOKAL STORAGE
         _preferences = await SharedPreferences.getInstance();
         await _preferences.setString("token", authModel.token);
-        emit(SuccessLoginState());
+        await _preferences.setString("username", authModel.username);
+        await _preferences.setBool("loginAsDoctor", loginAsDoctor);
+
+        emit(AuthSuccessLoginState());
       } on DioError catch (e) {
         print(e.response!.data['message']);
         emit(ErrorLoginState(message: e.response!.data['message']));
@@ -35,16 +39,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       String? token = _preferences.getString("token");
 
       if (token == null) {
-        emit(IsNotLogin());
+        emit(AuthIsNotLogin());
       } else {
-        emit(IsLogin());
+        emit(AuthIsLogin());
       }
     });
 
     on<Logout>((event, emit) async {
       _preferences = await SharedPreferences.getInstance();
       await _preferences.clear();
-      emit(IsLogout());
+      emit(AuthIsLogout());
     });
   }
 }

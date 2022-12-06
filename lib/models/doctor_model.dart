@@ -1,36 +1,53 @@
+import 'package:hospital_management_system/models/schedule_model.dart';
+
 class DoctorModel {
   final int id;
-  
+  final String? createdAt;
+  final String? updatedAt;
+  final String? deletedAt;
   final String name;
-  final String photo;
-  final String startTime;
-  final String endTime;
+  final int specialityId;
+  final String licenseNumber;
+  final String specialityName;
+  final List<ScheduleModel>? doctorSchedules;
 
   DoctorModel({
     required this.id,
+    this.createdAt = "",
+    this.updatedAt = "",
+    this.deletedAt = "",
     required this.name,
-    required this.photo,
-    required this.startTime,
-    required this.endTime,
+    required this.specialityId,
+    required this.licenseNumber,
+    required this.specialityName,
+    this.doctorSchedules,
   });
 
-  factory DoctorModel.fromJson(Map<String, dynamic> data) {
+  factory DoctorModel.fromJson(Map<String, dynamic> json) {
     return DoctorModel(
-      id: data['id'],
-      name: data['name'],
-      photo: data['photo'],
-      startTime: data['start_time'],
-      endTime: data['end_time'],
+      id: json['id'],
+      name: json['name'],
+      specialityId: json['speciality_id'],
+      licenseNumber: json['license_number'],
+      specialityName: json['speciality_name'],
+      doctorSchedules: json['doctor_schedules'] ?? [],
+      createdAt: json['created_at'] ?? "",
+      updatedAt: json['updated_at'] ?? "",
+      deletedAt: json['deleted_at'] ?? "",
     );
   }
 
-  Map<String, dynamic> toJson(DoctorModel doctorModel) {
+  Map<String, dynamic> toJson(DoctorModel doctor) {
     return {
-      "id": doctorModel.id,
-      "name": doctorModel.name,
-      "photo": doctorModel.photo,
-      "start_time": doctorModel.startTime,
-      "end_time": doctorModel.endTime,
+      'id': doctor.id,
+      'name': doctor.name,
+      'speciality_id': doctor.specialityId,
+      'license_number': doctor.licenseNumber,
+      'speciality_name': doctor.specialityName,
+      'doctor_schedule': doctor.doctorSchedules,
+      'created_at': doctor.createdAt,
+      'updated_at': doctor.updatedAt,
+      'deleted_at': doctor.deletedAt,
     };
   }
 }

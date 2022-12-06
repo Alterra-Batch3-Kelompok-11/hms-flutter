@@ -6,38 +6,7 @@ import 'package:hospital_management_system/screens/home/widgets/pasient_count_ca
 import '../../utils/constant.dart';
 
 class HomeScreen extends StatelessWidget {
-  HomeScreen({Key? key}) : super(key: key);
-
-  final List<DoctorModel> doctors = [
-    DoctorModel(
-      id: 1,
-      name: 'Dr. M. A. Bari',
-      startTime: '10:00 AM',
-      endTime: '11:00 AM',
-      photo: '',
-    ),
-    DoctorModel(
-      id: 2,
-      name: 'Dr. Roby',
-      startTime: '11:00 AM',
-      endTime: '12:00 AM',
-      photo: '',
-    ),
-    DoctorModel(
-      id: 3,
-      name: 'Dr. charly',
-      startTime: '12:00 AM',
-      endTime: '13:00 AM',
-      photo: '',
-    ),
-    DoctorModel(
-      id: 4,
-      name: 'Dr. Fauzy',
-      startTime: '13:00 AM',
-      endTime: '14:00 AM',
-      photo: '',
-    ),
-  ];
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
