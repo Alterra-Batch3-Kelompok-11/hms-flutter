@@ -17,13 +17,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthLoadingState());
         final AuthModel authModel = await authService.login(
             username: event.username, password: event.password);
-        bool loginAsDoctor = authModel.doctor == null ? false : true;
 
         /// SIMPAN TOKEN DI LOKAL STORAGE
         _preferences = await SharedPreferences.getInstance();
         await _preferences.setString("token", authModel.token);
         await _preferences.setString("username", authModel.username);
-        await _preferences.setBool("loginAsDoctor", loginAsDoctor);
+        await _preferences.setInt("role_id", authModel.roleId);
+        await _preferences.setInt("id", authModel.doctor.id);
 
         emit(AuthSuccessLoginState());
       } on DioError catch (e) {
