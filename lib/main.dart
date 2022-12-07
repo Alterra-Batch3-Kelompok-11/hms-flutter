@@ -27,15 +27,13 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-              create: (context) =>
-                  AuthBloc(authService: context.read<AuthService>())),
+              create: (context) => AuthBloc(context.read<AuthService>())),
           BlocProvider(
-              create: (context) =>
-                  DoctorBloc(doctorService: context.read<DoctorService>()))
+              create: (context) => DoctorBloc(context.read<DoctorService>()))
         ],
         child: const MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: RouteNames.login,
+          initialRoute: RouteNames.splashScreen,
           onGenerateRoute: RouteGenerator.generateRoute,
         ),
       ),

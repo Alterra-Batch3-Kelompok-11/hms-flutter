@@ -1,11 +1,17 @@
-
 import 'package:flutter/material.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
 class DetailProfileCard extends StatelessWidget {
   const DetailProfileCard({
     Key? key,
+    required this.doctorName,
+    required this.licenseNumber,
+    required this.specialis,
   }) : super(key: key);
+
+  final String doctorName;
+  final String licenseNumber;
+  final String specialis;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +48,7 @@ class DetailProfileCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Dr. Bones",
+                doctorName,
                 style: Constant.primaryTextStyle.copyWith(
                   fontSize: Constant.firstTitleSize,
                   fontWeight: Constant.semiBoldFontWeight,
@@ -50,7 +56,7 @@ class DetailProfileCard extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               Text(
-                "0987265354674",
+                licenseNumber,
                 style: Constant.primaryTextStyle.copyWith(
                   fontSize: Constant.subtitleFontSize,
                   fontWeight: Constant.regularFontWeight,
@@ -60,9 +66,9 @@ class DetailProfileCard extends StatelessWidget {
               Row(
                 children: [
                   SizedBox(
-                    width: 57,
+                    width: 80,
                     child: Text(
-                      'Spesialis ',
+                      'Spesialis : ',
                       style: Constant.primaryTextStyle.copyWith(
                         fontSize: Constant.bodyFontSize,
                         fontWeight: Constant.semiBoldFontWeight,
@@ -70,14 +76,7 @@ class DetailProfileCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    ': ',
-                    style: Constant.primaryTextStyle.copyWith(
-                      fontSize: Constant.bodyFontSize,
-                      fontWeight: Constant.semiBoldFontWeight,
-                    ),
-                  ),
-                  Text(
-                    'Dokter Umum',
+                    specialis,
                     style: Constant.primaryTextStyle.copyWith(
                       fontSize: Constant.bodyFontSize,
                       fontWeight: Constant.regularFontWeight,

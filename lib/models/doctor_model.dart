@@ -9,7 +9,7 @@ class DoctorModel {
   final int specialityId;
   final String licenseNumber;
   final String specialityName;
-  final List<ScheduleModel>? doctorSchedules;
+  final List<ScheduleModel> doctorSchedules;
 
   DoctorModel({
     required this.id,
@@ -20,7 +20,7 @@ class DoctorModel {
     required this.specialityId,
     required this.licenseNumber,
     required this.specialityName,
-    this.doctorSchedules,
+    required this.doctorSchedules,
   });
 
   factory DoctorModel.fromJson(Map<String, dynamic> json) {
@@ -30,7 +30,9 @@ class DoctorModel {
       specialityId: json['speciality_id'],
       licenseNumber: json['license_number'],
       specialityName: json['speciality_name'],
-      doctorSchedules: json['doctor_schedules'] ?? [],
+      doctorSchedules: (json['doctor_schedules'] as List)
+          .map((e) => ScheduleModel.fromJson(e))
+          .toList(),
       createdAt: json['created_at'] ?? "",
       updatedAt: json['updated_at'] ?? "",
       deletedAt: json['deleted_at'] ?? "",

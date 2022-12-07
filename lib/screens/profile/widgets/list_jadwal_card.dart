@@ -1,34 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management_system/models/schedule_model.dart';
 import 'package:hospital_management_system/utils/constant.dart';
+import 'package:intl/intl.dart';
 
-class ListJadwaCard extends StatefulWidget {
-  const ListJadwaCard({
-    Key? key,
-  }) : super(key: key);
+class ListJadwalCard extends StatelessWidget {
+  const ListJadwalCard({Key? key, required this.schedule}) : super(key: key);
 
-  @override
-  State<ListJadwaCard> createState() => _ListJadwaCardState();
-}
-
-class _ListJadwaCardState extends State<ListJadwaCard> {
-  List jadwal = [
-    {
-      'tanggal': 'Senin, 1 Januari 2021',
-      'jam': '10:00 - 11:00',
-    },
-    {
-      'tanggal': 'Selasa, 2 Januari 2021',
-      'jam': '10:00 - 11:00',
-    },
-    {
-      'tanggal': 'Rabu, 3 Januari 2021',
-      'jam': '10:00 - 11:00',
-    },
-    {
-      'tanggal': 'Kamis, 4 Januari 2021',
-      'jam': '10:00 - 11:00',
-    },
-  ];
+  final List<ScheduleModel> schedule;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +47,9 @@ class _ListJadwaCardState extends State<ListJadwaCard> {
                       topRight: Radius.circular(6),
                     ),
                   ),
-                  child: Text('Januari 2021',
+                  child: Text(
+                      'Jadwal ' +
+                          schedule[0].createdAt!.split('-')[0].toString(),
                       style: Constant.primaryTextStyle.copyWith(
                         fontSize: Constant.subtitleFontSize,
                         fontWeight: Constant.boldFontWeight,
@@ -82,7 +62,7 @@ class _ListJadwaCardState extends State<ListJadwaCard> {
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: jadwal.length,
+                  itemCount: schedule.length,
                   itemBuilder: (context, index) {
                     return Container(
                       padding: const EdgeInsets.symmetric(
@@ -93,7 +73,10 @@ class _ListJadwaCardState extends State<ListJadwaCard> {
                         children: [
                           const SizedBox(height: 10),
                           Text(
-                            jadwal[index]['tanggal'],
+                            schedule[index].dayString +
+                                ' | ' +
+                                DateFormat('MMM d, yyyy').format(
+                                    DateTime.parse(schedule[index].createdAt!)),
                             style: Constant.primaryTextStyle.copyWith(
                               fontSize: Constant.subtitleFontSize,
                               fontWeight: Constant.semiBoldFontWeight,
@@ -109,7 +92,7 @@ class _ListJadwaCardState extends State<ListJadwaCard> {
                               ),
                               const SizedBox(width: 5),
                               Text(
-                                '${jadwal[index]['jam']} WIB',
+                                '${schedule[index].startTime} - ${schedule[index].endTime} WIB',
                                 style: Constant.secondaryTextStyle.copyWith(
                                   fontSize: Constant.bodyFontSize,
                                   fontWeight: Constant.mediumFontWeight,
