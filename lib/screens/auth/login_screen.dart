@@ -99,9 +99,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       GlobalTextField(
                           fieldController: _passwordController,
                           hintText: "Sandi",
-                          obscureText: true,
                           valueNotifier: onFieldPasswordFocus,
                           focusNode: fieldPasswordFocus,
+                          obscureText: true,
+                          maxLine: 1,
                           prefixIcon: Icons.lock,
                           // obscureText: true,
                           validator: (value) {

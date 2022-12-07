@@ -10,7 +10,7 @@ class GlobalTextField extends StatelessWidget {
       required this.focusNode,
       this.maxLine,
       this.prefixIcon,
-      this.obscureText,
+      this.obscureText = false,
       this.maxLength,
       required this.validator})
       : super(key: key);
@@ -22,7 +22,7 @@ class GlobalTextField extends StatelessWidget {
   final int? maxLength;
   final ValueNotifier<bool> valueNotifier;
   final IconData? prefixIcon;
-  final bool? obscureText;
+  final bool obscureText;
   final String? Function(String?)? validator;
 
   updateFillColor() {
@@ -43,7 +43,7 @@ class GlobalTextField extends StatelessWidget {
         return TextFormField(
           textInputAction: TextInputAction.done,
           maxLength: maxLength,
-          obscureText: obscureText!,
+          obscureText: obscureText,
           style: Constant.primaryTextStyle.copyWith(
               color: Constant.baseColor,
               fontSize: Constant.subtitleFontSize,
@@ -61,7 +61,9 @@ class GlobalTextField extends StatelessWidget {
               enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Color(0xff89898B))),
               hintText: hintText,
-              fillColor: onTap == true ? Constant.lightestColor : Colors.white),
+              fillColor: valueNotifier.value == true
+                  ? Constant.lightestColor
+                  : Colors.white),
           focusNode: focusNode,
         );
       },

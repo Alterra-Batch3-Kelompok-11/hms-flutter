@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         ],
         child: const MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: RouteNames.splashScreen,
+          initialRoute: RouteNames.login,
           onGenerateRoute: RouteGenerator.generateRoute,
         ),
       ),

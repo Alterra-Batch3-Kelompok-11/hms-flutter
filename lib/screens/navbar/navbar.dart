@@ -20,100 +20,104 @@ class _NavbarScreenState extends State<NavbarScreen> {
     const ProfileScreen(),
   ];
 
-  int currentIndex = 0;
-  void onItemTapped(int index) {
-    setState(() {
-      currentIndex = index;
-    });
-  }
+  ValueNotifier<int> currentIndex = ValueNotifier<int>(0);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: pages[currentIndex],
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: const Offset(0, 3), // changes position of shadow
-            ),
-          ],
-        ),
-        child: BottomNavigationBar(
-          landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
-          backgroundColor: Colors.transparent,
-          type: BottomNavigationBarType.fixed,
-          onTap: onItemTapped,
-          currentIndex: currentIndex,
-          selectedItemColor: Constant.darker,
-          unselectedItemColor: Colors.grey,
-          elevation: 0,
-          items: [
-            BottomNavigationBarItem(
-              icon: const SizedBox(
-                  width: 65, height: 33, child: Icon(Icons.home)),
-              label: 'Beranda',
-              activeIcon: Container(
-                width: 65,
-                height: 33,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(27)),
-                  color: Constant.lightestColor,
-                ),
-                child: const Icon(Icons.home),
+    return ValueListenableBuilder(
+        valueListenable: currentIndex,
+        builder: (context, idx, _) {
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: pages[currentIndex.value],
+            bottomNavigationBar: Container(
+              decoration: BoxDecoration(
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(20)),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: BottomNavigationBar(
+                landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
+                backgroundColor: Colors.transparent,
+                type: BottomNavigationBarType.fixed,
+                onTap: (index) {
+                  currentIndex.value = index;
+                },
+                currentIndex: currentIndex.value,
+                selectedItemColor: Constant.darker,
+                unselectedItemColor: Colors.grey,
+                elevation: 0,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: const SizedBox(
+                        width: 65, height: 33, child: Icon(Icons.home)),
+                    label: 'Beranda',
+                    activeIcon: Container(
+                      width: 65,
+                      height: 33,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(27)),
+                        color: Constant.lightestColor,
+                      ),
+                      child: const Icon(Icons.home),
+                    ),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: const SizedBox(
+                        width: 65,
+                        height: 33,
+                        child: Icon(Icons.calendar_today)),
+                    label: 'Jadwal',
+                    activeIcon: Container(
+                      width: 65,
+                      height: 33,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(27)),
+                        color: Constant.lightestColor,
+                      ),
+                      child: const Icon(Icons.calendar_today),
+                    ),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: const SizedBox(
+                        width: 65, height: 33, child: Icon(Icons.access_time)),
+                    label: 'Riwayat',
+                    activeIcon: Container(
+                      width: 65,
+                      height: 33,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(27)),
+                        color: Constant.lightestColor,
+                      ),
+                      child: const Icon(Icons.access_time),
+                    ),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: const SizedBox(
+                        width: 65, height: 33, child: Icon(Icons.person)),
+                    label: 'Profil',
+                    activeIcon: Container(
+                      width: 65,
+                      height: 33,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(27)),
+                        color: Constant.lightestColor,
+                      ),
+                      child: const Icon(Icons.person),
+                    ),
+                  ),
+                ],
               ),
             ),
-            BottomNavigationBarItem(
-              icon: const SizedBox(
-                  width: 65, height: 33, child: Icon(Icons.calendar_today)),
-              label: 'Jadwal',
-              activeIcon: Container(
-                width: 65,
-                height: 33,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(27)),
-                  color: Constant.lightestColor,
-                ),
-                child: const Icon(Icons.calendar_today),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: const SizedBox(
-                  width: 65, height: 33, child: Icon(Icons.access_time)),
-              label: 'Riwayat',
-              activeIcon: Container(
-                width: 65,
-                height: 33,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(27)),
-                  color: Constant.lightestColor,
-                ),
-                child: const Icon(Icons.access_time),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: const SizedBox(
-                  width: 65, height: 33, child: Icon(Icons.person)),
-              label: 'Profil',
-              activeIcon: Container(
-                width: 65,
-                height: 33,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(27)),
-                  color: Constant.lightestColor,
-                ),
-                child: const Icon(Icons.person),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 }
