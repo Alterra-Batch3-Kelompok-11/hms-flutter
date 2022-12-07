@@ -35,6 +35,13 @@ class ScheduleModel {
     );
   }
 
+  // List<ScheduleModel> fromJsonToList(Map<String, dynamic> json) {
+  //   ScheduleModel scheduleModel = ScheduleModel.fromJson(json);
+  //   List<ScheduleModel> listSchedule  = [];
+
+  //   listSc
+  // }
+
   Map<String, dynamic> toJson(ScheduleModel schedule) {
     return {
       'id': schedule.id,

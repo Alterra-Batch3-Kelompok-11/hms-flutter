@@ -11,10 +11,10 @@ class DoctorInitial extends DoctorState {}
 
 class LoadingDoctor extends DoctorState {}
 
-class GetDoctorProfile extends DoctorState {
+class ProfileDoctor extends DoctorState {
   final DoctorModel doctorModel;
 
-  const GetDoctorProfile({required this.doctorModel});
+  const ProfileDoctor({required this.doctorModel});
 }
 
 class ErrorDoctorState extends DoctorState {

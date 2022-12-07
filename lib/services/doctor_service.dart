@@ -10,7 +10,7 @@ class DoctorService {
     try {
       final response = await _dio.get("$baseUrl/doctors/$id");
 
-      print(response.data['data']);
+      print(response.data['data']['doctor_schedules']);
       return DoctorModel.fromJson(response.data['data']);
     } on DioError {
       rethrow;

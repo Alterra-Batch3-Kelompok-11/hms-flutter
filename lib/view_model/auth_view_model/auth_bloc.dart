@@ -9,13 +9,13 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthService authService;
+  final AuthService _authService;
   late SharedPreferences _preferences;
-  AuthBloc({required this.authService}) : super(AuthInitial()) {
+  AuthBloc(this._authService) : super(AuthInitial()) {
     on<Login>((event, emit) async {
       try {
         emit(AuthLoadingState());
-        final AuthModel authModel = await authService.login(
+        final AuthModel authModel = await _authService.login(
             username: event.username, password: event.password);
 
         /// SIMPAN TOKEN DI LOKAL STORAGE

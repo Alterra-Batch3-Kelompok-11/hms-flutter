@@ -43,6 +43,7 @@ class GlobalTextField extends StatelessWidget {
         return TextFormField(
           textInputAction: TextInputAction.done,
           maxLength: maxLength,
+          obscureText: obscureText!,
           style: Constant.primaryTextStyle.copyWith(
               color: Constant.baseColor,
               fontSize: Constant.subtitleFontSize,

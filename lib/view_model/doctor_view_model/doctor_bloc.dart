@@ -9,22 +9,28 @@ part 'doctor_event.dart';
 part 'doctor_state.dart';
 
 class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
-  DoctorService doctorService;
+  final DoctorService _doctorService;
   late SharedPreferences _sharedPreferences;
-  DoctorBloc({required this.doctorService}) : super(DoctorInitial()) {
+  DoctorBloc(this._doctorService) : super(DoctorInitial()) {
     on<GetProfileDoctor>((event, emit) async {
+      _sharedPreferences = await SharedPreferences.getInstance();
       emit(LoadingDoctor());
 
-      _sharedPreferences = await SharedPreferences.getInstance();
       try {
-        DoctorModel doctor = await doctorService.getProfileDoctor(id: 7);
-        print("INI DARI BLOC : $doctor");
-        emit(GetDoctorProfile(doctorModel: doctor));
+        final int? id = _sharedPreferences.getInt("id");
+        print("ID DOCTOR : $id");
+
+        DoctorModel doctor = await _doctorService.getProfileDoctor(id: id!);
+        emit(ProfileDoctor(doctorModel: doctor));
       } catch (e) {
         if (e is DioError) {
           final errorResponse = e.response;
           emit(ErrorDoctorState(message: errorResponse!.data['message']));
+
+          print("DIO ERROR : " + errorResponse.data['message']);
         }
+        print("ERROR : " + e.toString());
+        emit(ErrorDoctorState(message: e.toString()));
       }
     });
   }

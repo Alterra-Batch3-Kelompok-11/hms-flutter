@@ -47,13 +47,13 @@ class ListDoctorCard extends StatelessWidget {
             shrinkWrap: true,
             itemCount: doctors.length,
             itemBuilder: (context, index) {
-              bool isSchedulesEmpty = doctors[index].doctorSchedules!.isEmpty;
+              bool isSchedulesEmpty = doctors[index].doctorSchedules.isEmpty;
               String startTime = isSchedulesEmpty
                   ? ''
-                  : doctors[index].doctorSchedules![index].startTime;
+                  : doctors[index].doctorSchedules[index].startTime;
               String endTime = isSchedulesEmpty
                   ? ''
-                  : doctors[index].doctorSchedules![index].endTime;
+                  : doctors[index].doctorSchedules[index].endTime;
               return Container(
                 margin: const EdgeInsets.only(bottom: 10),
                 child: Column(

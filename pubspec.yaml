@@ -37,6 +37,7 @@ dependencies:
   flutter_dotenv: ^5.0.2
   get_it: ^7.2.0
   google_fonts: ^3.0.1
+  intl: ^0.17.0
   shared_preferences: ^2.0.15
   splash_screen_view: ^3.0.0
 

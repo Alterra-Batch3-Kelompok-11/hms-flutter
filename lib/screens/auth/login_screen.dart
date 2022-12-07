@@ -5,7 +5,6 @@ import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_text_field.dart';
 import 'package:hospital_management_system/utils/constant.dart';
-import 'package:hospital_management_system/view_model/doctor_view_model/doctor_bloc.dart';
 
 import '../../view_model/auth_view_model/auth_bloc.dart';
 
@@ -129,17 +128,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       GlobalButton(
                         onPressed: () {
-                          // if (_key.currentState!.validate()) {
-                          //   context.read<AuthBloc>().add(Login(
-                          //       username: _usernameController.text,
-                          //       password: _passwordController.text));
-                          // }
-
-                          // ScaffoldMessenger.of(context).showSnackBar(
-                          //     HelperDialog.snackBarMessage(
-                          //         title: "title", message: "message"));
-
-                          context.read<DoctorBloc>().add(GetProfileDoctor());
+                          if (_key.currentState!.validate()) {
+                            context.read<AuthBloc>().add(Login(
+                                username: _usernameController.text,
+                                password: _passwordController.text));
+                          }
                         },
                         buttonChild: BlocBuilder<AuthBloc, AuthState>(
                           builder: (context, state) {
