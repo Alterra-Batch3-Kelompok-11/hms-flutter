@@ -1,54 +1,51 @@
 class PatientModel {
-  final String nik;
-  final String name;
-  final String gender;
-  final String birthDate;
-  final String religion;
-  final String maritalStatus;
-  final String address;
-  final String visitingTime;
-  final String visitingDate;
-  final String complaints;
+  // int id;
+  String nik;
+  String name;
+  String phone;
+  String address;
+  int gender;
+  String birthDate;
+  int religionId;
+  bool maritalStatus;
 
   PatientModel({
+    // required this.id,
     required this.nik,
     required this.name,
+    required this.phone,
+    required this.address,
     required this.gender,
     required this.birthDate,
-    required this.religion,
+    required this.religionId,
     required this.maritalStatus,
-    required this.address,
-    required this.visitingDate,
-    required this.visitingTime,
-    required this.complaints,
   });
 
-  factory PatientModel.fromJson(Map<String, dynamic> data) {
+  factory PatientModel.fromJson(Map<String, dynamic> json) {
     return PatientModel(
-        nik: data['nik'],
-        name: data['name'],
-        gender: data['gender'],
-        birthDate: data['birth_date'],
-        religion: data['religion'],
-        maritalStatus: data['marital_status'],
-        address: data['address'],
-        visitingDate: data['visiting_date'],
-        visitingTime: data['visiting_time'],
-        complaints: data['complaints']);
+      //  id: json['id'],
+      nik: json['nik'],
+      name: json['name'],
+      phone: json['phone'],
+      address: json['address'],
+      gender: json['gender'],
+      birthDate: json['birth_date'],
+      religionId: json['religion_id'],
+      maritalStatus: json['marital_status'],
+    );
   }
 
   Map<String, dynamic> toJson(PatientModel patientModel) {
     return {
-      "nik": patientModel.nik,
-      "name": patientModel.name,
-      "gender": patientModel.gender,
-      "birth_date": patientModel.birthDate,
-      "religion": patientModel.religion,
-      "martital_status": patientModel.maritalStatus,
-      "address": patientModel.address,
-      "visiting_time": patientModel.visitingTime,
-      "visiting_date": patientModel.visitingDate,
-      "complaints": patientModel.complaints,
+      //  'id': patientModel.id,
+      'nik': patientModel.nik,
+      'name': patientModel.name,
+      'phone': patientModel.phone,
+      'address': patientModel.address,
+      'gender': patientModel.gender,
+      'birth_date': patientModel.birthDate,
+      'religion_id': patientModel.religionId,
+      'marital_status': patientModel.maritalStatus,
     };
   }
 }
