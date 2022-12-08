@@ -1,24 +1,24 @@
-
 import 'package:flutter/material.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
-class PasienCountCard extends StatelessWidget {
-  const PasienCountCard({
+
+
+class PatientCountCard extends StatelessWidget {
+  const PatientCountCard({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 19,
-        vertical: 10,
-      ),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(7),
         boxShadow: Constant.cardShadow,
       ),
+      margin: const EdgeInsets.only(top: 5),
+      padding: const EdgeInsets.symmetric(
+          vertical: 10, horizontal: 22),
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,21 +33,12 @@ class PasienCountCard extends StatelessWidget {
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
                 height: 88,
-                //widht container pasien dibagi 2
-                width: (MediaQuery.of(context).size.width -
-                        Constant.horizontalPadding * 2 -
-                        19 * 2 -
-                        21) /
-                    2,
+                width: 140,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEBF2F9),
-                  border: Border.all(
-                    color: const Color(0xFFEFEFEF),
-                  ),
+                  color: Constant.lightestColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
@@ -60,7 +51,6 @@ class PasienCountCard extends StatelessWidget {
                         fontSize: 28,
                       ),
                     ),
-                    const SizedBox(height: 4),
                     Text(
                       'Antrian',
                       style: Constant.primaryTextStyle.copyWith(
@@ -73,14 +63,9 @@ class PasienCountCard extends StatelessWidget {
               ),
               Container(
                 height: 88,
-                width: (MediaQuery.of(context).size.width -
-                        Constant.horizontalPadding * 2 -
-                        19 * 2 -
-                        21) /
-                    2,
+                width: 140,
                 decoration: BoxDecoration(
-                  //EBF2F9
-                  color: const Color(0xFFEBF2F9),
+                  color: Constant.lightestColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
@@ -93,7 +78,6 @@ class PasienCountCard extends StatelessWidget {
                         fontSize: 28,
                       ),
                     ),
-                    const SizedBox(height: 4),
                     Text(
                       'Telah Berkunjung',
                       style: Constant.primaryTextStyle.copyWith(
