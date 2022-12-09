@@ -23,7 +23,3 @@ class OutpatientError extends OutpatientState {
 
   const OutpatientError({required this.message});
 }
-
-class OutpatientIsApproved extends OutpatientState {
-  
-}

@@ -34,7 +34,6 @@ class OutpatientBloc extends Bloc<OutpatientEvent, OutpatientState> {
           if (e is DioError) {
             final errorResponse = e.response;
             emit(OutpatientError(message: errorResponse!.data['message']));
-
             print("DIO ERROR : " + errorResponse.data['message']);
           }
 
@@ -43,5 +42,35 @@ class OutpatientBloc extends Bloc<OutpatientEvent, OutpatientState> {
         }
       },
     );
+
+    on<GetOutpatientProcessed>((event, emit) async {
+      _sharedPreferences = await SharedPreferences.getInstance();
+      emit(OutpatientLoading());
+      try {
+        final int? id = _sharedPreferences.getInt("id");
+        final String? token = _sharedPreferences.getString("token");
+        print("ID DOCTOR : $id");
+        print("TOKEN : $token");
+
+        final List<OutpatientModel>? outpatientList = await _outpatientService
+            .getOutpatientProcessed(idDoctor: id!, token: token!);
+        // if (outpatientList == null || outpatientList.isEmpty) {
+        //   emit(OutpatientLoaded(outpatientList: []));
+        // } else {
+        //   emit(OutpatientLoaded(outpatientList: outpatientList));
+        // }
+        emit(OutpatientLoaded(outpatientList: outpatientList ?? []));
+      } catch (e) {
+        if (e is DioError) {
+          final errorResponse = e.response;
+          emit(OutpatientError(message: errorResponse!.data['message']));
+
+          print("DIO ERROR : " + errorResponse.data['message']);
+        }
+
+        print("ERROR : " + e.toString());
+        emit(OutpatientError(message: e.toString()));
+      }
+    });
   }
 }

@@ -10,7 +10,7 @@ class OutpatientModel{
   final int patientId;
   final String schedule;
   final String complaint;
-  final int isApproved;
+  late final int isApproved;
   final bool isFinish;
   final String finishedAt;
   final String scheduleDate;
