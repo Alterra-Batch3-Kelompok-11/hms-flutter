@@ -6,7 +6,7 @@ import 'package:hospital_management_system/models/outpatient_model.dart';
 import 'package:hospital_management_system/services/outpatient_service.dart';
 //bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hospital_management_system/view_model/outpatient_view_model/outpatient_bloc.dart';
+import 'package:hospital_management_system/view_model/patient_view_model/patient_bloc.dart';
 
 import 'widgets/card_doctor_visit_schedule.dart';
 
@@ -20,28 +20,28 @@ class DoctorVisitSchedule extends StatefulWidget {
 class _DoctorVisitScheduleState extends State<DoctorVisitSchedule> {
   @override
   void initState() {
-    context.read<OutpatientBloc>().add(GetOutpatientProcessed());
+    context.read<PatientBloc>().add(GetOutpatientProcessed());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<OutpatientBloc, OutpatientState>(
+    return BlocBuilder<PatientBloc, PatientState>(
       builder: (context, state) {
-        if (state is OutpatientError) {
+        if (state is PatientError) {
           return Text(state.message);
         }
         if (state is OutpatientLoaded) {
           print(state.outpatientList!.isEmpty);
-          return Text('Berhasil');
+          return const Text('Berhasil');
         } else {
-          return SizedBox();
+          return const SizedBox();
         }
         // if (state is OutpatientLoading) {
         //   return const Center(
         //     child: CircularProgressIndicator(),
         //   );
-        // } else if (state is OutpatientError) {
+        // } else if (state is PatientError) {
         //   return Center(
         //     child: Text(state.message),
         //   );
