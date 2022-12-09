@@ -4,9 +4,14 @@ import 'package:hospital_management_system/utils/constant.dart';
 
 import 'widgets/card_doctor_visit_schedule.dart';
 
-class DoctorVisitSchedule extends StatelessWidget {
+class DoctorVisitSchedule extends StatefulWidget {
   const DoctorVisitSchedule({Key? key}) : super(key: key);
 
+  @override
+  State<DoctorVisitSchedule> createState() => _DoctorVisitScheduleState();
+}
+
+class _DoctorVisitScheduleState extends State<DoctorVisitSchedule> {
   @override
   Widget build(BuildContext context) {
     return ListView(
