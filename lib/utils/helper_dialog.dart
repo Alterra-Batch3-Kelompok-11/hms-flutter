@@ -185,6 +185,7 @@ class HelperDialog {
             GlobalButton(
                 onPressed: onSubmit,
                 fixedWidth: MediaQuery.of(context).size.width / 3,
+                color: buttonSubmitColor,
                 buttonChild: Text(
                   buttonSubmitText,
                   style: Constant.primaryTextStyle.copyWith(

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_system/models/doctor_model.dart';
+import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
 import 'package:hospital_management_system/screens/profile/widgets/detail_doctor_card.dart';
 import 'package:hospital_management_system/screens/profile/widgets/list_jadwal_card.dart';
 import 'package:hospital_management_system/utils/constant.dart';
+import 'package:hospital_management_system/utils/helper_dialog.dart';
 import 'package:hospital_management_system/view_model/doctor_view_model/doctor_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -59,6 +61,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       licenseNumber: doctor.licenseNumber,
                       specialis: doctor.specialityName),
                   ListJadwalCard(schedule: doctor.doctorSchedules),
+                  const SizedBox(height: Constant.verticalPadding),
+                  GlobalButton(
+                      side: BorderSide(color: Constant.errorColor),
+                      color: Constant.whiteColor,
+                      onPressed: () => HelperDialog.confirmationDialog(context,
+                          titleText: "Title",
+                          subTitle: "subTitle",
+                          buttonSubmitText: "Ya",
+                          color: Constant.errorColor,
+                          icon: Icons.logout,
+                          buttonSubmitColor: Constant.errorColor,
+                          onSubmit: () {}),
+                      buttonChild: Text(
+                        "Keluar",
+                        style: Constant.primaryTextStyle.copyWith(
+                            fontSize: Constant.bodyFontSize,
+                            fontWeight: Constant.semiBoldFontWeight,
+                            color: Constant.errorColor),
+                      )),
                   const SizedBox(height: Constant.verticalPadding),
                 ],
               );

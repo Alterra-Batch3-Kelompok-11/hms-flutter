@@ -16,7 +16,7 @@ class AuthService {
       if (response.statusCode == 200) {}
       final AuthModel authModel = AuthModel.fromJson(response.data['data']);
       return authModel;
-    } on Dio {
+    } on DioError {
       rethrow;
     }
   }
