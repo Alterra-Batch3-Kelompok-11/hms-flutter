@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hospital_management_system/models/schedule_model.dart';
 import 'package:hospital_management_system/utils/constant.dart';
-import 'package:intl/intl.dart';
 
 class ListJadwalCard extends StatelessWidget {
   const ListJadwalCard({Key? key, required this.schedule}) : super(key: key);
@@ -47,9 +46,7 @@ class ListJadwalCard extends StatelessWidget {
                       topRight: Radius.circular(6),
                     ),
                   ),
-                  child: Text(
-                      'Jadwal ' +
-                          schedule[0].createdAt!.split('-')[0].toString(),
+                  child: Text('Jadwal',
                       style: Constant.primaryTextStyle.copyWith(
                         fontSize: Constant.subtitleFontSize,
                         fontWeight: Constant.boldFontWeight,
@@ -64,6 +61,8 @@ class ListJadwalCard extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: schedule.length,
                   itemBuilder: (context, index) {
+                    final String startTime = schedule[index].startTime;
+                    final String endTime = schedule[index].endTime;
                     return Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: Constant.horizontalPadding,
@@ -73,10 +72,7 @@ class ListJadwalCard extends StatelessWidget {
                         children: [
                           const SizedBox(height: 10),
                           Text(
-                            schedule[index].dayString +
-                                ' | ' +
-                                DateFormat('MMM d, yyyy').format(
-                                    DateTime.parse(schedule[index].createdAt!)),
+                            schedule[index].dateIndo,
                             style: Constant.primaryTextStyle.copyWith(
                               fontSize: Constant.subtitleFontSize,
                               fontWeight: Constant.semiBoldFontWeight,
@@ -92,7 +88,7 @@ class ListJadwalCard extends StatelessWidget {
                               ),
                               const SizedBox(width: 5),
                               Text(
-                                '${schedule[index].startTime} - ${schedule[index].endTime} WIB',
+                                '$startTime - $endTime WIB',
                                 style: Constant.secondaryTextStyle.copyWith(
                                   fontSize: Constant.bodyFontSize,
                                   fontWeight: Constant.mediumFontWeight,

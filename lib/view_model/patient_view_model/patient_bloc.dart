@@ -2,18 +2,17 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
+import 'package:hospital_management_system/services/patient_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../services/outpatient_service.dart';
 
 part 'patient_event.dart';
 part 'patient_state.dart';
 
 class PatientBloc extends Bloc<PatientEvent, PatientState> {
-  final OutpatientService _outpatientService;
+  final PatientService _patientService;
   late SharedPreferences _sharedPreferences;
 
-  PatientBloc(this._outpatientService) : super(PatientInitial()) {
+  PatientBloc(this._patientService) : super(PatientInitial()) {
     on<GetOutpatientUnprocessed>(
       (event, emit) async {
         _sharedPreferences = await SharedPreferences.getInstance();
@@ -24,7 +23,7 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
           print("ID DOCTOR : $id");
           print("TOKEN : $token");
 
-          final List<OutpatientModel> outpatientList = await _outpatientService
+          final List<OutpatientModel> outpatientList = await _patientService
               .getOutpatientUnprocessed(idDoctor: id!, token: token!);
           emit(OutpatientLoaded(outpatientList: outpatientList));
         } catch (e) {
@@ -49,7 +48,7 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
         print("ID DOCTOR : $id");
         print("TOKEN : $token");
 
-        final List<OutpatientModel>? outpatientList = await _outpatientService
+        final List<OutpatientModel>? outpatientList = await _patientService
             .getOutpatientProcessed(idDoctor: id!, token: token!);
         // if (outpatientList == null || outpatientList.isEmpty) {
         //   emit(OutpatientLoaded(outpatientList: []));
