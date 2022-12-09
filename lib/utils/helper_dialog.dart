@@ -119,6 +119,7 @@ class HelperDialog {
     required String buttonSubmitText,
     required IconData icon,
     required Color buttonSubmitColor,
+    required String buttonCancelText,
     Color? color,
     required void Function() onSubmit,
     bool? isLoading = false,
@@ -135,7 +136,7 @@ class HelperDialog {
               children: [
                 Icon(
                   icon,
-                  size: 50,
+                  size: 30,
                   color: color ?? Constant.baseColor,
                 ),
                 const SizedBox(
@@ -175,7 +176,7 @@ class HelperDialog {
                 ),
                 fixedWidth: MediaQuery.of(context).size.width / 3,
                 buttonChild: Text(
-                  "Back",
+                  buttonCancelText,
                   style: Constant.primaryTextStyle.copyWith(
                     fontSize: 15,
                     color: Constant.baseColor,
