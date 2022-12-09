@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hospital_management_system/models/schedule_model.dart';
 import 'package:hospital_management_system/utils/constant.dart';
-import 'package:intl/intl.dart';
 
 class ListJadwalCard extends StatelessWidget {
   const ListJadwalCard({Key? key, required this.schedule}) : super(key: key);
@@ -47,9 +46,7 @@ class ListJadwalCard extends StatelessWidget {
                       topRight: Radius.circular(6),
                     ),
                   ),
-                  child: Text(
-                      'Jadwal ' +
-                          schedule[0].createdAt!.split('-')[0].toString(),
+                  child: Text('Jadwal',
                       style: Constant.primaryTextStyle.copyWith(
                         fontSize: Constant.subtitleFontSize,
                         fontWeight: Constant.boldFontWeight,
@@ -72,16 +69,7 @@ class ListJadwalCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 10),
-                          Text(
-                            schedule[index].dayString +
-                                ' | ' +
-                                DateFormat('MMM d, yyyy').format(
-                                    DateTime.parse(schedule[index].createdAt!)),
-                            style: Constant.primaryTextStyle.copyWith(
-                              fontSize: Constant.subtitleFontSize,
-                              fontWeight: Constant.semiBoldFontWeight,
-                            ),
-                          ),
+                          Text(schedule[index].dateIndo),
                           const SizedBox(height: 10),
                           Row(
                             children: [

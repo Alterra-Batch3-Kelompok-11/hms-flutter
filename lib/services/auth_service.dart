@@ -14,7 +14,6 @@ class AuthService {
         "password": password,
       });
       if (response.statusCode == 200) {}
-      print(response.data['data']);
       final AuthModel authModel = AuthModel.fromJson(response.data['data']);
       return authModel;
     } on Dio {

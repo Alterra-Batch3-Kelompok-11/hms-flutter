@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
+import 'package:hospital_management_system/screens/home/widgets/list_doctor_card.dart';
 import '../../utils/constant.dart';
-import '../../models/doctor_model.dart';
+import '../../view_model/doctor_view_model/doctor_bloc.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
-  //list object doctor
-  final List<DoctorModel> doctors = [
-    DoctorModel(
-        id: 1,
-        name: "name",
-        specialityId: 1,
-        licenseNumber: "licenseNumber",
-        specialityName: "specialityName",
-        doctorSchedules: []),
-  ];
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
-  // list data doctor
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    context.read<DoctorBloc>().add(LoadDoctorBySchedule());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,80 +158,19 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(7),
-                boxShadow: Constant.cardShadow,
-              ),
-              margin: const EdgeInsets.only(top: 1),
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 22),
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Dokter Tersedia',
-                    style: Constant.primaryTextStyle.copyWith(
-                      fontWeight: Constant.boldFontWeight,
-                      fontSize: Constant.subtitleFontSize,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: doctors.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                const CircleAvatar(
-                                  backgroundImage: AssetImage(
-                                      'assets/images/login_background.png'),
-                                  radius: 20,
-                                ),
-                                const SizedBox(width: 10),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      doctors[index].name,
-                                      style: Constant.primaryTextStyle.copyWith(
-                                        fontWeight: Constant.mediumFontWeight,
-                                        fontSize: Constant.bodyFontSize,
-                                      ),
-                                    ),
-                                    Text(
-                                      (doctors[index].doctorSchedules.isEmpty)
-                                          ? ''
-                                          : 'Tersedia pukul ${doctors[index].doctorSchedules[index].startTime} - ${doctors[index].doctorSchedules[index].endTime}',
-                                      style: Constant.primaryTextStyle.copyWith(
-                                        fontWeight: Constant.boldFontWeight,
-                                        fontSize: Constant.bodyFontSize,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return const Divider(
-                        color: Constant.darkColor,
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
+            BlocBuilder<DoctorBloc, DoctorState>(
+              builder: (context, state) {
+                if (state is ListScheduleDoctorLoaded) {
+                  return ListDoctorCard(doctorList: state.doctorList!);
+                } else if (state is LoadingDoctor) {
+                  return const Center(
+                    child: CircularProgressIndicator(color: Constant.baseColor),
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
+            )
           ],
         ),
       ),

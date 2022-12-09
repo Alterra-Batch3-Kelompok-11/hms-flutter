@@ -10,8 +10,26 @@ class DoctorService {
     try {
       final response = await _dio.get("$baseUrl/doctors/$id");
 
-      print(response.data['data']['doctor_schedules']);
+      print("DATA DOCTOR");
+      print(response.data['data']);
       return DoctorModel.fromJson(response.data['data']);
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  Future<List<DoctorModel>?> getShceduleToday() async {
+    String baseUrl = dotenv.env['BASE_URL'].toString();
+
+    try {
+      final response = await _dio.get("$baseUrl/doctors/today");
+      if ((response.data['data'] as List).isEmpty) {
+        return [];
+      } else {
+        return (response.data['data'] as List)
+            .map((data) => DoctorModel.fromJson(data))
+            .toList();
+      }
     } on DioError {
       rethrow;
     }

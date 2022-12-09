@@ -3,21 +3,12 @@ import 'package:hospital_management_system/models/doctor_model.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
 class ListDoctorCard extends StatelessWidget {
-  ListDoctorCard({
+  const ListDoctorCard({
     Key? key,
+    required this.doctorList,
   }) : super(key: key);
 
-  //list object doctor
-  final List<DoctorModel> doctors = [
-    DoctorModel(
-      id: 1,
-      name: "name",
-      specialityId: 1,
-      licenseNumber: "licenseNumber",
-      specialityName: "specialityName",
-      doctorSchedules: [],
-    )
-  ];
+  final List<DoctorModel> doctorList;
 
   @override
   Widget build(BuildContext context) {
@@ -42,69 +33,76 @@ class ListDoctorCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          ListView.separated(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: doctors.length,
-            itemBuilder: (context, index) {
-              bool isSchedulesEmpty = doctors[index].doctorSchedules.isEmpty;
-              String startTime = isSchedulesEmpty
-                  ? ''
-                  : doctors[index].doctorSchedules[index].startTime;
-              String endTime = isSchedulesEmpty
-                  ? ''
-                  : doctors[index].doctorSchedules[index].endTime;
-              return Container(
-                margin: const EdgeInsets.only(bottom: 10),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: 36,
-                          height: 36,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: AssetImage("assets/images/profile.jpg"),
-                              fit: BoxFit.cover,
-                            ),
+          (doctorList.isEmpty)
+              ? Center(
+                  child: Text(
+                    "Tidak ada jadwal",
+                    style: Constant.primaryTextStyle.copyWith(
+                        fontSize: Constant.secondTitleFontSize,
+                        fontWeight: Constant.mediumFontWeight),
+                  ),
+                )
+              : ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: doctorList.length,
+                  itemBuilder: (context, index) {
+                    final String startTime =
+                        doctorList[index].doctorSchedules[index].startTime;
+                    final String endTime =
+                        doctorList[index].doctorSchedules[index].endTime;
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 10),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                width: 36,
+                                height: 36,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image:
+                                        AssetImage("assets/images/profile.jpg"),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    doctorList[index].name,
+                                    style: Constant.primaryTextStyle.copyWith(
+                                      fontWeight: Constant.regularFontWeight,
+                                      fontSize: Constant.bodyFontSize,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Tersedia pukul $startTime - $endTime',
+                                    style: Constant.primaryTextStyle.copyWith(
+                                      fontWeight: Constant.semiBoldFontWeight,
+                                      fontSize: Constant.bodyFontSize,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                        ),
-                        const SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              doctors[index].name,
-                              style: Constant.primaryTextStyle.copyWith(
-                                fontWeight: Constant.regularFontWeight,
-                                fontSize: Constant.bodyFontSize,
-                              ),
-                            ),
-                            Text(
-                              'Tersedia pukul $startTime - $endTime',
-                              style: Constant.primaryTextStyle.copyWith(
-                                fontWeight: Constant.semiBoldFontWeight,
-                                fontSize: Constant.bodyFontSize,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const Divider(
+                      //CAC4D0
+                      color: Color(0xFFCAC4D0),
+                      thickness: 1,
+                    );
+                  },
                 ),
-              );
-            },
-            separatorBuilder: (context, index) {
-              return const Divider(
-                //CAC4D0
-                color: Color(0xFFCAC4D0),
-                thickness: 1,
-              );
-            },
-          ),
         ],
       ),
     );
