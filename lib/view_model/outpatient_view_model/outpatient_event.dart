@@ -7,6 +7,7 @@ abstract class OutpatientEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetOutpatientUnprocessed extends OutpatientEvent {
-}
+class GetOutpatientUnprocessed extends OutpatientEvent {}
+
+class GetOutpatientProcessed extends OutpatientEvent {}
 

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:hospital_management_system/models/outpatient_model.dart';
 
 //dio
@@ -22,33 +20,42 @@ class OutpatientService {
             },
           ));
       print("RESPONSE : " + response.data['data'].toString());
-
       final dataRespone = response.data['data'] as List;
-
       List<OutpatientModel> outpatientList = [];
-
       for (var i = 0; i < dataRespone.length; i++) {
         print("DATA RESPONSE : " + dataRespone[i].toString());
         outpatientList.add(OutpatientModel.fromJson(dataRespone[i]));
       }
       return outpatientList;
+    } on DioError {
+      rethrow;
+    }
+  }
 
-      // List<OutpatientModel> outpatientList = [];
-      // for (var i = 0; i < response.data.length; i++) {
-      //   outpatientList.add(OutpatientModel.fromJson(response.data[i]));
-      // }
-      // print("OUTPATIENT LIST : " + outpatientList.toString());
-      // return outpatientList;
+  //get outpatient processed by iddoctor
+  Future<List<OutpatientModel>?> getOutpatientProcessed(
+      {required int idDoctor, required String token}) async {
+    String baseUrl = dotenv.env["BASE_URL"].toString();
+    try {
+      final response = await _dio.get(
+          "$baseUrl/outpatient_sessions/doctor/$idDoctor/processeds",
+          options: Options(
+            headers: {
+              "Authorization": "Bearer $token",
+            },
+          ));
+      print('INI data Respone ${response.data['data']}');
 
-      //  return OutpatientModel.fromJson(response.data['data']);
-      // Iterable list = json.decode(response.data);
+      final dataRespone =
+          response.data['data'] != null ? response.data['data'] as List : [];
+      List<OutpatientModel> outpatientList = [];
+      print('INI data Respone $dataRespone');
 
-      // List<OutpatientModel> outpatientList = [];
-      // outpatientList = list.map((e) => OutpatientModel.fromJson(e)).toList();
-      // print("OUTPATIENT LIST : " + outpatientList.toString());
-      // return outpatientList;
-
-      // return response.data.map((e) => OutpatientModel.fromJson(e)).toList();
+      for (var i = 0; i < dataRespone.length; i++) {
+        outpatientList.add(OutpatientModel.fromJson(dataRespone[i]));
+      }
+      print('INI APAAA $outpatientList');
+      return outpatientList;
     } on DioError {
       rethrow;
     }

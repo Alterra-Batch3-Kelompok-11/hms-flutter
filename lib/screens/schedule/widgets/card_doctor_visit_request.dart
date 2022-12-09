@@ -8,6 +8,7 @@ class CardDoctorVisitRequest extends StatelessWidget {
     required this.patientName,
     required this.requestDate,
     required this.requestTime,
+    required this.isApproved,
     required this.onAcceptButton,
     required this.onRejectButton,
   }) : super(key: key);
@@ -15,6 +16,7 @@ class CardDoctorVisitRequest extends StatelessWidget {
   final String patientName;
   final String requestDate;
   final String requestTime;
+  final int isApproved;
   final void Function() onAcceptButton;
   final void Function() onRejectButton;
 
