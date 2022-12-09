@@ -7,12 +7,14 @@ class CardDoctorVisitRequest extends StatelessWidget {
     Key? key,
     required this.patientName,
     required this.requestDate,
+    required this.requestTime,
     required this.onAcceptButton,
     required this.onRejectButton,
   }) : super(key: key);
 
   final String patientName;
   final String requestDate;
+  final String requestTime;
   final void Function() onAcceptButton;
   final void Function() onRejectButton;
 
@@ -65,15 +67,30 @@ class CardDoctorVisitRequest extends StatelessWidget {
               const SizedBox(
                 width: 24,
               ),
-              Flexible(
-                child: Text(
-                  requestDate,
-                  style: Constant.primaryTextStyle.copyWith(
-                    fontSize: Constant.subtitleFontSize,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    requestDate,
+                    style: Constant.primaryTextStyle.copyWith(
+                      fontSize: Constant.subtitleFontSize,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    requestTime,
+                    style: Constant.primaryTextStyle.copyWith(
+                      fontSize: Constant.subtitleFontSize,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ),
               const SizedBox(
                 width: 24,

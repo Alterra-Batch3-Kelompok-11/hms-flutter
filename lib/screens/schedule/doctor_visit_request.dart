@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management_system/models/outpatient_model.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
 import 'widgets/card_doctor_visit_request.dart';
 
-class DoctorVisitRequest extends StatelessWidget {
-  const DoctorVisitRequest({Key? key}) : super(key: key);
+class DoctorVisitRequest extends StatefulWidget {
+  final List<OutpatientModel> outpatientList;
+  const DoctorVisitRequest({Key? key, required this.outpatientList})
+      : super(key: key);
 
+  @override
+  State<DoctorVisitRequest> createState() => _DoctorVisitRequestState();
+}
+
+class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -13,12 +21,14 @@ class DoctorVisitRequest extends StatelessWidget {
         horizontal: Constant.horizontalPadding,
         vertical: Constant.verticalPadding,
       ),
-      children: ["Jono", "Joni", "Jojo"].map((patientName) {
+      children: widget.outpatientList.map((outpatient) {
         return CardDoctorVisitRequest(
-            patientName: patientName,
-            requestDate: "18-11-2022, 18:00",
-            onAcceptButton: () {},
-            onRejectButton: () {});
+          patientName: outpatient.patient.name,
+          requestDate: outpatient.scheduleDate,
+          requestTime: outpatient.scheduleTime,
+          onAcceptButton: () {},
+          onRejectButton: () {},
+        );
       }).toList(),
     );
   }

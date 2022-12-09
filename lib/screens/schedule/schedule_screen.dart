@@ -1,11 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:hospital_management_system/screens/schedule/doctor_visit_request.dart';
 import 'package:hospital_management_system/utils/constant.dart';
+import 'package:hospital_management_system/models/outpatient_model.dart';
+import 'package:hospital_management_system/services/outpatient_service.dart';
+import 'package:hospital_management_system/screens/schedule/doctor_visit_schedule.dart';
+import 'package:hospital_management_system/screens/schedule/widgets/card_doctor_visit_request.dart';
 
-import 'doctor_visit_schedule.dart';
+//bloc
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_system/view_model/outpatient_view_model/outpatient_bloc.dart';
 
-class ScheduleScreen extends StatelessWidget {
+class ScheduleScreen extends StatefulWidget {
   const ScheduleScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ScheduleScreen> createState() => _ScheduleScreenState();
+}
+
+class _ScheduleScreenState extends State<ScheduleScreen> {
+  @override
+  void initState() {
+    context.read<OutpatientBloc>().add(GetOutpatientUnprocessed());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +67,36 @@ class ScheduleScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: const TabBarView(
-          children: [
-            DoctorVisitRequest(),
-            DoctorVisitSchedule(),
-          ],
+        body: BlocBuilder<OutpatientBloc, OutpatientState>(
+          builder: (context, state) {
+            if (state is OutpatientLoading) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: Constant.baseColor,
+                ),
+              );
+            }
+            if (state is OutpatientLoaded) {
+              final List<OutpatientModel> outpatientList =
+                  state.outpatientList ?? [];
+
+              return TabBarView(
+                children: [
+                  if (outpatientList.isNotEmpty)
+                    DoctorVisitRequest(
+                      outpatientList: outpatientList,
+                    )
+                  else
+                    const Center(
+                      child: Text("Tidak ada permintaan kunjungan"),
+                    ),
+                  DoctorVisitSchedule(),
+                ],
+              );
+            } else {
+              return const Center();
+            }
+          },
         ),
       ),
     );
