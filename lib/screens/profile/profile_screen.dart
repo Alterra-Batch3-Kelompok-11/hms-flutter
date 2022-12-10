@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_system/models/doctor_model.dart';
+import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
 import 'package:hospital_management_system/screens/profile/widgets/detail_doctor_card.dart';
 import 'package:hospital_management_system/screens/profile/widgets/list_jadwal_card.dart';
@@ -51,7 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               );
             }
-            if (state is ProfileDoctor) {
+            if (state is ProfileDoctorLoaded) {
               final DoctorModel doctor = state.doctorModel;
               return ListView(
                 children: [
@@ -66,13 +67,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       side: BorderSide(color: Constant.errorColor),
                       color: Constant.whiteColor,
                       onPressed: () => HelperDialog.confirmationDialog(context,
-                          titleText: "Title",
-                          subTitle: "subTitle",
+                          titleText: "Keluar",
+                          subTitle: "Yakin keluar dari aplikasi ?",
                           buttonSubmitText: "Ya",
                           color: Constant.errorColor,
                           icon: Icons.logout,
-                          buttonSubmitColor: Constant.errorColor,
-                          onSubmit: () {}),
+                          onSubmit: () => Navigator.pushNamedAndRemoveUntil(
+                              context, RouteNames.login, (route) => false),
+                          buttonCancelText: 'Batal'),
                       buttonChild: Text(
                         "Keluar",
                         style: Constant.primaryTextStyle.copyWith(

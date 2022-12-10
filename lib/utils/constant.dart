@@ -7,6 +7,7 @@ class Constant {
 
   static const Color whiteColor = Color(0xffffffff);
   static const Color backgroundColor = Color(0xffF3F3F3);
+  static const Color veryLightColor = Color(0xffEBF2F9);
   static const Color lightestColor = Color(0xffCCE3F2);
   static const Color lighterColor = Color(0xffAAD0E9);
   static const Color lightColor = Color(0xff55A0D2);

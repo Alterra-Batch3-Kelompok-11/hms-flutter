@@ -51,6 +51,7 @@ class HistoryScreen extends StatelessWidget {
           ),
         ),
         body: const TabBarView(
+          physics: NeverScrollableScrollPhysics(),
           children: [
             PatientVisitHistory(),
             PatientConsentHistory(),

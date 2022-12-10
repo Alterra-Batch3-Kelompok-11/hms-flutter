@@ -118,7 +118,6 @@ class HelperDialog {
     required String subTitle,
     required String buttonSubmitText,
     required IconData icon,
-    required Color buttonSubmitColor,
     required String buttonCancelText,
     Color? color,
     required void Function() onSubmit,
@@ -140,7 +139,7 @@ class HelperDialog {
                   color: color ?? Constant.baseColor,
                 ),
                 const SizedBox(
-                  height: 19,
+                  height: 10,
                 ),
                 Text(
                   titleText,
@@ -163,30 +162,29 @@ class HelperDialog {
           contentPadding: const EdgeInsets.symmetric(
             horizontal: Constant.horizontalPadding,
           ),
-          actionsAlignment: MainAxisAlignment.spaceEvenly,
-          titlePadding:
-              const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-          actionsPadding: const EdgeInsets.symmetric(vertical: 20),
+          actionsAlignment: MainAxisAlignment.spaceBetween,
+          titlePadding: const EdgeInsets.only(top: 20, bottom: 10),
+          actionsPadding: const EdgeInsets.all(20),
           actions: [
             GlobalButton(
                 onPressed: () => Navigator.pop(context),
                 color: Constant.whiteColor,
-                side: const BorderSide(
-                  color: Constant.baseColor,
+                side: BorderSide(
+                  color: color ?? Constant.baseColor,
                 ),
                 fixedWidth: MediaQuery.of(context).size.width / 3,
                 buttonChild: Text(
                   buttonCancelText,
                   style: Constant.primaryTextStyle.copyWith(
                     fontSize: 15,
-                    color: Constant.baseColor,
+                    color: color ?? Constant.baseColor,
                     fontWeight: Constant.mediumFontWeight,
                   ),
                 )),
             GlobalButton(
                 onPressed: onSubmit,
                 fixedWidth: MediaQuery.of(context).size.width / 3,
-                color: buttonSubmitColor,
+                color: color ?? Constant.baseColor,
                 buttonChild: Text(
                   buttonSubmitText,
                   style: Constant.primaryTextStyle.copyWith(

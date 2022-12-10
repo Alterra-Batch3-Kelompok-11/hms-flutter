@@ -65,6 +65,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             ),
           ),
           body: const TabBarView(
+            physics: NeverScrollableScrollPhysics(),
             children: [
               DoctorVisitRequest(),
               DoctorVisitSchedule(),

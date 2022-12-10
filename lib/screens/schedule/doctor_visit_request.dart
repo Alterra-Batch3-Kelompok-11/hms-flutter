@@ -65,7 +65,6 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
                       subTitle: "Apakah anda yakin ingin menerima pasien ini?",
                       buttonSubmitText: "Ya",
                       buttonCancelText: "Batal",
-                      buttonSubmitColor: Constant.baseColor,
                       //icon peringatan bulat
                       icon: Icons.report_gmailerrorred_sharp,
                       color: Constant.baseColor,
@@ -82,7 +81,6 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
                       subTitle: "Apakah anda yakin ingin menolak pasien ini?",
                       buttonSubmitText: "Ya",
                       buttonCancelText: "Batal",
-                      buttonSubmitColor: Constant.baseColor,
                       icon: Icons.dangerous_outlined,
                       color: Constant.errorColor,
                       onSubmit: () {

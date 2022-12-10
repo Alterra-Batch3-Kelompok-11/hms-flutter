@@ -15,13 +15,12 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
     on<GetProfileDoctor>((event, emit) async {
       _sharedPreferences = await SharedPreferences.getInstance();
       emit(LoadingDoctor());
-
       try {
         final int? id = _sharedPreferences.getInt("id");
         print("ID DOCTOR : $id");
 
         DoctorModel doctor = await _doctorService.getProfileDoctor(id: id!);
-        emit(ProfileDoctor(doctorModel: doctor));
+        emit(ProfileDoctorLoaded(doctorModel: doctor));
       } catch (e) {
         if (e is DioError) {
           final errorResponse = e.response;
@@ -34,12 +33,12 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
       }
     });
 
-    on<LoadDoctorBySchedule>((event, emit) async {
+    on<GetScheduleAllDoctor>((event, emit) async {
       emit(LoadingDoctor());
 
       try {
-        final result = await _doctorService.getShceduleToday();
-        emit(ListScheduleDoctorLoaded(doctorList: result));
+        final result = await _doctorService.getDoctorSchedule();
+        emit(ScheduleAllDoctorLoaded(doctorList: result));
       } catch (e) {
         if (e is DioError) {
           emit(ErrorDoctorState(message: e.response!.data['message']));

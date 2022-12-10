@@ -18,12 +18,13 @@ class DoctorService {
     }
   }
 
-  Future<List<DoctorModel>?> getShceduleToday() async {
+  Future<List<DoctorModel>> getDoctorSchedule() async {
     String baseUrl = dotenv.env['BASE_URL'].toString();
 
     try {
       final response = await _dio.get("$baseUrl/doctors/today");
-      if ((response.data['data'] as List).isEmpty) {
+
+      if (response.data['data'] == null) {
         return [];
       } else {
         return (response.data['data'] as List)

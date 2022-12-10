@@ -11,16 +11,16 @@ class DoctorInitial extends DoctorState {}
 
 class LoadingDoctor extends DoctorState {}
 
-class ProfileDoctor extends DoctorState {
+class ProfileDoctorLoaded extends DoctorState {
   final DoctorModel doctorModel;
 
-  const ProfileDoctor({required this.doctorModel});
+  const ProfileDoctorLoaded({required this.doctorModel});
 }
 
-class ListScheduleDoctorLoaded extends DoctorState {
-  final List<DoctorModel>? doctorList;
+class ScheduleAllDoctorLoaded extends DoctorState {
+  final List<DoctorModel> doctorList;
 
-  const ListScheduleDoctorLoaded({required this.doctorList});
+  const ScheduleAllDoctorLoaded({required this.doctorList});
 }
 
 class ErrorDoctorState extends DoctorState {

@@ -9,4 +9,4 @@ abstract class DoctorEvent extends Equatable {
 
 class GetProfileDoctor extends DoctorEvent {}
 
-class LoadDoctorBySchedule extends DoctorEvent {}
+class GetScheduleAllDoctor extends DoctorEvent {}
