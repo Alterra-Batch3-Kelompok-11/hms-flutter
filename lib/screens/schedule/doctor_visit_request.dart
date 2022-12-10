@@ -35,14 +35,14 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
         if (state is OutpatientLoaded) {
           final List<OutpatientModel> outpatientList =
               state.outpatientList ?? [];
-          if (outpatientList.isEmpty) {
+          if (outpatientList.isEmpty || outpatientList == []) {
             return Center(
               child: Text(
                 "Tidak ada data",
                 style: Constant.primaryTextStyle.copyWith(
                   fontWeight: Constant.boldFontWeight,
                   fontSize: Constant.firstTitleSize,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               ),
             );

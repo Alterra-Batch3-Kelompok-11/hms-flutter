@@ -33,7 +33,39 @@ class _DoctorVisitScheduleState extends State<DoctorVisitSchedule> {
         }
         if (state is OutpatientLoaded) {
           print(state.outpatientList!.isEmpty);
-          return const Text('Berhasil');
+          final List<OutpatientModel> outpatientList =
+              state.outpatientList ?? [];
+          if (outpatientList.isEmpty) {
+            return Center(
+              child: Text(
+                "Tidak ada data",
+                style: Constant.primaryTextStyle.copyWith(
+                  fontWeight: Constant.boldFontWeight,
+                  fontSize: Constant.firstTitleSize,
+                  color: Colors.black,
+                ),
+              ),
+            );
+          } else {
+            return ListView(
+              padding: const EdgeInsets.symmetric(
+                horizontal: Constant.horizontalPadding,
+                vertical: Constant.verticalPadding,
+              ),
+              children: outpatientList.map((outpatient) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, RouteNames.patientData);
+                  },
+                  child: CardDoctorVisitSchedule(
+                    patientName: outpatient.patient.name,
+                    visitDate: outpatient.scheduleDate,
+                  ),
+                );
+              }).toList(),
+            );
+          }
+          // return const Text('Berhasil');
         } else {
           return const SizedBox();
         }
