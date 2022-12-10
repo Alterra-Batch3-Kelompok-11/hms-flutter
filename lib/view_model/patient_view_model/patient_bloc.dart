@@ -13,6 +13,7 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
   late SharedPreferences _sharedPreferences;
 
   PatientBloc(this._patientService) : super(PatientInitial()) {
+    //PERMINTAAN KUNJUNGAN
     on<GetOutpatientUnprocessed>(
       (event, emit) async {
         _sharedPreferences = await SharedPreferences.getInstance();
@@ -23,9 +24,9 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
           print("ID DOCTOR : $id");
           print("TOKEN : $token");
 
-          final List<OutpatientModel> outpatientList = await _patientService
+          final List<OutpatientModel>? outpatientList = await _patientService
               .getOutpatientUnprocessed(idDoctor: id!, token: token!);
-          emit(OutpatientLoaded(outpatientList: outpatientList));
+          emit(OutpatientLoaded(outpatientList: outpatientList ?? []));
         } catch (e) {
           if (e is DioError) {
             final errorResponse = e.response;
@@ -39,6 +40,7 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
       },
     );
 
+    // JADWAL KUNJUNGAN
     on<GetOutpatientProcessed>((event, emit) async {
       _sharedPreferences = await SharedPreferences.getInstance();
       emit(PatientLoading());
@@ -69,4 +71,15 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
       }
     });
   }
+
+  // //UPDATE STATUS KUNJUNGAN
+  // on<PutOutpatientApproval>((event, emit) async {
+  //   _sharedPreferences = await SharedPreferences.getInstance();
+  //   emit(PatientLoading());
+  //   try {
+  //     final int? id = _sharedPreferences.getInt("id");
+  //     final String? token = _sharedPreferences.getString("token");
+  //     print("ID DOCTOR : $id");
+  //     print("TOKEN : $token");
+
 }

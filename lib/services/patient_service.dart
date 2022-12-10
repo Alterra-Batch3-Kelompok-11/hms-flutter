@@ -18,8 +18,10 @@ class PatientService {
             },
           ));
       print("RESPONSE : " + response.data['data'].toString());
-      final dataRespone = response.data['data'] as List;
+      final dataRespone =
+          response.data['data'] != null ? response.data['data'] as List : [];
       List<OutpatientModel> outpatientList = [];
+      //List<OutpatientModel> outpatientList = [];
       for (var i = 0; i < dataRespone.length; i++) {
         print("DATA RESPONSE : " + dataRespone[i].toString());
         outpatientList.add(OutpatientModel.fromJson(dataRespone[i]));
@@ -54,6 +56,35 @@ class PatientService {
       }
       print('INI APAAA $outpatientList');
       return outpatientList;
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  //put outpatient unprocessed to processed
+  Future<OutpatientModel?> putOutpatientApproval(
+      {required int idOutpatient,
+      required String token,
+      // required OutpatientModel outpatient,
+      required int isApproved}) async {
+    OutpatientModel? updateOutpatient;
+    String baseUrl = dotenv.env["BASE_URL"].toString();
+    try {
+      final response = await _dio.put(
+        "$baseUrl/outpatient_sessions/$idOutpatient/approval",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $token",
+          },
+        ),
+        data: {
+          "is_approved": isApproved,
+        },
+      );
+      print('INI RESPONSE PUT ${response.data['data']}');
+
+      updateOutpatient = OutpatientModel.fromJson(response.data['data']);
+      return updateOutpatient;
     } on DioError {
       rethrow;
     }
