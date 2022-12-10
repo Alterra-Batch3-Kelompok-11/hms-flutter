@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 //bloc
-import 'package:hospital_management_system/view_model/outpatient_view_model/outpatient_bloc.dart';
 
 //util helper
 import 'package:hospital_management_system/utils/helper_dialog.dart';
+import 'package:hospital_management_system/view_model/patient_view_model/patient_bloc.dart';
 
 import 'widgets/card_doctor_visit_request.dart';
 
@@ -24,13 +24,13 @@ class DoctorVisitRequest extends StatefulWidget {
 class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
   @override
   void initState() {
-    context.read<OutpatientBloc>().add(GetOutpatientUnprocessed());
+    context.read<PatientBloc>().add(GetOutpatientUnprocessed());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<OutpatientBloc, OutpatientState>(
+    return BlocBuilder<PatientBloc, PatientState>(
       builder: (context, state) {
         if (state is OutpatientLoaded) {
           final List<OutpatientModel> outpatientList =
@@ -87,8 +87,7 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
                       color: Constant.errorColor,
                       onSubmit: () {
                         // outpatient.isApproved = 2;
-                         Navigator.pop(context);
-                      
+                        Navigator.pop(context);
                       },
                     );
                   },
@@ -96,11 +95,11 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
               }).toList(),
             );
           }
-        } else if (state is OutpatientLoading) {
+        } else if (state is PatientLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state is OutpatientError) {
+        } else if (state is PatientError) {
           return Center(
             child: Text(state.message),
           );

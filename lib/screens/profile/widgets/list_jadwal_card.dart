@@ -61,6 +61,8 @@ class ListJadwalCard extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: schedule.length,
                   itemBuilder: (context, index) {
+                    final String startTime = schedule[index].startTime;
+                    final String endTime = schedule[index].endTime;
                     return Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: Constant.horizontalPadding,
@@ -69,7 +71,15 @@ class ListJadwalCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 10),
-                          Text(schedule[index].dateIndo),
+
+
+                          Text(
+                            schedule[index].dateIndo,
+                            style: Constant.primaryTextStyle.copyWith(
+                              fontSize: Constant.subtitleFontSize,
+                              fontWeight: Constant.semiBoldFontWeight,
+                            ),
+                          ),
                           const SizedBox(height: 10),
                           Row(
                             children: [
@@ -80,7 +90,7 @@ class ListJadwalCard extends StatelessWidget {
                               ),
                               const SizedBox(width: 5),
                               Text(
-                                '${schedule[index].startTime} - ${schedule[index].endTime} WIB',
+                                '$startTime - $endTime WIB',
                                 style: Constant.secondaryTextStyle.copyWith(
                                   fontSize: Constant.bodyFontSize,
                                   fontWeight: Constant.mediumFontWeight,

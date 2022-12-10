@@ -4,11 +4,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hospital_management_system/routes/route_generator.dart';
 import 'package:hospital_management_system/services/auth_service.dart';
 import 'package:hospital_management_system/services/doctor_service.dart';
-import 'package:hospital_management_system/services/outpatient_service.dart';
+import 'package:hospital_management_system/services/patient_service.dart';
 
 import 'package:hospital_management_system/view_model/auth_view_model/auth_bloc.dart';
 import 'package:hospital_management_system/view_model/doctor_view_model/doctor_bloc.dart';
-import 'package:hospital_management_system/view_model/outpatient_view_model/outpatient_bloc.dart';
+import 'package:hospital_management_system/view_model/patient_view_model/patient_bloc.dart';
 
 import 'routes/route_names.dart';
 
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       providers: [
         RepositoryProvider(create: (context) => AuthService()),
         RepositoryProvider(create: (context) => DoctorService()),
-        RepositoryProvider(create: (context) => OutpatientService()),
+        RepositoryProvider(create: (context) => PatientService()),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -35,8 +35,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(
               create: (context) => DoctorBloc(context.read<DoctorService>())),
           BlocProvider(
-              create: (context) =>
-                  OutpatientBloc(context.read<OutpatientService>())),
+              create: (context) => PatientBloc(context.read<PatientService>())),
         ],
         child: const MaterialApp(
           debugShowCheckedModeBanner: false,
