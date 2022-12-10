@@ -17,6 +17,12 @@ class ProfileDoctor extends DoctorState {
   const ProfileDoctor({required this.doctorModel});
 }
 
+class ListScheduleDoctorLoaded extends DoctorState {
+  final List<DoctorModel>? doctorList;
+
+  const ListScheduleDoctorLoaded({required this.doctorList});
+}
+
 class ErrorDoctorState extends DoctorState {
   final String message;
 

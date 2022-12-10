@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
-import 'package:hospital_management_system/view_model/doctor_view_model/doctor_bloc.dart';
-import '../../utils/constant.dart';
-import '../../models/doctor_model.dart';
+import 'package:hospital_management_system/screens/home/widgets/list_doctor_card.dart';
 
-import './widgets/list_doctor_card.dart';
-import './widgets/pasient_count_card.dart';
+import '../../utils/constant.dart';
+import '../../view_model/doctor_view_model/doctor_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -18,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    context.read<DoctorBloc>().add(GetProfileDoctor());
+    context.read<DoctorBloc>().add(LoadDoctorBySchedule());
     super.initState();
   }
 
@@ -87,25 +85,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 leadingWidth: 50,
               ),
             ),
-            body: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  const PatientCountCard(),
-                  const SizedBox(height: 20),
-                  ListDoctorCard(),
-                ],
-              ),
-            ),
-          );
-        } else {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-      },
+            const SizedBox(height: 20),
+            BlocBuilder<DoctorBloc, DoctorState>(
+              builder: (context, state) {
+                if (state is ListScheduleDoctorLoaded) {
+                  return ListDoctorCard(doctorList: state.doctorList!);
+                } else if (state is LoadingDoctor) {
+                  return const Center(
+                    child: CircularProgressIndicator(color: Constant.baseColor),
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
+            )
+          ],
+        ),
+      ),
+
     );
   }
 }

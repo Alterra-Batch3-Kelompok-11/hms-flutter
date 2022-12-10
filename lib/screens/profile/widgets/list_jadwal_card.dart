@@ -71,6 +71,8 @@ class ListJadwalCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 10),
+
+
                           Text(
                             schedule[index].dateIndo,
                             style: Constant.primaryTextStyle.copyWith(

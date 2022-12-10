@@ -33,5 +33,20 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
         emit(ErrorDoctorState(message: e.toString()));
       }
     });
+
+    on<LoadDoctorBySchedule>((event, emit) async {
+      emit(LoadingDoctor());
+
+      try {
+        final result = await _doctorService.getShceduleToday();
+        emit(ListScheduleDoctorLoaded(doctorList: result));
+      } catch (e) {
+        if (e is DioError) {
+          emit(ErrorDoctorState(message: e.response!.data['message']));
+        } else {
+          emit(ErrorDoctorState(message: e.toString()));
+        }
+      }
+    });
   }
 }

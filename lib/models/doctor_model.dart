@@ -30,7 +30,8 @@ class DoctorModel {
       specialityId: json['speciality_id'],
       licenseNumber: json['license_number'],
       specialityName: json['speciality_name'],
-      doctorSchedules: (json['doctor_schedules']) == null
+      doctorSchedules: (json['doctor_schedules']) == null ||
+              (json['doctor_schedules'] as List).isEmpty
           ? []
           : (json['doctor_schedules'] as List)
               .map((e) => ScheduleModel.fromJson(e))
