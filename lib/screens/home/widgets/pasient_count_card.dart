@@ -104,15 +104,16 @@ class PatientCountCard extends StatelessWidget {
                   children: [
                     Text("Antrian",
                         style: Constant.primaryTextStyle.copyWith(
-                          fontSize: Constant.secondTitleFontSize,
+                          fontSize: Constant.captionFontSize,
+                          fontWeight: Constant.regularFontWeight,
                         )),
                     const SizedBox(
                       height: 10,
                     ),
                     Container(
-                      padding: const EdgeInsets.all(10),
-                      width: 60,
-                      height: 47,
+                      // padding: const EdgeInsets.all(10),
+                      width: 42,
+                      height: 30,
                       decoration: BoxDecoration(
                         borderRadius: Constant.cardBorderRadius,
                         color: Constant.veryLightColor,
@@ -120,9 +121,9 @@ class PatientCountCard extends StatelessWidget {
                       child: Center(
                           child: Text("1",
                               style: Constant.primaryTextStyle.copyWith(
-                                fontSize: Constant.firstTitleSize,
-                                fontWeight: Constant.semiBoldFontWeight,
-                              ))),
+                                  fontSize: Constant.firstTitleSize,
+                                  fontWeight: Constant.semiBoldFontWeight,
+                                  color: Constant.baseColor))),
                     )
                   ],
                 ),
@@ -135,35 +136,44 @@ class PatientCountCard extends StatelessWidget {
                     children: [
                       Text("Nama Pasien",
                           style: Constant.primaryTextStyle.copyWith(
-                            fontSize: Constant.subtitleFontSize,
-                            fontWeight: Constant.mediumFontWeight,
+                            fontSize: Constant.captionFontSize,
+                            fontWeight: Constant.regularFontWeight,
                           ),
                           textAlign: TextAlign.justify,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis),
+                      const SizedBox(
+                        height: 4,
+                      ),
                       Text("Joni",
                           style: Constant.primaryTextStyle.copyWith(
-                            fontSize: Constant.subtitleFontSize,
+                            fontSize: Constant.bodyFontSize,
                             fontWeight: Constant.semiBoldFontWeight,
                             color: Constant.baseColor,
                           ),
                           textAlign: TextAlign.justify,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis),
+                      const SizedBox(
+                        height: 5,
+                      ),
                       Text(
                         "Tanggal Kunjungan",
                         style: Constant.primaryTextStyle.copyWith(
-                          fontSize: Constant.subtitleFontSize,
-                          fontWeight: Constant.mediumFontWeight,
+                          fontSize: Constant.captionFontSize,
+                          fontWeight: Constant.regularFontWeight,
                         ),
                         textAlign: TextAlign.justify,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
+                      const SizedBox(
+                        height: 4,
+                      ),
                       Text(
                         "18 September 2022 10:00",
                         style: Constant.primaryTextStyle.copyWith(
-                          fontSize: Constant.subtitleFontSize,
+                          fontSize: Constant.bodyFontSize,
                           fontWeight: Constant.semiBoldFontWeight,
                           color: Constant.baseColor,
                         ),
@@ -191,15 +201,16 @@ class PatientCountCard extends StatelessWidget {
                   children: [
                     Text("Antrian",
                         style: Constant.primaryTextStyle.copyWith(
-                          fontSize: Constant.secondTitleFontSize,
+                          fontSize: Constant.captionFontSize,
+                          fontWeight: Constant.regularFontWeight,
                         )),
                     const SizedBox(
                       height: 10,
                     ),
                     Container(
-                      padding: const EdgeInsets.all(10),
-                      width: 60,
-                      height: 47,
+                      //  padding: const EdgeInsets.all(10),
+                      width: 42,
+                      height: 30,
                       decoration: BoxDecoration(
                         borderRadius: Constant.cardBorderRadius,
                         color: Constant.veryLightColor,
@@ -209,6 +220,7 @@ class PatientCountCard extends StatelessWidget {
                               style: Constant.primaryTextStyle.copyWith(
                                 fontSize: Constant.firstTitleSize,
                                 fontWeight: Constant.semiBoldFontWeight,
+                                color: Constant.baseColor,
                               ))),
                     )
                   ],
@@ -222,35 +234,44 @@ class PatientCountCard extends StatelessWidget {
                     children: [
                       Text("Nama Pasien",
                           style: Constant.primaryTextStyle.copyWith(
-                            fontSize: Constant.subtitleFontSize,
-                            fontWeight: Constant.mediumFontWeight,
+                            fontSize: Constant.captionFontSize,
+                            fontWeight: Constant.regularFontWeight,
                           ),
                           textAlign: TextAlign.justify,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis),
+                      const SizedBox(
+                        height: 4,
+                      ),
                       Text("Joni",
                           style: Constant.primaryTextStyle.copyWith(
-                            fontSize: Constant.subtitleFontSize,
+                            fontSize: Constant.bodyFontSize,
                             fontWeight: Constant.semiBoldFontWeight,
                             color: Constant.baseColor,
                           ),
                           textAlign: TextAlign.justify,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis),
+                      const SizedBox(
+                        height: 5,
+                      ),
                       Text(
                         "Tanggal Kunjungan",
                         style: Constant.primaryTextStyle.copyWith(
-                          fontSize: Constant.subtitleFontSize,
-                          fontWeight: Constant.mediumFontWeight,
+                          fontSize: Constant.captionFontSize,
+                          fontWeight: Constant.regularFontWeight,
                         ),
                         textAlign: TextAlign.justify,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
+                      const SizedBox(
+                        height: 4,
+                      ),
                       Text(
                         "18 September 2022 10:00",
                         style: Constant.primaryTextStyle.copyWith(
-                          fontSize: Constant.subtitleFontSize,
+                          fontSize: Constant.bodyFontSize,
                           fontWeight: Constant.semiBoldFontWeight,
                           color: Constant.baseColor,
                         ),

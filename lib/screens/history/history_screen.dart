@@ -15,6 +15,7 @@ class HistoryScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Constant.lightColor,
           elevation: 0,
+          centerTitle: true,
           title: Text(
             "Riwayat",
             style: Constant.primaryTextStyle.copyWith(

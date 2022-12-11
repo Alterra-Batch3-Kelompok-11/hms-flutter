@@ -29,6 +29,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           appBar: AppBar(
             backgroundColor: Constant.lightColor,
             elevation: 0,
+            centerTitle: true,
             title: Text(
               "Jadwal",
               style: Constant.primaryTextStyle.copyWith(
