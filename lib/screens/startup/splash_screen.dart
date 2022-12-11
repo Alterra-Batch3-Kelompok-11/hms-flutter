@@ -47,8 +47,8 @@ class _SplashScreenState extends State<SplashScreen> {
         navigateRoute: const LoginScreen(),
         duration: 3000,
         imageSize: 600,
-        imageSrc:
-            "https://images.pexels.com/photos/14617972/pexels-photo-14617972.jpeg",
+        imageSrc: "assets/images/splash_screen.png",
+        // "https://images.pexels.com/photos/14617972/pexels-photo-14617972.jpeg",
       ),
     );
   }

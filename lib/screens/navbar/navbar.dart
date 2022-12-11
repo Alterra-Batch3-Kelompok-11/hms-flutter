@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../utils/constant.dart';
 import '../../screens/home/home_screen.dart';
 import '../schedule/schedule_screen.dart';
@@ -57,61 +58,97 @@ class _NavbarScreenState extends State<NavbarScreen> {
                 elevation: 0,
                 items: [
                   BottomNavigationBarItem(
-                    icon: const SizedBox(
-                        width: 65, height: 33, child: Icon(Icons.home)),
+                    icon: SizedBox(
+                      width: 20, height: 25,
+                      //icon from svg
+                      child: SvgPicture.asset(
+                        'assets/icons/home_icon.svg',
+                        color: Colors.grey,
+                      ),
+                      // child: Icon(Icons.home),
+                    ),
                     label: 'Beranda',
                     activeIcon: Container(
+                      padding: const EdgeInsets.all(5),
                       width: 65,
                       height: 33,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(27)),
                         color: Constant.lightestColor,
                       ),
-                      child: const Icon(Icons.home),
+                      child: SvgPicture.asset(
+                        'assets/icons/home_icon_tap.svg',
+                        color: Constant.darker,
+                        // height: 5,
+                        // width: 5,
+                      ),
                     ),
                   ),
                   BottomNavigationBarItem(
-                    icon: const SizedBox(
-                        width: 65,
-                        height: 33,
-                        child: Icon(Icons.calendar_today)),
+                    icon: SizedBox(
+                      width: 20, height: 25,
+                      //icon from svg
+                      child: SvgPicture.asset(
+                        'assets/icons/jadwal_icon.svg',
+                        color: Colors.grey,
+                      ),
+                    ),
                     label: 'Jadwal',
                     activeIcon: Container(
+                      padding: const EdgeInsets.all(5),
                       width: 65,
                       height: 33,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(27)),
                         color: Constant.lightestColor,
                       ),
-                      child: const Icon(Icons.calendar_today),
+                      child: SvgPicture.asset(
+                        'assets/icons/jadwal_icon_tap.svg',
+                        color: Constant.darker,
+                      ),
                     ),
                   ),
                   BottomNavigationBarItem(
-                    icon: const SizedBox(
-                        width: 65, height: 33, child: Icon(Icons.access_time)),
+                    icon: SizedBox(
+                      width: 20,
+                      height: 25,
+                      child: SvgPicture.asset(
+                        'assets/icons/riwayat_icon.svg',
+                        color: Colors.grey,
+                      ),
+                    ),
                     label: 'Riwayat',
                     activeIcon: Container(
-                      width: 65,
-                      height: 33,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(27)),
-                        color: Constant.lightestColor,
-                      ),
-                      child: const Icon(Icons.access_time),
-                    ),
+                        padding: const EdgeInsets.all(5),
+                        width: 65,
+                        height: 33,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(27)),
+                          color: Constant.lightestColor,
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/icons/riwayat_icon_tap.svg',
+                          color: Constant.darker,
+                        )),
                   ),
                   BottomNavigationBarItem(
                     icon: const SizedBox(
-                        width: 65, height: 33, child: Icon(Icons.person)),
+                        width: 69,
+                        height: 35,
+                        child: Icon(Icons.person_outline)),
                     label: 'Profil',
                     activeIcon: Container(
+                      padding: const EdgeInsets.all(5),
                       width: 65,
                       height: 33,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(27)),
                         color: Constant.lightestColor,
                       ),
-                      child: const Icon(Icons.person),
+                      child: SvgPicture.asset(
+                        'assets/icons/profile_icon_tap.svg',
+                        color: Constant.darker,
+                      ),
                     ),
                   ),
                 ],

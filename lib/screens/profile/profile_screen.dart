@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hospital_management_system/models/doctor_model.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
@@ -38,6 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             color: Colors.white,
           ),
         ),
+        centerTitle: true,
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(
@@ -70,8 +72,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           titleText: "Keluar",
                           subTitle: "Yakin keluar dari aplikasi ?",
                           buttonSubmitText: "Ya",
-                          color: Constant.errorColor,
-                          icon: Icons.logout,
+                          color: Constant.baseColor,
+                          icon: SvgPicture.asset(
+                            "assets/icons/peringatan_icon.svg",
+                            color: Constant.errorColor,
+                          ),
                           onSubmit: () => Navigator.pushNamedAndRemoveUntil(
                               context, RouteNames.login, (route) => false),
                           buttonCancelText: 'Batal'),

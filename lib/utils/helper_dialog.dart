@@ -44,7 +44,8 @@ class HelperDialog {
     BuildContext context, {
     required String titleText,
     required String buttonSubmitText,
-    required IconData icon,
+   // required IconData? icon,
+    required Widget icon,
     Color? color,
     required void Function() onSubmit,
   }) async {
@@ -61,11 +62,12 @@ class HelperDialog {
             title: Center(
               child: Column(
                 children: [
-                  Icon(
-                    icon,
-                    size: 50,
-                    color: color ?? Constant.darker,
-                  ),
+                  icon,
+                  // Icon(
+                  //   icon,
+                  //   size: 50,
+                  //   color: color ?? Constant.darker,
+                  // ),
                   const SizedBox(
                     height: 19,
                   ),
@@ -117,7 +119,8 @@ class HelperDialog {
     required String titleText,
     required String subTitle,
     required String buttonSubmitText,
-    required IconData icon,
+    required Widget icon,
+   // required IconData icon,
     required String buttonCancelText,
     Color? color,
     required void Function() onSubmit,
@@ -133,11 +136,12 @@ class HelperDialog {
           title: Center(
             child: Column(
               children: [
-                Icon(
-                  icon,
-                  size: 30,
-                  color: color ?? Constant.baseColor,
-                ),
+                icon,
+                // Icon(
+                //   icon,
+                //   size: 30,
+                //   color: color ?? Constant.baseColor,
+                // ),
                 const SizedBox(
                   height: 10,
                 ),

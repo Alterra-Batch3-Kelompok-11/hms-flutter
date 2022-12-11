@@ -41,5 +41,5 @@ class Constant {
         offset: Offset(0, 1))
   ];
 
-  static BorderRadius cardBorderRadius = BorderRadius.circular(12);
+  static BorderRadius cardBorderRadius = BorderRadius.circular(12.0);
 }

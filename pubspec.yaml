@@ -27,6 +27,8 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  #icon
+  flutter_svg: ^0.22.0
   bloc: ^8.1.0
   cupertino_icons: ^1.0.2
   dio: ^4.0.6
@@ -57,7 +59,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/icons/
     - assets/.env_development
+
     #- assets/.env_production
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
