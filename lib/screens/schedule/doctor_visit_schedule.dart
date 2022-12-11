@@ -3,7 +3,6 @@ import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
 import 'package:hospital_management_system/models/outpatient_model.dart';
-import 'package:hospital_management_system/services/outpatient_service.dart';
 //bloc
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_system/view_model/patient_view_model/patient_bloc.dart';

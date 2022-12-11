@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 class AuthModel {
   final int userId;
   final String name;
@@ -6,6 +8,7 @@ class AuthModel {
   final String token;
   final int? doctorId;
   final int? nurseId;
+  final bool? isRemember;
 
   AuthModel({
     required this.userId,
@@ -15,6 +18,7 @@ class AuthModel {
     required this.token,
     this.doctorId = 0,
     this.nurseId = 0,
+    this.isRemember = false,
   });
 
   factory AuthModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +30,19 @@ class AuthModel {
       token: json['token'] as String,
       doctorId: json['doctor_id'],
       nurseId: json['nurse_id'] ?? 0,
+    );
+  }
+
+  factory AuthModel.fromLocal(SharedPreferences preferences) {
+    return AuthModel(
+      userId: preferences.getInt("user_id") ?? 0,
+      name: preferences.getString("name") ?? "",
+      username: preferences.getString("username") ?? "",
+      roleId: preferences.getInt("role_id") ?? 0,
+      token: preferences.getString("token") ?? "",
+      doctorId: preferences.getInt("doctor_id") ?? 0,
+      nurseId: preferences.getInt("nurse_id") ?? 0,
+      isRemember: preferences.getBool("is_remember") ?? false,
     );
   }
 
