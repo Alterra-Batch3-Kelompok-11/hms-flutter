@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 //bloc
@@ -66,7 +67,11 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
                       buttonSubmitText: "Ya",
                       buttonCancelText: "Batal",
                       //icon peringatan bulat
-                      icon: Icons.report_gmailerrorred_sharp,
+                      icon: SvgPicture.asset(
+                        "assets/icons/pemberitahuan_icon.svg",
+                        color: Constant.baseColor,
+                      ),
+                      // icon: Icons.report_gmailerrorred_sharp,
                       color: Constant.baseColor,
                       onSubmit: () {
                         //outpatient.isApproved = 1;
@@ -81,7 +86,11 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
                       subTitle: "Apakah anda yakin ingin menolak pasien ini?",
                       buttonSubmitText: "Ya",
                       buttonCancelText: "Batal",
-                      icon: Icons.dangerous_outlined,
+                      icon: SvgPicture.asset(
+                        "assets/icons/peringatan_icon.svg",
+                        color: Constant.errorColor,
+                      ),
+                      //icon: Icons.dangerous_outlined,
                       color: Constant.errorColor,
                       onSubmit: () {
                         // outpatient.isApproved = 2;

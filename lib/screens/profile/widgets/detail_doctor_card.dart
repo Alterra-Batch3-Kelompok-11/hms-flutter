@@ -66,13 +66,20 @@ class DetailProfileCard extends StatelessWidget {
               Row(
                 children: [
                   SizedBox(
-                    width: 80,
+                    width: 59,
                     child: Text(
-                      'Spesialis : ',
+                      'Spesialis',
                       style: Constant.primaryTextStyle.copyWith(
                         fontSize: Constant.bodyFontSize,
                         fontWeight: Constant.semiBoldFontWeight,
                       ),
+                    ),
+                  ),
+                  Text(
+                    ': ',
+                    style: Constant.primaryTextStyle.copyWith(
+                      fontSize: Constant.bodyFontSize,
+                      fontWeight: Constant.semiBoldFontWeight,
                     ),
                   ),
                   Text(
@@ -81,6 +88,7 @@ class DetailProfileCard extends StatelessWidget {
                       fontSize: Constant.bodyFontSize,
                       fontWeight: Constant.regularFontWeight,
                     ),
+                    textAlign: TextAlign.left,
                   ),
                 ],
               ),
@@ -89,7 +97,7 @@ class DetailProfileCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: 57,
+                    width: 59,
                     child: Text(
                       'Jadwal ',
                       style: Constant.primaryTextStyle.copyWith(
@@ -106,6 +114,7 @@ class DetailProfileCard extends StatelessWidget {
                     ),
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Senin - Jumat',
@@ -113,6 +122,7 @@ class DetailProfileCard extends StatelessWidget {
                           fontSize: Constant.bodyFontSize,
                           fontWeight: Constant.regularFontWeight,
                         ),
+                       // textAlign: TextAlign.left,
                       ),
                       Text(
                         '08.00 - 16.00',
@@ -120,6 +130,7 @@ class DetailProfileCard extends StatelessWidget {
                           fontSize: Constant.bodyFontSize,
                           fontWeight: Constant.regularFontWeight,
                         ),
+                     //   textAlign: TextAlign.left,
                       ),
                     ],
                   ),

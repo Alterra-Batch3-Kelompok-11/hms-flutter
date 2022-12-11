@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hospital_management_system/models/doctor_model.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
@@ -7,7 +8,6 @@ import 'package:hospital_management_system/screens/profile/widgets/detail_doctor
 import 'package:hospital_management_system/screens/profile/widgets/list_jadwal_card.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 import 'package:hospital_management_system/utils/helper_dialog.dart';
-import 'package:hospital_management_system/view_model/auth_view_model/auth_bloc.dart';
 import 'package:hospital_management_system/view_model/doctor_view_model/doctor_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -39,6 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             color: Colors.white,
           ),
         ),
+        centerTitle: true,
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(
@@ -68,15 +69,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       side: BorderSide(color: Constant.errorColor),
                       color: Constant.whiteColor,
                       onPressed: () => HelperDialog.confirmationDialog(context,
-                              titleText: "Keluar",
-                              subTitle: "Yakin keluar dari aplikasi ?",
-                              buttonSubmitText: "Ya",
-                              color: Constant.errorColor,
-                              icon: Icons.logout, onSubmit: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, RouteNames.login, (route) => false);
-                            context.read<AuthBloc>().add(Logout());
-                          }, buttonCancelText: 'Batal'),
+                          titleText: "Keluar",
+                          subTitle: "Yakin keluar dari aplikasi ?",
+                          buttonSubmitText: "Ya",
+                          color: Constant.baseColor,
+                          icon: SvgPicture.asset(
+                            "assets/icons/peringatan_icon.svg",
+                            color: Constant.errorColor,
+                          ),
+                          onSubmit: () => Navigator.pushNamedAndRemoveUntil(
+                              context, RouteNames.login, (route) => false),
+                          buttonCancelText: 'Batal'),
                       buttonChild: Text(
                         "Keluar",
                         style: Constant.primaryTextStyle.copyWith(
