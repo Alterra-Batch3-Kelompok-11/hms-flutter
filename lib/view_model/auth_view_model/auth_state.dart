@@ -28,3 +28,10 @@ class AuthIsLogin extends AuthState {}
 class AuthIsLogout extends AuthState {}
 
 class AuthIsNotLogin extends AuthState {}
+
+class AuthIsRemember extends AuthState {
+  final bool isRemember;
+  final String username;
+
+  const AuthIsRemember({required this.isRemember, required this.username});
+}

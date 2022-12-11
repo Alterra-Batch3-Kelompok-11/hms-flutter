@@ -27,10 +27,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
   late TextEditingController _usernameController;
   late TextEditingController _passwordController;
+  ValueNotifier<bool> isRemember = ValueNotifier(false);
+  String? currentUsername;
 
   @override
   void initState() {
-    _usernameController = TextEditingController(text: "1029384756");
+    context.read<AuthBloc>().add(CheckIsRemember());
+
+    context.read<AuthBloc>().stream.listen((state) {
+      if (state is AuthIsRemember) {
+        isRemember.value = state.isRemember;
+        currentUsername = state.username;
+        _usernameController.text = currentUsername!;
+      }
+    });
+    _usernameController = TextEditingController();
     _passwordController = TextEditingController(text: "john123");
 
     super.initState();
@@ -43,6 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("BERULANG");
     return Scaffold(
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
@@ -114,10 +126,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           }),
                       Row(
                         children: [
-                          Checkbox(
-                            onChanged: (bool? value) {},
-                            value: false,
-                          ),
+                          ValueListenableBuilder(
+                              valueListenable: isRemember,
+                              builder: (context, bool val, _) {
+                                return Checkbox(
+                                  onChanged: (bool? value) {
+                                    isRemember.value = value!;
+                                    print(isRemember.value);
+                                  },
+                                  value: isRemember.value,
+                                );
+                              }),
                           Text(
                             'Ingat saya',
                             style: GoogleFonts.poppins(
@@ -129,10 +148,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       GlobalButton(
                         onPressed: () {
+                          print(_usernameController.text);
                           if (_key.currentState!.validate()) {
                             context.read<AuthBloc>().add(Login(
-                                username: _usernameController.text,
-                                password: _passwordController.text));
+                                  username: _usernameController.text,
+                                  password: _passwordController.text,
+                                  isRemember: isRemember.value,
+                                ));
                           }
                         },
                         buttonChild: BlocBuilder<AuthBloc, AuthState>(

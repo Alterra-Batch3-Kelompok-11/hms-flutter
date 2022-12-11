@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hospital_management_system/models/auth_model.dart';
 import 'package:hospital_management_system/services/auth_service.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'auth_event.dart';
@@ -19,35 +20,60 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             username: event.username, password: event.password);
 
         /// SIMPAN TOKEN DI LOKAL STORAGE
-        _preferences = await SharedPreferences.getInstance();
-        await _preferences.setString("token", authModel.token);
-        await _preferences.setString("username", authModel.username);
-        await _preferences.setInt("role_id", authModel.roleId);
-        await _preferences.setInt("id", authModel.doctor.id);
+
+        // if (event.isRemember == true) {
+        //   await _preferences.setString("username", authModel.username);
+        // }
+        _authService.saveToLocal(authModel, event.isRemember);
 
         emit(AuthSuccessLoginState());
-      } on DioError catch (e) {
-        print(e.response!.data['message']);
-        emit(ErrorLoginState(message: e.response!.data['message']));
+      } catch (e) {
+        if (e is DioError) {
+          print(e.response!.data['message']);
+          emit(ErrorLoginState(message: e.response!.data['message']));
+        }
+        emit(ErrorLoginState(message: e.toString()));
       }
     });
 
     on<CheckLogged>((event, emit) async {
-      emit(AuthLoadingState());
-
       _preferences = await SharedPreferences.getInstance();
       String? token = _preferences.getString("token");
 
-      if (token == null) {
-        emit(AuthIsNotLogin());
-      } else {
-        emit(AuthIsLogin());
+      if (token != null) {
+        bool? expiredDateToken = Jwt.isExpired(token);
+        print("EXPIRED DATE TOKEN " + expiredDateToken.toString());
+        print("LOCAL TIME : " + DateTime.now().toLocal().toString());
+        if (!expiredDateToken) {
+          emit(AuthIsLogin());
+        } else {
+          print("TOKEN : $token");
+          _preferences.remove("token");
+        }
+      }
+    });
+
+    on<CheckIsRemember>((event, emit) async {
+      _preferences = await SharedPreferences.getInstance();
+      final bool? isRemember = _preferences.getBool("is_remember");
+      final String? username = _preferences.getString("username");
+      if (isRemember == true) {
+        emit(AuthIsRemember(isRemember: isRemember!, username: username!));
       }
     });
 
     on<Logout>((event, emit) async {
       _preferences = await SharedPreferences.getInstance();
-      await _preferences.clear();
+      bool? isRemember = _preferences.getBool("is_remember");
+
+      if (isRemember == true) {
+        await _preferences.remove("token");
+        await _preferences.remove("role_id");
+        await _preferences.remove("id");
+      } else {
+        await _preferences.clear();
+      }
+
       emit(AuthIsLogout());
     });
   }

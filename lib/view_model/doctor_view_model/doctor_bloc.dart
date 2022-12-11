@@ -1,22 +1,24 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hospital_management_system/models/auth_model.dart';
 import 'package:hospital_management_system/models/doctor_model.dart';
+import 'package:hospital_management_system/services/auth_service.dart';
 import 'package:hospital_management_system/services/doctor_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'doctor_event.dart';
 part 'doctor_state.dart';
 
 class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
   final DoctorService _doctorService;
-  late SharedPreferences _sharedPreferences;
-  DoctorBloc(this._doctorService) : super(DoctorInitial()) {
+  final AuthService _authService;
+  DoctorBloc(this._doctorService, this._authService) : super(DoctorInitial()) {
     on<GetProfileDoctor>((event, emit) async {
-      _sharedPreferences = await SharedPreferences.getInstance();
+      // _sharedPreferences = await SharedPreferences.getInstance();
       emit(LoadingDoctor());
       try {
-        final int? id = _sharedPreferences.getInt("id");
+        AuthModel dataAuth = await _authService.getStoragePreferences();
+        final int? id = dataAuth.doctorId;
         print("ID DOCTOR : $id");
 
         DoctorModel doctor = await _doctorService.getProfileDoctor(id: id!);

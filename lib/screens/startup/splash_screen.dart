@@ -19,16 +19,13 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Timer(const Duration(milliseconds: 3000), () {
+    Timer(const Duration(milliseconds: 2000), () {
       context.read<AuthBloc>().add(CheckLogged());
 
       context.read<AuthBloc>().stream.listen((state) {
         if (state is AuthIsLogin) {
           Navigator.pushNamedAndRemoveUntil(
               context, RouteNames.navbar, (route) => false);
-        } else if (state is AuthIsNotLogin) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, RouteNames.login, (route) => false);
         }
       });
     });
@@ -45,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
         backgroundColor: Constant.lightColor,
         colors: const [Colors.blue],
         navigateRoute: const LoginScreen(),
-        duration: 3000,
+        duration: 2000,
         imageSize: 600,
         imageSrc:
             "https://images.pexels.com/photos/14617972/pexels-photo-14617972.jpeg",

@@ -33,13 +33,19 @@ class MyApp extends StatelessWidget {
           BlocProvider(
               create: (context) => AuthBloc(context.read<AuthService>())),
           BlocProvider(
-              create: (context) => DoctorBloc(context.read<DoctorService>())),
+              create: (context) => DoctorBloc(
+                    context.read<DoctorService>(),
+                    context.read<AuthService>(),
+                  )),
           BlocProvider(
-              create: (context) => PatientBloc(context.read<PatientService>())),
+              create: (context) => PatientBloc(
+                    context.read<PatientService>(),
+                    context.read<AuthService>(),
+                  )),
         ],
         child: const MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: RouteNames.login,
+          initialRoute: RouteNames.splashScreen,
           onGenerateRoute: RouteGenerator.generateRoute,
         ),
       ),
