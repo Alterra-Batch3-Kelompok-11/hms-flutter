@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    context.read<AuthBloc>().add(CheckIsRemember());
+    context.read<AuthBloc>().add(IsRemember());
 
     context.read<AuthBloc>().stream.listen((state) {
       if (state is AuthIsRemember) {

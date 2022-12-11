@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Timer(const Duration(milliseconds: 2000), () {
-      context.read<AuthBloc>().add(CheckLogged());
+      context.read<AuthBloc>().add(IsLogin());
 
       context.read<AuthBloc>().stream.listen((state) {
         if (state is AuthIsLogin) {

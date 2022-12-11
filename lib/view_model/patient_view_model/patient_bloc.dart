@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hospital_management_system/models/auth_model.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
-import 'package:hospital_management_system/services/auth_service.dart';
+import 'package:hospital_management_system/services/local_service.dart';
 import 'package:hospital_management_system/services/patient_service.dart';
 
 part 'patient_event.dart';
@@ -11,14 +11,15 @@ part 'patient_state.dart';
 
 class PatientBloc extends Bloc<PatientEvent, PatientState> {
   final PatientService _patientService;
-  final AuthService _authService;
+  final LocalService _localService;
 
-  PatientBloc(this._patientService, this._authService)
+  PatientBloc(this._patientService, this._localService)
       : super(PatientInitial()) {
     on<GetOutpatientUnprocessed>(
       (event, emit) async {
         emit(PatientLoading());
-        final AuthModel dataAuth = await _authService.getStoragePreferences();
+        final AuthModel dataAuth =
+            await _localService.getDataFromLocalStorage();
         try {
           final int? id = dataAuth.doctorId;
           final String? token = dataAuth.token;
@@ -42,7 +43,7 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
     // JADWAL KUNJUNGAN
     on<GetOutpatientProcessed>((event, emit) async {
       emit(PatientLoading());
-      final AuthModel dataAuth = await _authService.getStoragePreferences();
+      final AuthModel dataAuth = await _localService.getDataFromLocalStorage();
       try {
         final int? id = dataAuth.doctorId;
         final String? token = dataAuth.token;

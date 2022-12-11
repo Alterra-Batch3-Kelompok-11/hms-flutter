@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hospital_management_system/routes/route_generator.dart';
 import 'package:hospital_management_system/services/auth_service.dart';
 import 'package:hospital_management_system/services/doctor_service.dart';
+import 'package:hospital_management_system/services/local_service.dart';
 import 'package:hospital_management_system/services/patient_service.dart';
 
 import 'package:hospital_management_system/view_model/auth_view_model/auth_bloc.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
+        RepositoryProvider(create: (context) => LocalService()),
         RepositoryProvider(create: (context) => AuthService()),
         RepositoryProvider(create: (context) => DoctorService()),
         RepositoryProvider(create: (context) => PatientService()),
@@ -31,16 +33,19 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-              create: (context) => AuthBloc(context.read<AuthService>())),
+              create: (context) => AuthBloc(
+                    context.read<AuthService>(),
+                    context.read<LocalService>(),
+                  )),
           BlocProvider(
               create: (context) => DoctorBloc(
                     context.read<DoctorService>(),
-                    context.read<AuthService>(),
+                    context.read<LocalService>(),
                   )),
           BlocProvider(
               create: (context) => PatientBloc(
                     context.read<PatientService>(),
-                    context.read<AuthService>(),
+                    context.read<LocalService>(),
                   )),
         ],
         child: const MaterialApp(
