@@ -7,6 +7,8 @@ import 'package:hospital_management_system/models/outpatient_model.dart';
 import 'package:hospital_management_system/services/local_service.dart';
 import 'package:hospital_management_system/services/patient_service.dart';
 
+import '../../models/history_patients_approval_model.dart';
+
 part 'patient_event.dart';
 part 'patient_state.dart';
 
@@ -107,12 +109,12 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
         print("ID DOCTOR : $id");
         print("TOKEN : $token");
 
-        final List<Historypatiens>? historyListApprovals =
-            await _patientService.getHistoryVisit(idDoctor: id!, token: token!);
+        final List<Historypatiensapprovals >? historyListApprovals =
+            await _patientService.GetHistoryApprovals(idDoctor: id!, token: token!);
 
         // }
         print("tes $historyListApprovals");
-        emit(HistoryVisitLoaded(historyList: historyListApprovals ?? []));
+        emit(HistoryApprovalsLoaded(historyListApprovals: historyListApprovals ?? []));
       
       } catch (e) {
         if (e is DioError) {
