@@ -64,7 +64,8 @@ class _DoctorVisitScheduleState extends State<DoctorVisitSchedule> {
                   },
                   child: CardDoctorVisitSchedule(
                     patientName: outpatient.patient.name,
-                    visitDate: outpatient.scheduleDate,
+                    scheduleDate: outpatient.scheduleDateIndo,
+                    scheduleTime: outpatient.scheduleTime,
                   ),
                 );
               }).toList(),

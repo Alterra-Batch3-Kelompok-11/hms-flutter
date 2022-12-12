@@ -1,7 +1,7 @@
 import 'package:hospital_management_system/models/patient_model.dart';
 import 'package:hospital_management_system/models/doctor_model.dart';
 
-class OutpatientModel{
+class OutpatientModel {
   final int id;
   final String? createdAt;
   final String? updatedAt;
@@ -13,6 +13,7 @@ class OutpatientModel{
   late final int isApproved;
   final bool isFinish;
   final String finishedAt;
+  final String scheduleDateIndo;
   final String scheduleDate;
   final String scheduleTime;
   final PatientModel patient;
@@ -30,6 +31,7 @@ class OutpatientModel{
     required this.isApproved,
     required this.isFinish,
     required this.finishedAt,
+    required this.scheduleDateIndo,
     required this.scheduleDate,
     required this.scheduleTime,
     required this.patient,
@@ -46,6 +48,7 @@ class OutpatientModel{
       isApproved: json['is_approved'],
       isFinish: json['is_finish'],
       finishedAt: json['finished_at'],
+      scheduleDateIndo: json['schedule_date_indo'],
       scheduleDate: json['schedule_date'],
       scheduleTime: json['schedule_time'],
       patient: PatientModel.fromJson(json['patient']),
@@ -66,6 +69,7 @@ class OutpatientModel{
       'is_approved': outpatient.isApproved,
       'is_finish': outpatient.isFinish,
       'finished_at': outpatient.finishedAt,
+      'schedule_date_indo': outpatient.scheduleDateIndo,
       'schedule_date': outpatient.scheduleDate,
       'schedule_time': outpatient.scheduleTime,
       'patient': outpatient.patient,
@@ -75,5 +79,4 @@ class OutpatientModel{
       'deleted_at': outpatient.deletedAt,
     };
   }
-
 }
