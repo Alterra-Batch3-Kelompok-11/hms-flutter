@@ -91,7 +91,7 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
         }
       }
     });
-  }
+  
 
     // APPROVAL KUNJUNGAN
     on<PutOutpatientApproval>((event, emit) async {
