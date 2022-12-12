@@ -6,6 +6,7 @@ class GlobalButton extends StatelessWidget {
       {Key? key,
       required this.onPressed,
       required this.buttonChild,
+      this.fixedHeight,
       this.color,
       this.side = BorderSide.none,
       this.fixedWidth = 0})
@@ -13,7 +14,8 @@ class GlobalButton extends StatelessWidget {
 
   final void Function() onPressed;
   final Widget buttonChild;
-  final double fixedWidth;
+  final double fixedWidth ;
+  final double? fixedHeight;
   final BorderSide? side;
   final Color? color;
   @override
@@ -22,7 +24,7 @@ class GlobalButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
           elevation: 1,
           backgroundColor: (color == null) ? Constant.baseColor : color,
-          fixedSize: Size(fixedWidth == 0 ? double.maxFinite : fixedWidth, 41),
+          fixedSize: Size(fixedWidth == 0 ? double.maxFinite : fixedWidth, fixedHeight ?? 41),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
           foregroundColor: Constant.backgroundColor,
           shape: RoundedRectangleBorder(
