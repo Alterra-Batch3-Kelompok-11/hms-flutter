@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hospital_management_system/models/history_patiens_model.dart';
+import 'package:hospital_management_system/models/history_patients_approval_model.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
 import 'package:hospital_management_system/view_model/patient_view_model/patient_bloc.dart';
 
@@ -102,7 +103,7 @@ class PatientService {
               "Authorization": "Bearer $token",
             },
           ));
-      print(" coba RESPONSE : " + response.data['data'].toString());
+      // print(" coba RESPONSE : " + response.data['data'].toString());
       final dataRespone =
           response.data['data'] != null ? response.data['data'] as List : [];
       List<Historypatiens> historyList = [];
@@ -117,14 +118,15 @@ class PatientService {
       rethrow;
     }
   }
+
   // ignore: non_constant_identifier_names
-  Future<List<Historypatiens>> GetHistoryApprovals(
+  Future<List<Historypatiensapprovals>> GetHistoryApprovals(
       {required int idDoctor, required String token}) async {
     String baseUrl = dotenv.env["BASE_URL"].toString();
     try {
       //respons with token
       final response = await _dio.get(
-          "$baseUrl/histories/doctor/$idDoctor/approvals", 
+          "$baseUrl/histories/doctor/$idDoctor/approvals",
           options: Options(
             headers: {
               "Authorization": "Bearer $token",
@@ -133,11 +135,11 @@ class PatientService {
       print(" coba1 RESPONSE : " + response.data['data'].toString());
       final dataRespone =
           response.data['data'] != null ? response.data['data'] as List : [];
-      List<Historypatiens> historyListApprovals = [];
+      List<Historypatiensapprovals> historyListApprovals = [];
       //List<OutpatientModel> historyList = [];
       for (var i = 0; i < dataRespone.length; i++) {
         print("DATA RESPONSE : " + dataRespone[i].toString());
-        historyListApprovals.add(Historypatiens.fromJson(dataRespone[i]));
+        historyListApprovals.add(Historypatiensapprovals.fromJson(dataRespone[i]));
       }
       print(" tess {$historyListApprovals}");
       return historyListApprovals;

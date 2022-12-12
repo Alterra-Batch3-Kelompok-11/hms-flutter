@@ -32,9 +32,9 @@ class HistoryVisitLoaded  extends PatientState{
 
   HistoryVisitLoaded({required this.historyList});
 }
-class HistoryApprovals  extends PatientState{
- List<Historypatiens>? historyListApprovals = [];
+class HistoryApprovalsLoaded  extends PatientState{
+ List<Historypatiensapprovals>? historyListApprovals = [];
 
 
-  HistoryApprovals({required this.historyListApprovals});
+  HistoryApprovalsLoaded({required this.historyListApprovals});
 }
