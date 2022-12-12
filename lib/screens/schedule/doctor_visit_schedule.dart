@@ -19,7 +19,7 @@ class DoctorVisitSchedule extends StatefulWidget {
 class _DoctorVisitScheduleState extends State<DoctorVisitSchedule> {
   @override
   void initState() {
-    context.read<PatientBloc>().add(GetOutpatientProcessed());
+    context.read<PatientBloc>().add(GetOutpatientApproveds());
     super.initState();
   }
 
@@ -35,14 +35,20 @@ class _DoctorVisitScheduleState extends State<DoctorVisitSchedule> {
           final List<OutpatientModel> outpatientList =
               state.outpatientList ?? [];
           if (outpatientList.isEmpty) {
-            return Center(
+            return Container(
+              padding: const EdgeInsets.only(
+                top: 24,
+                left: 61,
+                right: 61,
+              ),
               child: Text(
-                "Tidak ada data",
+                "Tidak ada jadwal kunjungan untuk saat ini",
                 style: Constant.primaryTextStyle.copyWith(
-                  fontWeight: Constant.boldFontWeight,
-                  fontSize: Constant.firstTitleSize,
-                  color: Colors.black,
+                  fontWeight: Constant.regularFontWeight,
+                  fontSize: Constant.subtitleFontSize,
+                  color: Colors.grey,
                 ),
+                textAlign: TextAlign.center,
               ),
             );
           } else {

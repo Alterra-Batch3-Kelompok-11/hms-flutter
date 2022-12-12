@@ -35,12 +35,12 @@ class PatientService {
   }
 
   //get outpatient processed by iddoctor
-  Future<List<OutpatientModel>?> getOutpatientProcessed(
+  Future<List<OutpatientModel>?> getOutpatientApproveds(
       {required int idDoctor, required String token}) async {
     String baseUrl = dotenv.env["BASE_URL"].toString();
     try {
       final response = await _dio.get(
-          "$baseUrl/outpatient_sessions/doctor/$idDoctor/processeds",
+          "$baseUrl/outpatient_sessions/doctor/$idDoctor/approveds",
           options: Options(
             headers: {
               "Authorization": "Bearer $token",
@@ -63,13 +63,13 @@ class PatientService {
     }
   }
 
-  //put outpatient unprocessed to processed
-  Future<OutpatientModel?> putOutpatientApproval(
+ //PUT APPROVAL
+  Future<void> putOutpatientApproval(
+      //  int isApproved,
       {required int idOutpatient,
       required String token,
-      // required OutpatientModel outpatient,
       required int isApproved}) async {
-    OutpatientModel? updateOutpatient;
+    OutpatientModel updateOutpatient;
     String baseUrl = dotenv.env["BASE_URL"].toString();
     try {
       final response = await _dio.put(
@@ -84,9 +84,7 @@ class PatientService {
         },
       );
       print('INI RESPONSE PUT ${response.data['data']}');
-
-      updateOutpatient = OutpatientModel.fromJson(response.data['data']);
-      return updateOutpatient;
+      //print('INI RESPONSE PUT ${updateOutpatient.isApproved}');
     } on DioError {
       rethrow;
     }
