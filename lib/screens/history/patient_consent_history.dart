@@ -13,14 +13,15 @@ class PatientConsentHistory extends StatefulWidget {
 }
 
 class _PatientConsentHistoryState extends State<PatientConsentHistory> {
-   @override
+  @override
   void initState() {
     context.read<PatientBloc>().add(GetHistoryApprovals());
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-     return BlocBuilder<PatientBloc, PatientState>(builder: ((context, state) {
+    return BlocBuilder<PatientBloc, PatientState>(builder: ((context, state) {
       if (state is PatientLoading) {
         print("tes {$state}");
         return const CircularProgressIndicator();
@@ -33,9 +34,10 @@ class _PatientConsentHistoryState extends State<PatientConsentHistory> {
           return ListView.builder(
             itemCount: state.historyListApprovals!.length,
             itemBuilder: (context, index) {
-              return   CardPatientConsentHistory(
-          patientName: state.historyListApprovals![index].patientName,
-          visitDate: state.historyListApprovals![index].scheduleDateIndo,
+              return CardPatientConsentHistory(
+                patientName: state.historyListApprovals![index].patientName,
+                visitDate: state.historyListApprovals![index].scheduleDateIndo,
+                status: state.historyListApprovals![index].status,
               );
             },
             padding: const EdgeInsets.symmetric(
@@ -60,10 +62,5 @@ class _PatientConsentHistoryState extends State<PatientConsentHistory> {
     //     );
     //   }).toList(),
     // );
-
-
-
-
-
   }
 }
