@@ -23,7 +23,12 @@ class CardDoctorVisitRequest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(Constant.horizontalPadding),
+      padding: const EdgeInsets.only(
+        left: Constant.horizontalPadding,
+        right: Constant.horizontalPadding,
+        top: Constant.horizontalPadding,
+        bottom: 8,
+      ),
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: Constant.whiteColor,
@@ -31,26 +36,26 @@ class CardDoctorVisitRequest extends StatelessWidget {
         boxShadow: Constant.cardShadow,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               const Icon(
                 Icons.circle,
                 color: Constant.darker,
+                size: 12,
               ),
               const SizedBox(
                 width: 10,
               ),
               Text("Request Kunjungan",
                   style: Constant.primaryTextStyle.copyWith(
-                    fontSize: Constant.subtitleFontSize,
+                    fontSize: Constant.bodyFontSize,
                     fontWeight: Constant.semiBoldFontWeight,
                   )),
             ],
           ),
           const Divider(
-            height: 20,
+            height: 17,
             thickness: 1.5,
           ),
           Row(
@@ -60,7 +65,8 @@ class CardDoctorVisitRequest extends StatelessWidget {
                 child: Text(
                   patientName,
                   style: Constant.primaryTextStyle.copyWith(
-                    fontSize: Constant.subtitleFontSize,
+                    fontSize: Constant.bodyFontSize,
+                    fontWeight: Constant.mediumFontWeight,
                   ),
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
@@ -70,13 +76,14 @@ class CardDoctorVisitRequest extends StatelessWidget {
                 width: 24,
               ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                //mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     requestDate,
                     style: Constant.primaryTextStyle.copyWith(
-                      fontSize: Constant.subtitleFontSize,
+                      fontSize: Constant.bodyFontSize,
+                      fontWeight: Constant.mediumFontWeight,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -87,7 +94,8 @@ class CardDoctorVisitRequest extends StatelessWidget {
                   Text(
                     requestTime,
                     style: Constant.primaryTextStyle.copyWith(
-                      fontSize: Constant.subtitleFontSize,
+                      fontSize: Constant.bodyFontSize,
+                      fontWeight: Constant.mediumFontWeight,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -98,33 +106,36 @@ class CardDoctorVisitRequest extends StatelessWidget {
                 width: 24,
               ),
               Column(
+                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   GlobalButton(
                     onPressed: onAcceptButton,
                     buttonChild: Text(
                       "Terima",
                       style: Constant.primaryTextStyle.copyWith(
-                        fontSize: Constant.subtitleFontSize,
-                        fontWeight: Constant.semiBoldFontWeight,
+                        fontSize: Constant.captionFontSize,
+                        fontWeight: Constant.mediumFontWeight,
                         color: Colors.white,
                       ),
                     ),
-                    fixedWidth: MediaQuery.of(context).size.width / 3,
+                    fixedWidth: 120,
+                    fixedHeight: 30,
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: 1,
                   ),
                   GlobalButton(
                     onPressed: onRejectButton,
                     buttonChild: Text(
                       "Tolak",
                       style: Constant.primaryTextStyle.copyWith(
-                        fontSize: Constant.subtitleFontSize,
-                        fontWeight: Constant.semiBoldFontWeight,
+                        fontSize: Constant.captionFontSize,
+                        fontWeight: Constant.mediumFontWeight,
                         color: Colors.white,
                       ),
                     ),
-                    fixedWidth: MediaQuery.of(context).size.width / 3,
+                    fixedWidth: 120,
+                    fixedHeight: 30,
                     color: Constant.errorColor,
                   ),
                 ],

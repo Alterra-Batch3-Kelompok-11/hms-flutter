@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
+import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 //bloc
 
@@ -12,10 +13,6 @@ import 'package:hospital_management_system/view_model/patient_view_model/patient
 import 'widgets/card_doctor_visit_request.dart';
 
 class DoctorVisitRequest extends StatefulWidget {
-  // final List<OutpatientModel> outpatientList;
-  // const DoctorVisitRequest({Key? key, required this.outpatientList})
-  //     : super(key: key);
-
   const DoctorVisitRequest({Key? key}) : super(key: key);
 
   @override
@@ -37,14 +34,20 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
           final List<OutpatientModel> outpatientList =
               state.outpatientList ?? [];
           if (outpatientList.isEmpty || outpatientList == []) {
-            return Center(
+            return Container(
+              padding: const EdgeInsets.only(
+                top: 24,
+                left: 61,
+                right: 61,
+              ),
               child: Text(
-                "Tidak ada data",
+                "Tidak ada permintaan kunjungan untuk saat ini",
                 style: Constant.primaryTextStyle.copyWith(
-                  fontWeight: Constant.boldFontWeight,
-                  fontSize: Constant.firstTitleSize,
-                  color: Colors.black,
+                  fontWeight: Constant.regularFontWeight,
+                  fontSize: Constant.subtitleFontSize,
+                  color: Colors.grey,
                 ),
+                textAlign: TextAlign.center,
               ),
             );
           } else {
@@ -74,8 +77,10 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
                       // icon: Icons.report_gmailerrorred_sharp,
                       color: Constant.baseColor,
                       onSubmit: () {
-                        //outpatient.isApproved = 1;
-                        Navigator.pop(context);
+                        context.read<PatientBloc>().add(PutOutpatientApproval(
+                            idOutpatient: outpatient.id, isApproved: 1));
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, RouteNames.navbar, (route) => false);
                       },
                     );
                   },
@@ -93,8 +98,10 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
                       //icon: Icons.dangerous_outlined,
                       color: Constant.errorColor,
                       onSubmit: () {
-                        // outpatient.isApproved = 2;
-                        Navigator.pop(context);
+                        context.read<PatientBloc>().add(PutOutpatientApproval(
+                            idOutpatient: outpatient.id, isApproved: 2));
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, RouteNames.navbar, (route) => false);
                       },
                     );
                   },

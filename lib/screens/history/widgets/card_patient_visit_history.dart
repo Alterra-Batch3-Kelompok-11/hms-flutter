@@ -4,12 +4,13 @@ import 'package:hospital_management_system/utils/constant.dart';
 class CardPatientVisitHistory extends StatelessWidget {
   const CardPatientVisitHistory({
     Key? key,
+    required this.status,
     required this.patientName,
     required this.visitDate,
     required this.queueNumber,
     this.isComplete = false,
   }) : super(key: key);
-
+  final String status;
   final String patientName;
   final String visitDate;
   final int queueNumber;
@@ -88,7 +89,7 @@ class CardPatientVisitHistory extends StatelessWidget {
                 Text(
                   patientName,
                   style: Constant.primaryTextStyle.copyWith(
-                    fontSize: Constant.subtitleFontSize,
+                    fontSize: Constant.bodyFontSize,
                     fontWeight: Constant.semiBoldFontWeight,
                     color: Constant.baseColor,
                   ),
@@ -99,7 +100,7 @@ class CardPatientVisitHistory extends StatelessWidget {
                   height: 4,
                 ),
                 Text(
-                  "Tanggal Terima",
+                  "Tanggal Kunjungan",
                   style: Constant.primaryTextStyle.copyWith(
                     fontSize: Constant.subtitleFontSize,
                     color: Constant.darker,
@@ -126,25 +127,17 @@ class CardPatientVisitHistory extends StatelessWidget {
           const SizedBox(
             width: 20,
           ),
-          (isComplete == true)
-              ? Text(
-                  "Selesai",
-                  style: Constant.primaryTextStyle.copyWith(
-                      fontSize: Constant.subtitleFontSize,
-                      color: Constant.successColor,
-                      fontWeight: Constant.semiBoldFontWeight),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                )
-              : Text(
-                  "Proses",
-                  style: Constant.primaryTextStyle.copyWith(
-                      fontSize: Constant.subtitleFontSize,
-                      color: const Color(0xff89898B),
-                      fontWeight: Constant.semiBoldFontWeight),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                ),
+          Text(
+            status,
+            style: Constant.primaryTextStyle.copyWith(
+                fontSize: Constant.subtitleFontSize,
+                color: (status == "Proses")
+                    ? Constant.processColor
+                    : Constant.successColor,
+                fontWeight: Constant.semiBoldFontWeight),
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+          ),
         ],
       ),
     );

@@ -9,6 +9,7 @@ abstract class PatientState extends Equatable {
 
 class PatientInitial extends PatientState {}
 
+// ignore: must_be_immutable
 class OutpatientLoaded extends PatientState {
   List<OutpatientModel>? outpatientList = [];
 
@@ -29,4 +30,19 @@ class PatientError extends PatientState {
   final String message;
 
   const PatientError({required this.message});
+}
+
+class OutpatientApprovalSuccess extends PatientState {}
+
+class HistoryVisitLoaded  extends PatientState{
+ List<Historypatiens>? historyList = [];
+
+
+  HistoryVisitLoaded({required this.historyList});
+}
+class HistoryApprovalsLoaded  extends PatientState{
+ List<Historypatiensapprovals>? historyListApprovals = [];
+
+
+  HistoryApprovalsLoaded({required this.historyListApprovals});
 }

@@ -4,11 +4,12 @@ import 'package:hospital_management_system/utils/constant.dart';
 class CardPatientConsentHistory extends StatelessWidget {
   const CardPatientConsentHistory(
       {Key? key,
+      required this.status,
       required this.patientName,
       required this.visitDate,
       this.isReceived = false})
       : super(key: key);
-
+  final String status;
   final String patientName;
   final String visitDate;
   final bool? isReceived;
@@ -25,41 +26,30 @@ class CardPatientConsentHistory extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Row(
-            children: [
-              Icon(
-                Icons.circle,
-                size: 15,
-                color: (isReceived == true)
-                    ? Constant.successColor
-                    : Constant.errorColor,
+          Row(children: [
+            Icon(
+              Icons.circle,
+              size: 15,
+              color: (status == "Kunjungan Ditolak")
+                  ? Constant.errorColor
+                  : Constant.successColor,
+            ),
+            const SizedBox(
+              width: 15,
+            ),
+            Text(
+              status,
+              style: Constant.primaryTextStyle.copyWith(
+                fontSize: Constant.subtitleFontSize,
+                color: (status == "Kunjungan Ditolak")
+                    ? Constant.errorColor
+                    : Constant.successColor,
+                fontWeight: Constant.semiBoldFontWeight,
               ),
-              const SizedBox(
-                width: 15,
-              ),
-              (isReceived == true)
-                  ? Text(
-                      "Kunjungan Diterima",
-                      style: Constant.primaryTextStyle.copyWith(
-                        fontSize: Constant.subtitleFontSize,
-                        color: Constant.successColor,
-                        fontWeight: Constant.semiBoldFontWeight,
-                      ),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    )
-                  : Text(
-                      "Kunjungan Ditolak",
-                      style: Constant.primaryTextStyle.copyWith(
-                        fontSize: Constant.subtitleFontSize,
-                        color: Constant.errorColor,
-                        fontWeight: Constant.semiBoldFontWeight,
-                      ),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-            ],
-          ),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            )
+          ]),
           const Divider(
             height: 30,
             thickness: 1,
