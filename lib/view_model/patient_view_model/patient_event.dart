@@ -9,13 +9,13 @@ abstract class PatientEvent extends Equatable {
 
 class GetOutpatientUnprocessed extends PatientEvent {}
 
-class GetOutpatientProcessed extends PatientEvent {}
+class GetOutpatientApproveds extends PatientEvent {}
 
 class PutOutpatientApproval extends PatientEvent {
-  // final int idOutpatient;
-  // final String status;
+  final int idOutpatient;
+  final int isApproved;
 
-  // PutOutpatientApproval({required this.idOutpatient, required this.status});
+  PutOutpatientApproval({required this.isApproved, required this.idOutpatient});
 }
 class GetHistoryVisit extends PatientEvent{}
 
