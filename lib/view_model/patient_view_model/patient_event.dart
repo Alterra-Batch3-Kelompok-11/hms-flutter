@@ -17,3 +17,6 @@ class PutOutpatientApproval extends PatientEvent {
 
   // PutOutpatientApproval({required this.idOutpatient, required this.status});
 }
+class GetHistoryVisit extends PatientEvent{}
+
+class GetHistoryApprovals extends PatientEvent {}

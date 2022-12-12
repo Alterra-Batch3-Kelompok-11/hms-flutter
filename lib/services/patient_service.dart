@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hospital_management_system/models/history_patiens_model.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
+import 'package:hospital_management_system/view_model/patient_view_model/patient_bloc.dart';
 
 class PatientService {
   final Dio _dio = Dio();
@@ -85,6 +87,62 @@ class PatientService {
 
       updateOutpatient = OutpatientModel.fromJson(response.data['data']);
       return updateOutpatient;
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  Future<List<Historypatiens>> getHistoryVisit(
+      {required int idDoctor, required String token}) async {
+    String baseUrl = dotenv.env["BASE_URL"].toString();
+    try {
+      //respons with token
+      final response = await _dio.get(
+          "$baseUrl/histories/doctor/$idDoctor/outpatient_sessions",
+          options: Options(
+            headers: {
+              "Authorization": "Bearer $token",
+            },
+          ));
+      print(" coba RESPONSE : " + response.data['data'].toString());
+      final dataRespone =
+          response.data['data'] != null ? response.data['data'] as List : [];
+      List<Historypatiens> historyList = [];
+      //List<OutpatientModel> historyList = [];
+      for (var i = 0; i < dataRespone.length; i++) {
+        // print("DATA RESPONSE : " + dataRespone[i].toString());
+        // historyList.add(Historypatiens.fromJson(dataRespone[i]));
+      }
+      // print(" tess {$historyList}");
+      return historyList;
+    } on DioError {
+      rethrow;
+    }
+  }
+  // ignore: non_constant_identifier_names
+  Future<List<Historypatiens>> GetHistoryApprovals(
+      {required int idDoctor, required String token}) async {
+    String baseUrl = dotenv.env["BASE_URL"].toString();
+    try {
+      //respons with token
+      final response = await _dio.get(
+          "$baseUrl/histories/doctor/$idDoctor/approvals", 
+          options: Options(
+            headers: {
+              "Authorization": "Bearer $token",
+            },
+          ));
+      print(" coba1 RESPONSE : " + response.data['data'].toString());
+      final dataRespone =
+          response.data['data'] != null ? response.data['data'] as List : [];
+      List<Historypatiens> historyListApprovals = [];
+      //List<OutpatientModel> historyList = [];
+      for (var i = 0; i < dataRespone.length; i++) {
+        print("DATA RESPONSE : " + dataRespone[i].toString());
+        historyListApprovals.add(Historypatiens.fromJson(dataRespone[i]));
+      }
+      print(" tess {$historyListApprovals}");
+      return historyListApprovals;
     } on DioError {
       rethrow;
     }

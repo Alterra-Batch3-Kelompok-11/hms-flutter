@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hospital_management_system/models/auth_model.dart';
+import 'package:hospital_management_system/models/history_patiens_model.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
 import 'package:hospital_management_system/services/local_service.dart';
 import 'package:hospital_management_system/services/patient_service.dart';
@@ -67,6 +68,74 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
         emit(PatientError(message: e.toString()));
       }
     });
+    on<GetHistoryVisit>((event, emit) async {
+      
+      emit(PatientLoading());
+      final AuthModel dataAuth = await _localService.getDataFromLocalStorage();
+      try {
+        final int? id = dataAuth.doctorId;
+        final String? token = dataAuth.token;
+        print("ID DOCTOR : $id");
+        print("TOKEN : $token");
+
+        final List<Historypatiens>? historyList =
+            await _patientService.getHistoryVisit(idDoctor: id!, token: token!);
+
+        // }
+        print("tes $historyList");
+        emit(HistoryVisitLoaded(historyList: historyList ?? []));
+      
+      } catch (e) {
+        if (e is DioError) {
+          final errorResponse = e.response;
+          emit(PatientError(message: errorResponse!.data['message']));
+
+          print("DIO ERROR : " + errorResponse.data['message']);
+        }
+
+        print("ERROR : " + e.toString());
+        emit(PatientError(message: e.toString()));
+      }
+    });
+ on<GetHistoryApprovals>((event, emit) async {
+      
+      emit(PatientLoading());
+      final AuthModel dataAuth = await _localService.getDataFromLocalStorage();
+      try {
+        final int? id = dataAuth.doctorId;
+        final String? token = dataAuth.token;
+        print("ID DOCTOR : $id");
+        print("TOKEN : $token");
+
+        final List<Historypatiens>? historyListApprovals =
+            await _patientService.getHistoryVisit(idDoctor: id!, token: token!);
+
+        // }
+        print("tes $historyListApprovals");
+        emit(HistoryVisitLoaded(historyList: historyListApprovals ?? []));
+      
+      } catch (e) {
+        if (e is DioError) {
+          final errorResponse = e.response;
+          emit(PatientError(message: errorResponse!.data['message']));
+
+          print("DIO ERROR : " + errorResponse.data['message']);
+        }
+
+        print("ERROR : " + e.toString());
+        emit(PatientError(message: e.toString()));
+      }
+    });
+
+
+
+
+
+
+
+
+
+
   }
 
   // //UPDATE STATUS KUNJUNGAN
