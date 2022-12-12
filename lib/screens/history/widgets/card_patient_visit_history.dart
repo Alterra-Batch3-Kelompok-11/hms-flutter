@@ -102,8 +102,9 @@ class CardPatientVisitHistory extends StatelessWidget {
                 Text(
                   "Tanggal Kunjungan",
                   style: Constant.primaryTextStyle.copyWith(
-                    fontSize: Constant.subtitleFontSize,
+                    fontSize: Constant.captionFontSize,
                     color: Constant.darker,
+                    fontWeight: Constant.regularFontWeight
                   ),
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
