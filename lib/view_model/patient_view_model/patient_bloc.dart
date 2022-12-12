@@ -42,7 +42,7 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
     );
 
     // JADWAL KUNJUNGAN
-    on<GetOutpatientProcessed>((event, emit) async {
+    on<GetOutpatientApproveds>((event, emit) async {
       emit(PatientLoading());
       final AuthModel dataAuth = await _localService.getDataFromLocalStorage();
       try {
@@ -52,7 +52,7 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
         print("TOKEN : $token");
 
         final List<OutpatientModel>? outpatientList = await _patientService
-            .getOutpatientProcessed(idDoctor: id!, token: token!);
+            .getOutpatientApproveds(idDoctor: id!, token: token!);
 
         // }
         emit(OutpatientLoaded(outpatientList: outpatientList ?? []));
@@ -68,8 +68,34 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
         emit(PatientError(message: e.toString()));
       }
     });
+
+    // APPROVAL KUNJUNGAN
+    on<PutOutpatientApproval>((event, emit) async {
+      emit(PatientLoading());
+      final AuthModel dataAuth = await _localService.getDataFromLocalStorage();
+      try {
+        final String? token = dataAuth.token;
+
+        print("TOKEN : $token");
+
+        await _patientService.putOutpatientApproval(
+            token: token!,
+            idOutpatient: event.idOutpatient,
+            isApproved: event.isApproved);
+
+        emit(OutpatientApprovalSuccess());
+      } catch (e) {
+        if (e is DioError) {
+          final errorResponse = e.response;
+          emit(PatientError(message: errorResponse!.data['message']));
+          print("DIO ERROR : " + errorResponse.data['message']);
+        }
+        print("ERROR : " + e.toString());
+        emit(PatientError(message: e.toString()));
+      }
+    });
+
     on<GetHistoryVisit>((event, emit) async {
-      
       emit(PatientLoading());
       final AuthModel dataAuth = await _localService.getDataFromLocalStorage();
       try {
@@ -84,7 +110,6 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
         // }
         print("tes $historyList");
         emit(HistoryVisitLoaded(historyList: historyList ?? []));
-      
       } catch (e) {
         if (e is DioError) {
           final errorResponse = e.response;
@@ -97,8 +122,8 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
         emit(PatientError(message: e.toString()));
       }
     });
- on<GetHistoryApprovals>((event, emit) async {
-      
+
+    on<GetHistoryApprovals>((event, emit) async {
       emit(PatientLoading());
       final AuthModel dataAuth = await _localService.getDataFromLocalStorage();
       try {
@@ -113,7 +138,6 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
         // }
         print("tes $historyListApprovals");
         emit(HistoryVisitLoaded(historyList: historyListApprovals ?? []));
-      
       } catch (e) {
         if (e is DioError) {
           final errorResponse = e.response;
@@ -126,26 +150,5 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
         emit(PatientError(message: e.toString()));
       }
     });
-
-
-
-
-
-
-
-
-
-
   }
-
-  // //UPDATE STATUS KUNJUNGAN
-  // on<PutOutpatientApproval>((event, emit) async {
-  //   _sharedPreferences = await SharedPreferences.getInstance();
-  //   emit(PatientLoading());
-  //   try {
-  //     final int? id = _sharedPreferences.getInt("id");
-  //     final String? token = _sharedPreferences.getString("token");
-  //     print("ID DOCTOR : $id");
-  //     print("TOKEN : $token");
-
 }

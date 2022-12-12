@@ -23,7 +23,9 @@ class PatientError extends PatientState {
 
   const PatientError({required this.message});
 }
-// ignore: must_be_immutable
+
+class OutpatientApprovalSuccess extends PatientState {}
+
 class HistoryVisitLoaded  extends PatientState{
  List<Historypatiens>? historyList = [];
 
