@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hospital_management_system/models/auth_model.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
+import 'package:hospital_management_system/models/patient_queue_model.dart';
 import 'package:hospital_management_system/services/local_service.dart';
 import 'package:hospital_management_system/services/patient_service.dart';
 
@@ -65,6 +66,26 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
 
         print("ERROR : " + e.toString());
         emit(PatientError(message: e.toString()));
+      }
+    });
+
+    on<GetPatientQueueToday>((event, emit) async {
+      emit(PatientLoading());
+
+      AuthModel dataAuth = await _localService.getDataFromLocalStorage();
+      try {
+        PatientQueueToday response = await _patientService.getPatientQueueToday(
+            idDokter: dataAuth.doctorId!, token: dataAuth.token);
+
+        emit(PatientQueueTodayLoaded(patientQueueToday: response));
+      } catch (e) {
+        if (e is DioError) {
+          print(e.response!.data['message']);
+          emit(PatientError(message: e.response!.data['message']));
+        } else {
+          print(e.toString());
+          emit(const PatientError(message: "Something Wrong"));
+        }
       }
     });
   }

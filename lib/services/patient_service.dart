@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
+import 'package:hospital_management_system/models/patient_queue_model.dart';
 
 class PatientService {
   final Dio _dio = Dio();
@@ -85,6 +86,25 @@ class PatientService {
 
       updateOutpatient = OutpatientModel.fromJson(response.data['data']);
       return updateOutpatient;
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  Future<PatientQueueToday> getPatientQueueToday(
+      {required int idDokter, required String token}) async {
+    String baseUrl = dotenv.env['BASE_URL'].toString();
+    try {
+      final response = await _dio.get(
+        "$baseUrl/dashboard/mobile/doctor/$idDokter",
+        options: Options(
+          headers: {"Authorization": "Bearer $token"},
+        ),
+      );
+
+      print("RESPONSE QUEUE PATIENT ${response.data['data']}");
+
+      return PatientQueueToday.fromJson(response.data['data']);
     } on DioError {
       rethrow;
     }
