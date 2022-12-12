@@ -16,6 +16,14 @@ class OutpatientLoaded extends PatientState {
   OutpatientLoaded({required this.outpatientList});
 }
 
+class PatientQueueTodayLoaded extends PatientState {
+  final PatientQueueToday patientQueueToday;
+
+  const PatientQueueTodayLoaded({required this.patientQueueToday});
+  @override
+  List<Object> get props => [patientQueueToday];
+}
+
 class PatientLoading extends PatientState {}
 
 class PatientError extends PatientState {

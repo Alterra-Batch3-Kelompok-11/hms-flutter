@@ -15,12 +15,18 @@ class ProfileDoctorLoaded extends DoctorState {
   final DoctorModel doctorModel;
 
   const ProfileDoctorLoaded({required this.doctorModel});
+
+  @override
+  List<Object> get props => [doctorModel];
 }
 
 class ScheduleAllDoctorLoaded extends DoctorState {
   final List<DoctorModel> doctorList;
 
   const ScheduleAllDoctorLoaded({required this.doctorList});
+
+  @override
+  List<Object> get props => [doctorList];
 }
 
 class ErrorDoctorState extends DoctorState {

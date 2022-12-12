@@ -14,12 +14,10 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
   final LocalService _localService;
   DoctorBloc(this._doctorService, this._localService) : super(DoctorInitial()) {
     on<GetProfileDoctor>((event, emit) async {
-      // _sharedPreferences = await SharedPreferences.getInstance();
       emit(LoadingDoctor());
       try {
         AuthModel dataAuth = await _localService.getDataFromLocalStorage();
         final int? id = dataAuth.doctorId;
-        print("ID DOCTOR : $id");
 
         DoctorModel doctor = await _doctorService.getProfileDoctor(id: id!);
         emit(ProfileDoctorLoaded(doctorModel: doctor));
@@ -37,7 +35,6 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
 
     on<GetScheduleAllDoctor>((event, emit) async {
       emit(LoadingDoctor());
-
       try {
         final result = await _doctorService.getDoctorSchedule();
         emit(ScheduleAllDoctorLoaded(doctorList: result));

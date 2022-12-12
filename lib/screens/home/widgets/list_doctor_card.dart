@@ -48,9 +48,12 @@ class ListDoctorCard extends StatelessWidget {
                   itemCount: doctorList.length,
                   itemBuilder: (context, index) {
                     final String startTime =
-                        doctorList[index].doctorSchedules[index].startTime;
+                        doctorList[index].doctorSchedules[0].startTime;
                     final String endTime =
-                        doctorList[index].doctorSchedules[index].endTime;
+                        doctorList[index].doctorSchedules[0].endTime;
+
+                    print("doctorList.length ${doctorList.length}");
+                    print("DOCTOR LIST : ${doctorList[index].name}");
                     return Container(
                       margin: const EdgeInsets.only(bottom: 10),
                       child: Column(
@@ -81,7 +84,7 @@ class ListDoctorCard extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    'Tersedia pukul $startTime - $endTime',
+                                    'Tersedia pukul ${doctorList[index].doctorSchedules[0].startTime} - ${doctorList[index].doctorSchedules[0].endTime}',
                                     style: Constant.primaryTextStyle.copyWith(
                                       fontWeight: Constant.semiBoldFontWeight,
                                       fontSize: Constant.bodyFontSize,

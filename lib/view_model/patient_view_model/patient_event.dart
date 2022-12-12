@@ -11,6 +11,8 @@ class GetOutpatientUnprocessed extends PatientEvent {}
 
 class GetOutpatientApproveds extends PatientEvent {}
 
+class GetPatientQueueToday extends PatientEvent {}
+
 class PutOutpatientApproval extends PatientEvent {
   final int idOutpatient;
   final int isApproved;
