@@ -89,7 +89,7 @@ class CardPatientVisitHistory extends StatelessWidget {
                 Text(
                   patientName,
                   style: Constant.primaryTextStyle.copyWith(
-                    fontSize: Constant.subtitleFontSize,
+                    fontSize: Constant.bodyFontSize,
                     fontWeight: Constant.semiBoldFontWeight,
                     color: Constant.baseColor,
                   ),
@@ -100,7 +100,7 @@ class CardPatientVisitHistory extends StatelessWidget {
                   height: 4,
                 ),
                 Text(
-                  "Tanggal Terima",
+                  "Tanggal Kunjungan",
                   style: Constant.primaryTextStyle.copyWith(
                     fontSize: Constant.subtitleFontSize,
                     color: Constant.darker,
@@ -131,7 +131,9 @@ class CardPatientVisitHistory extends StatelessWidget {
             status,
             style: Constant.primaryTextStyle.copyWith(
                 fontSize: Constant.subtitleFontSize,
-                color: Constant.successColor,
+                color: (status == "Proses")
+                    ? Constant.processColor
+                    : Constant.successColor,
                 fontWeight: Constant.semiBoldFontWeight),
             maxLines: 3,
             overflow: TextOverflow.ellipsis,

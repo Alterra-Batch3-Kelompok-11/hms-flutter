@@ -110,9 +110,9 @@ class PatientService {
       //List<OutpatientModel> historyList = [];
       for (var i = 0; i < dataRespone.length; i++) {
         // print("DATA RESPONSE : " + dataRespone[i].toString());
-        // historyList.add(Historypatiens.fromJson(dataRespone[i]));
+        historyList.add(Historypatiens.fromJson(dataRespone[i]));
       }
-      // print(" tess {$historyList}");
+      print(" tess {$historyList}");
       return historyList;
     } on DioError {
       rethrow;
