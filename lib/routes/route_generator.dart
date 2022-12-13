@@ -30,11 +30,19 @@ class RouteGenerator {
       case RouteNames.profile:
         return RouteBuilder(child: const ProfileScreen());
       case RouteNames.patientData:
-        return RouteBuilder(child: const PatientDataScreen());
+        final args = settings.arguments as PatientDataScreen;
+        return RouteBuilder(
+            child: PatientDataScreen(
+          patientId: args.patientId,
+        ));
       case RouteNames.addPatientData:
-        return RouteBuilder(child: const AddPatientDataScreen());
+        final patientId = settings.arguments as int;
+        return RouteBuilder(
+            child: AddPatientDataScreen(
+          outPatientId: patientId,
+        ));
       case RouteNames.home:
-        return RouteBuilder(child: HomeScreen());
+        return RouteBuilder(child: const HomeScreen());
       case RouteNames.detailMedicalHistory:
         return RouteBuilder(child: const DetailMedicalHistoryScreen());
       case RouteNames.schedule:
@@ -42,7 +50,11 @@ class RouteGenerator {
       case RouteNames.history:
         return RouteBuilder(child: const HistoryScreen());
       case RouteNames.navbar:
-        return RouteBuilder(child: const NavbarScreen());
+        final selectedIndex = settings.arguments as NavbarScreen;
+        return RouteBuilder(
+            child: NavbarScreen(
+          selectedIndex: selectedIndex.selectedIndex ?? 0,
+        ));
       case RouteNames.notification:
         return RouteBuilder(child: const NotificationScreen());
 

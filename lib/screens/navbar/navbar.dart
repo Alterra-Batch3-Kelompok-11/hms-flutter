@@ -7,10 +7,12 @@ import '../../screens/profile/profile_screen.dart';
 import '../../screens/history/history_screen.dart';
 
 class NavbarScreen extends StatefulWidget {
-  const NavbarScreen({Key? key}) : super(key: key);
+  const NavbarScreen({Key? key, this.selectedIndex}) : super(key: key);
 
   @override
   State<NavbarScreen> createState() => _NavbarScreenState();
+
+  final int? selectedIndex;
 }
 
 class _NavbarScreenState extends State<NavbarScreen> {
@@ -24,10 +26,16 @@ class _NavbarScreenState extends State<NavbarScreen> {
   ValueNotifier<int> currentIndex = ValueNotifier<int>(0);
 
   @override
+  void initState() {
+    currentIndex.value = widget.selectedIndex ?? 0;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
         valueListenable: currentIndex,
-        builder: (context, idx, _) {
+        builder: (context, int idx, _) {
           return Scaffold(
             backgroundColor: Colors.white,
             body: pages[currentIndex.value],

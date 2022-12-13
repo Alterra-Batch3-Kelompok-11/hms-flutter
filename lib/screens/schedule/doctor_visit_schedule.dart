@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
+import 'package:hospital_management_system/screens/patient_data/patient_data_screen.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
 import 'package:hospital_management_system/models/outpatient_model.dart';
@@ -7,7 +8,9 @@ import 'package:hospital_management_system/models/outpatient_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_system/view_model/patient_view_model/patient_bloc.dart';
 
+import '../global_widgets/global_loading.dart';
 import 'widgets/card_doctor_visit_schedule.dart';
+import 'widgets/schedule_loading.dart';
 
 class DoctorVisitSchedule extends StatefulWidget {
   const DoctorVisitSchedule({Key? key}) : super(key: key);
@@ -20,35 +23,38 @@ class _DoctorVisitScheduleState extends State<DoctorVisitSchedule> {
   @override
   void initState() {
     context.read<PatientBloc>().add(GetOutpatientApproveds());
+    print("MEMBACA STATE");
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PatientBloc, PatientState>(
+      // buildWhen: (previous, current) {
+      //   return current == OutpatientLoaded;
+      // },
       builder: (context, state) {
-        if (state is PatientError) {
-          return Text(state.message);
-        }
         if (state is OutpatientLoaded) {
           print(state.outpatientList!.isEmpty);
           final List<OutpatientModel> outpatientList =
               state.outpatientList ?? [];
           if (outpatientList.isEmpty) {
-            return Container(
-              padding: const EdgeInsets.only(
-                top: 24,
-                left: 61,
-                right: 61,
-              ),
-              child: Text(
-                "Tidak ada jadwal kunjungan untuk saat ini",
-                style: Constant.primaryTextStyle.copyWith(
-                  fontWeight: Constant.regularFontWeight,
-                  fontSize: Constant.subtitleFontSize,
-                  color: Colors.grey,
+            return Center(
+              child: Container(
+                padding: const EdgeInsets.only(
+                  top: 24,
+                  left: 60,
+                  right: 60,
                 ),
-                textAlign: TextAlign.center,
+                child: Text(
+                  "Tidak ada jadwal kunjungan untuk saat ini",
+                  style: Constant.primaryTextStyle.copyWith(
+                    fontWeight: Constant.regularFontWeight,
+                    fontSize: Constant.subtitleFontSize,
+                    color: Colors.grey,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
             );
           } else {
@@ -60,7 +66,10 @@ class _DoctorVisitScheduleState extends State<DoctorVisitSchedule> {
               children: outpatientList.map((outpatient) {
                 return GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, RouteNames.patientData);
+                    Navigator.pushNamed(context, RouteNames.patientData,
+                        arguments: PatientDataScreen(
+                          patientId: outpatient.patientId,
+                        ));
                   },
                   child: CardDoctorVisitSchedule(
                     patientName: outpatient.patient.name,
@@ -72,8 +81,13 @@ class _DoctorVisitScheduleState extends State<DoctorVisitSchedule> {
             );
           }
           // return const Text('Berhasil');
+        } else if (state is PatientLoading) {
+          return const GlobalLoading(layout: ScheduleLoading());
+        } else if (state is PatientError) {
+          return const SizedBox.shrink();
         } else {
-          return const SizedBox();
+          print("MASUK DISINI");
+          return const GlobalLoading(layout: ScheduleLoading());
         }
         // if (state is OutpatientLoading) {
         //   return const Center(

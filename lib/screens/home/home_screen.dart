@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_system/models/doctor_model.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
+import 'package:hospital_management_system/screens/home/widgets/list_doctor_loading.dart';
+import 'package:hospital_management_system/screens/home/widgets/patient_count_loading.dart';
 import 'package:hospital_management_system/view_model/doctor_view_model/doctor_bloc.dart';
 import 'package:hospital_management_system/view_model/patient_view_model/patient_bloc.dart';
 import '../../utils/constant.dart';
 
+import '../global_widgets/global_loading.dart';
 import './widgets/list_doctor_card.dart';
-import './widgets/pasient_count_card.dart';
+import 'widgets/pasient_count_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -37,56 +40,60 @@ class _HomeScreenState extends State<HomeScreen> {
           toolbarHeight: 90,
           title: Padding(
             padding: const EdgeInsets.only(left: 25),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Halo ',
-                  style: Constant.primaryTextStyle.copyWith(
-                    fontWeight: Constant.mediumFontWeight,
-                    fontSize: Constant.firstTitleSize,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                BlocBuilder<DoctorBloc, DoctorState>(
-                  buildWhen: ((previous, current) {
-                    return current is ProfileDoctorLoaded;
-                  }),
-                  builder: (context, state) {
-                    if (state is ProfileDoctorLoaded) {
-                      print("DOCTOR MODEL NAME ${state.doctorModel.name}");
-                      return Text(
+            child: BlocBuilder<DoctorBloc, DoctorState>(
+              buildWhen: (previous, current) {
+                return current is ProfileDoctorLoaded;
+              },
+              builder: (context, state) {
+                if (state is ProfileDoctorLoaded) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Halo ',
+                        style: Constant.primaryTextStyle.copyWith(
+                          fontWeight: Constant.mediumFontWeight,
+                          fontSize: Constant.firstTitleSize,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
                         state.doctorModel.name,
                         style: Constant.primaryTextStyle.copyWith(
                           fontWeight: Constant.boldFontWeight,
                           fontSize: Constant.firstTitleSize,
                           color: Colors.white,
                         ),
-                      );
-                    } else if (state is LoadingDoctor) {
-                      return const SizedBox(
-                        height: 40,
-                        width: 40,
-                        child: CircularProgressIndicator(
-                          color: Constant.whiteColor,
-                        ),
-                      );
-                    } else {
-                      print("else dari appbar");
-                      return const SizedBox(
-                        height: 40,
-                        width: 40,
-                        child: CircularProgressIndicator(
-                          color: Constant.whiteColor,
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ],
+                      )
+                    ],
+                  );
+                } else if (state is LoadingDoctor) {
+                  return GlobalLoading(
+                    layout: Text(
+                      'Halo ',
+                      style: Constant.primaryTextStyle.copyWith(
+                        fontWeight: Constant.mediumFontWeight,
+                        fontSize: Constant.firstTitleSize,
+                        color: Colors.white,
+                      ),
+                    ),
+                  );
+                } else {
+                  return GlobalLoading(
+                    layout: Text(
+                      'Halo ',
+                      style: Constant.primaryTextStyle.copyWith(
+                        fontWeight: Constant.mediumFontWeight,
+                        fontSize: Constant.firstTitleSize,
+                        color: Colors.white,
+                      ),
+                    ),
+                  );
+                }
+              },
             ),
           ),
           actions: [
@@ -118,16 +125,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   return PatientCountCard(
                       patientQueueToday: state.patientQueueToday);
                 } else if (state is PatientLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Constant.baseColor,
-                    ),
+                  return const GlobalLoading(
+                    layout: PatientCountLoading(),
                   );
                 } else {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Constant.baseColor,
-                    ),
+                  return const GlobalLoading(
+                    layout: PatientCountLoading(),
                   );
                 }
               },
@@ -142,20 +145,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   List<DoctorModel> doctorList = state.doctorList;
                   return ListDoctorCard(doctorList: doctorList);
                 } else if (state is LoadingDoctor) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Constant.baseColor,
-                    ),
+                  return const GlobalLoading(
+                    layout: ListDoctorLoading(),
                   );
                 } else if (state is ErrorDoctorState) {
                   print(state.message);
                   return const SizedBox.shrink();
                 } else {
-                  print("else dari body");
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Constant.baseColor,
-                    ),
+                  return const GlobalLoading(
+                    layout: ListDoctorLoading(),
                   );
                 }
               },

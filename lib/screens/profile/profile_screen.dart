@@ -4,8 +4,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hospital_management_system/models/doctor_model.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
+import 'package:hospital_management_system/screens/global_widgets/global_loading.dart';
 import 'package:hospital_management_system/screens/profile/widgets/detail_doctor_card.dart';
 import 'package:hospital_management_system/screens/profile/widgets/list_jadwal_card.dart';
+import 'package:hospital_management_system/screens/profile/widgets/profile_loading.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 import 'package:hospital_management_system/utils/helper_dialog.dart';
 import 'package:hospital_management_system/view_model/doctor_view_model/doctor_bloc.dart';
@@ -48,11 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: BlocBuilder<DoctorBloc, DoctorState>(
           builder: (context, state) {
             if (state is LoadingDoctor) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Constant.baseColor,
-                ),
-              );
+              return const GlobalLoading(layout: DetailDoctorLoading());
             }
             if (state is ProfileDoctorLoaded) {
               final DoctorModel doctor = state.doctorModel;

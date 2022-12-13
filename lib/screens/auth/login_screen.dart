@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_text_field.dart';
+import 'package:hospital_management_system/screens/navbar/navbar.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
 import '../../view_model/auth_view_model/auth_bloc.dart';
@@ -41,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
         _usernameController.text = currentUsername!;
       }
     });
-    _usernameController = TextEditingController();
+    _usernameController = TextEditingController(text: "1029384756");
     _passwordController = TextEditingController(text: "john123");
 
     super.initState();
@@ -60,7 +61,10 @@ class _LoginScreenState extends State<LoginScreen> {
         listener: (context, state) {
           if (state is AuthSuccessLoginState) {
             Navigator.pushNamedAndRemoveUntil(
-                context, RouteNames.navbar, (route) => false);
+                context, RouteNames.navbar, (route) => false,
+                arguments: const NavbarScreen(
+                  selectedIndex: 0,
+                ));
           }
         },
         child: Container(

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management_system/models/patient_model.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
 class PatientProfileCard extends StatelessWidget {
   const PatientProfileCard({
     Key? key,
+    required this.patient,
   }) : super(key: key);
+
+  final PatientModel patient;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,7 @@ class PatientProfileCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Jono",
+            patient.name,
             style: Constant.primaryTextStyle.copyWith(
               fontSize: Constant.secondTitleFontSize,
               fontWeight: Constant.semiBoldFontWeight,
@@ -29,7 +33,7 @@ class PatientProfileCard extends StatelessWidget {
             height: 5,
           ),
           Text(
-            "NIK : 33927100498492",
+            "NIK : ${patient.nik}",
             style: Constant.primaryTextStyle.copyWith(
               fontSize: Constant.subtitleFontSize,
               fontWeight: Constant.semiBoldFontWeight,
@@ -49,7 +53,7 @@ class PatientProfileCard extends StatelessWidget {
             height: 5,
           ),
           Text(
-            "Jakarta, 28 Juni 1993",
+            patient.birthDate,
             style: Constant.primaryTextStyle.copyWith(
               fontSize: Constant.subtitleFontSize,
               fontWeight: Constant.semiBoldFontWeight,
@@ -69,7 +73,7 @@ class PatientProfileCard extends StatelessWidget {
             height: 5,
           ),
           Text(
-            "Pria",
+            (patient.gender == 1) ? "Pria" : "Wanita",
             style: Constant.primaryTextStyle.copyWith(
               fontSize: Constant.subtitleFontSize,
               fontWeight: Constant.semiBoldFontWeight,
@@ -109,7 +113,7 @@ class PatientProfileCard extends StatelessWidget {
             height: 5,
           ),
           Text(
-            "Sudah Menikah",
+            (patient.maritalStatus == true) ? "Sudah menikan" : "Belum menikah",
             style: Constant.primaryTextStyle.copyWith(
               fontSize: Constant.subtitleFontSize,
               fontWeight: Constant.semiBoldFontWeight,
@@ -129,7 +133,7 @@ class PatientProfileCard extends StatelessWidget {
             height: 5,
           ),
           Text(
-            "Condet, Jakarta Timur",
+            patient.address,
             style: Constant.primaryTextStyle.copyWith(
               fontSize: Constant.subtitleFontSize,
               fontWeight: Constant.semiBoldFontWeight,

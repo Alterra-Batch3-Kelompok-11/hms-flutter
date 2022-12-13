@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
 class PatienScheduleCard extends StatelessWidget {
-  const PatienScheduleCard({Key? key}) : super(key: key);
+  const PatienScheduleCard(
+      {Key? key, required this.scheduleTime, required this.scheduleDateIndo})
+      : super(key: key);
+
+  final String scheduleTime;
+  final String scheduleDateIndo;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,7 @@ class PatienScheduleCard extends StatelessWidget {
           ),
           child: Center(
               child: Text(
-            "09.30",
+            scheduleTime,
             style: Constant.primaryTextStyle.copyWith(
               fontSize: Constant.subtitleFontSize,
               fontWeight: Constant.semiBoldFontWeight,
@@ -39,7 +44,7 @@ class PatienScheduleCard extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              "Kamis, 17 November 2022",
+              scheduleDateIndo,
               style: Constant.primaryTextStyle.copyWith(
                 fontSize: Constant.subtitleFontSize,
                 fontWeight: Constant.semiBoldFontWeight,

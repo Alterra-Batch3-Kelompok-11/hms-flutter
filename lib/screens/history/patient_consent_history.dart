@@ -4,6 +4,8 @@ import 'package:hospital_management_system/screens/history/widgets/card_patient_
 import 'package:hospital_management_system/utils/constant.dart';
 
 import '../../view_model/patient_view_model/patient_bloc.dart';
+import '../global_widgets/global_loading.dart';
+import '../schedule/widgets/schedule_loading.dart';
 
 class PatientConsentHistory extends StatefulWidget {
   const PatientConsentHistory({Key? key}) : super(key: key);
@@ -23,21 +25,20 @@ class _PatientConsentHistoryState extends State<PatientConsentHistory> {
   Widget build(BuildContext context) {
     return BlocBuilder<PatientBloc, PatientState>(builder: ((context, state) {
       if (state is PatientLoading) {
-        print("tes {$state}");
-        return const CircularProgressIndicator();
+        return const GlobalLoading(layout: ScheduleLoading());
       } else if (state is HistoryApprovalsLoaded) {
-        if (state.historyListApprovals!.isEmpty) {
-          return Center(
+        if (state.historyListApprovals.isEmpty) {
+          return const Center(
             child: Text("Tidak ada data"),
           );
         } else {
           return ListView.builder(
-            itemCount: state.historyListApprovals!.length,
+            itemCount: state.historyListApprovals.length,
             itemBuilder: (context, index) {
               return CardPatientConsentHistory(
-                patientName: state.historyListApprovals![index].patientName,
-                visitDate: state.historyListApprovals![index].scheduleDateIndo,
-                status: state.historyListApprovals![index].status,
+                patientName: state.historyListApprovals[index].patientName,
+                visitDate: state.historyListApprovals[index].scheduleDateIndo,
+                status: state.historyListApprovals[index].status,
               );
             },
             padding: const EdgeInsets.symmetric(
@@ -46,8 +47,10 @@ class _PatientConsentHistoryState extends State<PatientConsentHistory> {
             ),
           );
         }
+      } else if (state is PatientError) {
+        return const SizedBox.shrink();
       } else {
-        return SizedBox();
+        return const GlobalLoading(layout: ScheduleLoading());
       }
     }));
     // return ListView(

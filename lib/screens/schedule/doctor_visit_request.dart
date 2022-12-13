@@ -10,7 +10,9 @@ import 'package:hospital_management_system/utils/constant.dart';
 import 'package:hospital_management_system/utils/helper_dialog.dart';
 import 'package:hospital_management_system/view_model/patient_view_model/patient_bloc.dart';
 
+import '../global_widgets/global_loading.dart';
 import 'widgets/card_doctor_visit_request.dart';
+import 'widgets/schedule_loading.dart';
 
 class DoctorVisitRequest extends StatefulWidget {
   const DoctorVisitRequest({Key? key}) : super(key: key);
@@ -34,20 +36,22 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
           final List<OutpatientModel> outpatientList =
               state.outpatientList ?? [];
           if (outpatientList.isEmpty || outpatientList == []) {
-            return Container(
-              padding: const EdgeInsets.only(
-                top: 24,
-                left: 61,
-                right: 61,
-              ),
-              child: Text(
-                "Tidak ada permintaan kunjungan untuk saat ini",
-                style: Constant.primaryTextStyle.copyWith(
-                  fontWeight: Constant.regularFontWeight,
-                  fontSize: Constant.subtitleFontSize,
-                  color: Colors.grey,
+            return Center(
+              child: Container(
+                padding: const EdgeInsets.only(
+                  top: 24,
+                  left: 60,
+                  right: 60,
                 ),
-                textAlign: TextAlign.center,
+                child: Text(
+                  "Tidak ada permintaan kunjungan untuk saat ini",
+                  style: Constant.primaryTextStyle.copyWith(
+                    fontWeight: Constant.regularFontWeight,
+                    fontSize: Constant.subtitleFontSize,
+                    color: Colors.grey,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
             );
           } else {
@@ -110,17 +114,13 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
             );
           }
         } else if (state is PatientLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const GlobalLoading(layout: ScheduleLoading());
         } else if (state is PatientError) {
           return Center(
             child: Text(state.message),
           );
         } else {
-          return const Center(
-            child: Text("Error"),
-          );
+          return const GlobalLoading(layout: ScheduleLoading());
         }
       },
     );

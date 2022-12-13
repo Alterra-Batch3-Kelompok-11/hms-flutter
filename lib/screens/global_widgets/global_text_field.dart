@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
 class GlobalTextField extends StatelessWidget {
-  const GlobalTextField(
-      {Key? key,
-      required this.fieldController,
-      required this.hintText,
-      required this.valueNotifier,
-      required this.focusNode,
-      this.maxLine,
-      this.prefixIcon,
-      this.obscureText = false,
-      this.maxLength,
-      required this.validator})
-      : super(key: key);
+  const GlobalTextField({
+    Key? key,
+    required this.fieldController,
+    required this.hintText,
+    required this.valueNotifier,
+    required this.focusNode,
+    this.maxLine,
+    this.prefixIcon,
+    this.obscureText = false,
+    this.maxLength,
+    required this.validator,
+    this.onChange,
+  }) : super(key: key);
 
   final TextEditingController fieldController;
   final String hintText;
@@ -24,6 +25,7 @@ class GlobalTextField extends StatelessWidget {
   final IconData? prefixIcon;
   final bool obscureText;
   final String? Function(String?)? validator;
+  final String? Function(String?)? onChange;
 
   updateFillColor() {
     focusNode.addListener(() {
@@ -53,6 +55,7 @@ class GlobalTextField extends StatelessWidget {
           validator: validator,
           controller: fieldController,
           onTap: updateFillColor,
+          onChanged: onChange,
           decoration: InputDecoration(
               filled: true,
               prefixIcon: (prefixIcon == null) ? null : Icon(prefixIcon),
