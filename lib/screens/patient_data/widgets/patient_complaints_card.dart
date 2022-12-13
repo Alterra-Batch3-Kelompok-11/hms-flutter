@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
 class PatientComplaintsCard extends StatelessWidget {
-  const PatientComplaintsCard({Key? key}) : super(key: key);
+  const PatientComplaintsCard({Key? key, required this.complaint})
+      : super(key: key);
+
+  final String complaint;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +18,7 @@ class PatientComplaintsCard extends StatelessWidget {
         boxShadow: Constant.cardShadow,
       ),
       child: Text(
-        "Batuk, Pilek, Pusing",
+        complaint,
         style: Constant.primaryTextStyle.copyWith(
           fontSize: Constant.subtitleFontSize,
           fontWeight: Constant.semiBoldFontWeight,

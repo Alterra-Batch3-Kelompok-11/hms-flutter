@@ -91,7 +91,6 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
         }
       }
     });
-  
 
     // APPROVAL KUNJUNGAN
     on<PutOutpatientApproval>((event, emit) async {
@@ -156,14 +155,16 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
         print("ID DOCTOR : $id");
         print("TOKEN : $token");
 
-        final List<Historypatiensapprovals >? historyListApprovals =
-            await _patientService.GetHistoryApprovals(idDoctor: id!, token: token!);
+        final List<Historypatiensapprovals>? historyListApprovals =
+            await _patientService.GetHistoryApprovals(
+                idDoctor: id!, token: token!);
 
         // }
         print("tes $historyListApprovals");
 
-        emit(HistoryApprovalsLoaded(historyListApprovals: historyListApprovals ?? []));
-       } catch (e) {
+        emit(HistoryApprovalsLoaded(
+            historyListApprovals: historyListApprovals ?? []));
+      } catch (e) {
         if (e is DioError) {
           final errorResponse = e.response;
           emit(PatientError(message: errorResponse!.data['message']));
@@ -173,6 +174,56 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
 
         print("ERROR : " + e.toString());
         emit(PatientError(message: e.toString()));
+      }
+    });
+
+    on<GetDetailOutpatient>((event, emit) async {
+      emit(PatientLoading());
+
+      final String token = await _localService.getToken();
+      try {
+        final response = await _patientService.getDetailOutpatient(
+            id: event.patientId, token: token);
+
+        emit(DetailOutpatientLoaded(outpatientModel: response));
+      } catch (e) {
+        if (e is DioError) {
+          emit(PatientError(message: e.response!.data['message']));
+        } else {
+          emit(PatientError(message: e.toString()));
+        }
+      }
+    });
+
+    on<InsertConditionPatient>((event, emit) async {
+      emit(PatientLoading());
+      String token = await _localService.getToken();
+
+      if (token != "") {
+        try {
+          final bool response = await _patientService.insertConditionPatient(
+              allergy: event.allergy,
+              condition: event.condition,
+              medicine: event.medicine,
+              patientSessionId: event.patientSessionId,
+              token: token);
+
+          if (response == true) {
+            emit(SuccessInsertCondition());
+          } else {
+            emit(const PatientError(message: "Something wrong"));
+          }
+        } catch (e) {
+          if (e is DioError) {
+            print(e.response!.data['message']);
+            emit(PatientError(message: e.response!.data['message']));
+          } else {
+            print("ELSE " + e.toString());
+            emit(PatientError(message: e.toString()));
+          }
+        }
+      } else {
+        emit(const PatientError(message: "Expired token"));
       }
     });
   }

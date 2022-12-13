@@ -1,3 +1,4 @@
+import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/auth_model.dart';
@@ -48,7 +49,30 @@ class LocalService {
   Future<String> getToken() async {
     _preferences = await SharedPreferences.getInstance();
 
-    return _preferences.getString("token") ?? "";
+    String? token = _preferences.getString("token");
+
+    if (token != null) {
+      bool isExpiredToken = Jwt.isExpired(token);
+
+      if (isExpiredToken != true) {
+        return token;
+      } else {
+        return "";
+      }
+    } else {
+      return "";
+    }
+  }
+
+  Future<bool> checkExpiredToken() async {
+    String token = await getToken();
+    bool tokenExpired = Jwt.isExpired(token);
+
+    if (tokenExpired == true) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<void> removeToken() async {

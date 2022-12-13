@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
+import 'package:hospital_management_system/screens/navbar/navbar.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 import 'package:hospital_management_system/view_model/auth_view_model/auth_bloc.dart';
 import 'package:splash_screen_view/SplashScreenView.dart';
@@ -25,7 +26,10 @@ class _SplashScreenState extends State<SplashScreen> {
       context.read<AuthBloc>().stream.listen((state) {
         if (state is AuthIsLogin) {
           Navigator.pushNamedAndRemoveUntil(
-              context, RouteNames.navbar, (route) => false);
+              context, RouteNames.navbar, (route) => false,
+              arguments: const NavbarScreen(
+                selectedIndex: 0,
+              ));
         }
       });
     });

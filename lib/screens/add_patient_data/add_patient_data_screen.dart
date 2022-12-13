@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_text_field.dart';
 import 'package:hospital_management_system/utils/constant.dart';
+import 'package:hospital_management_system/utils/helper_dialog.dart';
+import 'package:hospital_management_system/view_model/patient_view_model/patient_bloc.dart';
 
 class AddPatientDataScreen extends StatefulWidget {
-  const AddPatientDataScreen({Key? key}) : super(key: key);
+  const AddPatientDataScreen({Key? key, required this.outPatientId})
+      : super(key: key);
 
   @override
   State<AddPatientDataScreen> createState() => _AddPatientDataScreenState();
+  final int outPatientId;
 }
 
 class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
   late TextEditingController _inputAlergyController;
   late TextEditingController _inputConditionController;
-  late TextEditingController _inputDrugController;
-  late String _inputPatientStatus;
+  late TextEditingController _inputMedicineController;
 
   final List<String> patientStatus = ["Outpatient", "Inpatient"];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -28,6 +32,8 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
   ValueNotifier<bool> onFiedlDrugFocus = ValueNotifier(false);
   ValueNotifier<bool> onSelectedStatusPatient = ValueNotifier(false);
 
+  ValueNotifier<bool> checkValidateField = ValueNotifier(false);
+
   updatePatientStatus(String status) {
     var result = (status == "");
     onSelectedStatusPatient.value = result;
@@ -37,8 +43,7 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
   void initState() {
     _inputAlergyController = TextEditingController();
     _inputConditionController = TextEditingController();
-    _inputDrugController = TextEditingController();
-    _inputPatientStatus = "";
+    _inputMedicineController = TextEditingController();
     super.initState();
   }
 
@@ -46,13 +51,26 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
   void dispose() {
     _inputAlergyController.clear();
     _inputConditionController.clear();
-    _inputDrugController.clear();
+    _inputMedicineController.clear();
     super.dispose();
   }
 
   @override
+  void didChangeDependencies() {
+    context.read<PatientBloc>().stream.listen((state) {
+      print("PATIENT STATE : $state");
+      if (state is SuccessInsertCondition) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, RouteNames.navbar, (route) => false);
+      } else if (state is PatientError) {
+        print("ERROR MESSAGE : ${state.message}");
+      }
+    });
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    print("BERULANG");
     return Scaffold(
       backgroundColor: Constant.backgroundColor,
       appBar: AppBar(
@@ -88,8 +106,22 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
             ),
             GlobalTextField(
                 fieldController: _inputAlergyController,
-                validator: (value) {
+                onChange: (value) {
+                  if (_inputAlergyController.text.isEmpty &&
+                      _inputConditionController.text.isEmpty &&
+                      _inputMedicineController.text.isEmpty) {
+                    checkValidateField.value = false;
+                  } else {
+                    checkValidateField.value = true;
+                  }
                   return null;
+                },
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "field can not be empty";
+                  } else {
+                    return null;
+                  }
                 },
                 hintText: "Masukkan riwayat alergi pasien",
                 valueNotifier: onFieldAlergyFocus,
@@ -109,8 +141,22 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
             ),
             GlobalTextField(
                 fieldController: _inputConditionController,
-                validator: (value) {
+                onChange: (value) {
+                  if (_inputAlergyController.text.isEmpty &&
+                      _inputConditionController.text.isEmpty &&
+                      _inputMedicineController.text.isEmpty) {
+                    checkValidateField.value = false;
+                  } else {
+                    checkValidateField.value = true;
+                  }
                   return null;
+                },
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "field can not be empty";
+                  } else {
+                    return null;
+                  }
                 },
                 maxLength: 120,
                 maxLine: 5,
@@ -131,9 +177,23 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
               height: 10,
             ),
             GlobalTextField(
-              fieldController: _inputDrugController,
-              validator: (value) {
+              fieldController: _inputMedicineController,
+              onChange: (value) {
+                if (_inputAlergyController.text.isEmpty &&
+                    _inputConditionController.text.isEmpty &&
+                    _inputMedicineController.text.isEmpty) {
+                  checkValidateField.value = false;
+                } else {
+                  checkValidateField.value = true;
+                }
                 return null;
+              },
+              validator: (value) {
+                if (value == null) {
+                  return "field can not be empty";
+                } else {
+                  return null;
+                }
               },
               hintText: "Masukkan Obat",
               valueNotifier: onFiedlDrugFocus,
@@ -146,19 +206,40 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
         margin: const EdgeInsets.symmetric(
             horizontal: Constant.horizontalPadding,
             vertical: Constant.verticalPadding),
-        child: GlobalButton(
-          onPressed: () {
-            Navigator.pushNamed(context, RouteNames.patientData);
-          },
-          buttonChild: Text(
-            "Simpan",
-            style: Constant.primaryTextStyle.copyWith(
-              fontSize: Constant.subtitleFontSize,
-              fontWeight: Constant.semiBoldFontWeight,
-              color: Colors.white,
-            ),
-          ),
-        ),
+        child: ValueListenableBuilder(
+            valueListenable: checkValidateField,
+            builder: (context, bool val, _) {
+              return GlobalButton(
+                color: (val) ? Constant.baseColor : Constant.processColor,
+                onPressed: () {
+                  print("widget.outPatientId : ${widget.outPatientId}");
+                  print(_formKey.currentState!.validate());
+                  if (_formKey.currentState!.validate()) {
+                    HelperDialog.confirmationDialog(context,
+                        titleText: "Konfirmasi",
+                        subTitle:
+                            "Apakan anda yakin ingin menyimpan data pasien?",
+                        buttonSubmitText: "Ya",
+                        icon: const Icon(Icons.question_mark_outlined),
+                        buttonCancelText: "Tidak", onSubmit: () {
+                      context.read<PatientBloc>().add(InsertConditionPatient(
+                          patientSessionId: 2,
+                          allergy: _inputAlergyController.text,
+                          condition: _inputConditionController.text,
+                          medicine: _inputMedicineController.text));
+                    });
+                  }
+                },
+                buttonChild: Text(
+                  "Simpan",
+                  style: Constant.primaryTextStyle.copyWith(
+                    fontSize: Constant.subtitleFontSize,
+                    fontWeight: Constant.semiBoldFontWeight,
+                    color: Colors.white,
+                  ),
+                ),
+              );
+            }),
       ),
     );
   }

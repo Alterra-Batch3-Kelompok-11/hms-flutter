@@ -4,18 +4,17 @@ import 'package:hospital_management_system/models/history_patiens_model.dart';
 import 'package:hospital_management_system/models/history_patients_approval_model.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
 import 'package:hospital_management_system/models/patient_queue_model.dart';
-import 'package:hospital_management_system/view_model/patient_view_model/patient_bloc.dart';
 
 class PatientService {
   final Dio _dio = Dio();
+  final String _baseUrl = dotenv.env['BASE_URL'].toString();
 
   Future<List<OutpatientModel>> getOutpatientUnprocessed(
       {required int idDoctor, required String token}) async {
-    String baseUrl = dotenv.env["BASE_URL"].toString();
     try {
       //respons with token
       final response = await _dio.get(
-          "$baseUrl/outpatient_sessions/doctor/$idDoctor/unprocesseds",
+          "$_baseUrl/outpatient_sessions/doctor/$idDoctor/unprocesseds",
           options: Options(
             headers: {
               "Authorization": "Bearer $token",
@@ -39,10 +38,9 @@ class PatientService {
   //get outpatient processed by iddoctor
   Future<List<OutpatientModel>?> getOutpatientApproveds(
       {required int idDoctor, required String token}) async {
-    String baseUrl = dotenv.env["BASE_URL"].toString();
     try {
       final response = await _dio.get(
-          "$baseUrl/outpatient_sessions/doctor/$idDoctor/approveds",
+          "$_baseUrl/outpatient_sessions/doctor/$idDoctor/approveds",
           options: Options(
             headers: {
               "Authorization": "Bearer $token",
@@ -65,17 +63,16 @@ class PatientService {
     }
   }
 
- //PUT APPROVAL
+  //PUT APPROVAL
   Future<void> putOutpatientApproval(
       //  int isApproved,
       {required int idOutpatient,
       required String token,
       required int isApproved}) async {
     OutpatientModel updateOutpatient;
-    String baseUrl = dotenv.env["BASE_URL"].toString();
     try {
       final response = await _dio.put(
-        "$baseUrl/outpatient_sessions/$idOutpatient/approval",
+        "$_baseUrl/outpatient_sessions/$idOutpatient/approval",
         options: Options(
           headers: {
             "Authorization": "Bearer $token",
@@ -94,11 +91,10 @@ class PatientService {
 
   Future<List<Historypatiens>> getHistoryVisit(
       {required int idDoctor, required String token}) async {
-    String baseUrl = dotenv.env["BASE_URL"].toString();
     try {
       //respons with token
       final response = await _dio.get(
-          "$baseUrl/histories/doctor/$idDoctor/outpatient_sessions",
+          "$_baseUrl/histories/doctor/$idDoctor/outpatient_sessions",
           options: Options(
             headers: {
               "Authorization": "Bearer $token",
@@ -123,16 +119,15 @@ class PatientService {
   // ignore: non_constant_identifier_names
   Future<List<Historypatiensapprovals>> GetHistoryApprovals(
       {required int idDoctor, required String token}) async {
-    String baseUrl = dotenv.env["BASE_URL"].toString();
     try {
       //respons with token
-      final response = await _dio.get(
-          "$baseUrl/histories/doctor/$idDoctor/approvals",
-          options: Options(
-            headers: {
-              "Authorization": "Bearer $token",
-            },
-          ));
+      final response =
+          await _dio.get("$_baseUrl/histories/doctor/$idDoctor/approvals",
+              options: Options(
+                headers: {
+                  "Authorization": "Bearer $token",
+                },
+              ));
       print(" coba1 RESPONSE : " + response.data['data'].toString());
       final dataRespone =
           response.data['data'] != null ? response.data['data'] as List : [];
@@ -140,7 +135,8 @@ class PatientService {
       //List<OutpatientModel> historyList = [];
       for (var i = 0; i < dataRespone.length; i++) {
         print("DATA RESPONSE : " + dataRespone[i].toString());
-        historyListApprovals.add(Historypatiensapprovals.fromJson(dataRespone[i]));
+        historyListApprovals
+            .add(Historypatiensapprovals.fromJson(dataRespone[i]));
       }
       print(" tess {$historyListApprovals}");
       return historyListApprovals;
@@ -151,10 +147,9 @@ class PatientService {
 
   Future<PatientQueueToday> getPatientQueueToday(
       {required int idDokter, required String token}) async {
-    String baseUrl = dotenv.env['BASE_URL'].toString();
     try {
       final response = await _dio.get(
-        "$baseUrl/dashboard/mobile/doctor/$idDokter",
+        "$_baseUrl/dashboard/mobile/doctor/$idDokter",
         options: Options(
           headers: {"Authorization": "Bearer $token"},
         ),
@@ -163,6 +158,55 @@ class PatientService {
       print("RESPONSE QUEUE PATIENT ${response.data['data']}");
 
       return PatientQueueToday.fromJson(response.data['data']);
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  Future<OutpatientModel> getDetailOutpatient(
+      {required int id, required String token}) async {
+    try {
+      final response = await _dio.get(
+        "$_baseUrl/outpatient_sessions/$id",
+        options: Options(
+          headers: {"Authorization": "Bearer $token"},
+        ),
+      );
+
+      return OutpatientModel.fromJson(response.data['data']);
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  Future<bool> insertConditionPatient(
+      {required String allergy,
+      required String condition,
+      required String medicine,
+      required int patientSessionId,
+      required String token}) async {
+    try {
+      final response = await _dio.post(
+        "$_baseUrl/patients_conditions",
+        data: {
+          "outpatient_session_id": patientSessionId,
+          "description": condition,
+          "medicine": medicine,
+          "allergy": allergy,
+        },
+        options: Options(headers: {"Authorization": "Bearer $token"}),
+      );
+
+      print("INSERT PATIENT CONDITION");
+
+      print("RESPOSNE : ${response.data['data']}");
+      if (response.statusCode == 200) {
+        print("status : ${response.data['data']['status']}");
+        return true;
+      } else {
+        print("status : ${response.data['data']['status']}");
+        return false;
+      }
     } on DioError {
       rethrow;
     }
