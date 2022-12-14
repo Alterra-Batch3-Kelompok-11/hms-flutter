@@ -29,12 +29,12 @@ class GetHistoryVisit extends PatientEvent {}
 class GetHistoryApprovals extends PatientEvent {}
 
 class GetDetailOutpatient extends PatientEvent {
-  final int patientId;
+  final int outSessionId;
 
-  const GetDetailOutpatient({required this.patientId});
+  const GetDetailOutpatient({required this.outSessionId});
 
   @override
-  List<Object> get props => [patientId];
+  List<Object> get props => [outSessionId];
 }
 
 class InsertConditionPatient extends PatientEvent {

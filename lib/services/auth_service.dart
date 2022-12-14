@@ -33,7 +33,7 @@ class AuthService {
 
   Future<bool> isLogin(LocalService localService) async {
     String? token = await localService.getToken();
-    if (token.isNotEmpty) {
+    if (token!.isNotEmpty || token != "") {
       bool? expiredDateToken = Jwt.isExpired(token);
       print("EXPIRED TOKEN : $expiredDateToken");
       if (!expiredDateToken) {

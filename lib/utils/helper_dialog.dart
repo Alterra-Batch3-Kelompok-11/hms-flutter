@@ -44,7 +44,7 @@ class HelperDialog {
     BuildContext context, {
     required String titleText,
     required String buttonSubmitText,
-   // required IconData? icon,
+    // required IconData? icon,
     required Widget icon,
     Color? color,
     required void Function() onSubmit,
@@ -118,11 +118,12 @@ class HelperDialog {
     BuildContext context, {
     required String titleText,
     required String subTitle,
-    required String buttonSubmitText,
+    required Widget buttonSubmitChild,
     required Widget icon,
-   // required IconData icon,
+    // required IconData icon,
     required String buttonCancelText,
     Color? color,
+    Widget? titleWidget,
     required void Function() onSubmit,
     bool? isLoading = false,
   }) async {
@@ -137,11 +138,6 @@ class HelperDialog {
             child: Column(
               children: [
                 icon,
-                // Icon(
-                //   icon,
-                //   size: 30,
-                //   color: color ?? Constant.baseColor,
-                // ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -189,15 +185,7 @@ class HelperDialog {
                 onPressed: onSubmit,
                 fixedWidth: MediaQuery.of(context).size.width / 3,
                 color: color ?? Constant.baseColor,
-                buttonChild: Text(
-                  buttonSubmitText,
-                  style: Constant.primaryTextStyle.copyWith(
-                    fontSize: 15,
-                    color: Constant.whiteColor,
-                    fontWeight: Constant.mediumFontWeight,
-                  ),
-                  textAlign: TextAlign.center,
-                ))
+                buttonChild: buttonSubmitChild)
           ],
         );
       },

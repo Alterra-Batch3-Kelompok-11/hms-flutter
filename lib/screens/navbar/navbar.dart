@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hospital_management_system/routes/route_names.dart';
+import 'package:hospital_management_system/utils/helper_dialog.dart';
+import 'package:hospital_management_system/view_model/auth_view_model/auth_bloc.dart';
 import '../../utils/constant.dart';
 import '../../screens/home/home_screen.dart';
 import '../schedule/schedule_screen.dart';
@@ -28,6 +32,17 @@ class _NavbarScreenState extends State<NavbarScreen> {
   @override
   void initState() {
     currentIndex.value = widget.selectedIndex ?? 0;
+    print("INIT STATE");
+    context.read<AuthBloc>().stream.listen((state) {
+      if (state is AuthExpiredToken) {
+        HelperDialog.alertDialog(context,
+            titleText: "Peringatan",
+            buttonSubmitText: "Login",
+            icon: const Icon(Icons.login),
+            onSubmit: () => Navigator.pushNamedAndRemoveUntil(
+                context, RouteNames.login, (route) => false));
+      }
+    });
     super.initState();
   }
 

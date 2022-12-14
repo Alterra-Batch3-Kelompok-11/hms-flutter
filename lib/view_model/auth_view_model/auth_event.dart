@@ -26,3 +26,5 @@ class Logout extends AuthEvent {}
 class IsLogin extends AuthEvent {}
 
 class IsRemember extends AuthEvent {}
+
+class IsExpiredToken extends AuthEvent {}

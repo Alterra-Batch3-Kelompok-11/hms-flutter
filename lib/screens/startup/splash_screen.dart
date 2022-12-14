@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
       context.read<AuthBloc>().add(IsLogin());
 
       context.read<AuthBloc>().stream.listen((state) {
-        if (state is AuthIsLogin) {
+        if (state is IsExpiredToken) {
           Navigator.pushNamedAndRemoveUntil(
               context, RouteNames.navbar, (route) => false,
               arguments: const NavbarScreen(

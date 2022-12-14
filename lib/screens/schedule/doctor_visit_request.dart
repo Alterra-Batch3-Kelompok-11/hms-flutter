@@ -71,7 +71,15 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
                       context,
                       titleText: "Pemberitahuan",
                       subTitle: "Apakah anda yakin ingin menerima pasien ini?",
-                      buttonSubmitText: "Ya",
+                      buttonSubmitChild: Text(
+                        "Ya",
+                        style: Constant.primaryTextStyle.copyWith(
+                          fontSize: 15,
+                          color: Constant.whiteColor,
+                          fontWeight: Constant.mediumFontWeight,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                       buttonCancelText: "Batal",
                       //icon peringatan bulat
                       icon: SvgPicture.asset(
@@ -93,7 +101,15 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
                       context,
                       titleText: "Peringatan",
                       subTitle: "Apakah anda yakin ingin menolak pasien ini?",
-                      buttonSubmitText: "Ya",
+                      buttonSubmitChild: Text(
+                        "Ya",
+                        style: Constant.primaryTextStyle.copyWith(
+                          fontSize: 15,
+                          color: Constant.whiteColor,
+                          fontWeight: Constant.mediumFontWeight,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                       buttonCancelText: "Batal",
                       icon: SvgPicture.asset(
                         "assets/icons/peringatan_icon.svg",

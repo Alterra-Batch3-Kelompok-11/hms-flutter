@@ -24,8 +24,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     context.read<DoctorBloc>().add(GetProfileDoctor());
-    context.read<DoctorBloc>().add(GetScheduleAllDoctor());
     context.read<PatientBloc>().add(GetPatientQueueToday());
+    context.read<DoctorBloc>().add(GetScheduleAllDoctor());
   }
 
   // list data doctor

@@ -68,8 +68,9 @@ class _DoctorVisitScheduleState extends State<DoctorVisitSchedule> {
                   onTap: () {
                     Navigator.pushNamed(context, RouteNames.patientData,
                         arguments: PatientDataScreen(
-                          patientId: outpatient.patientId,
+                          outSessionId: outpatient.id,
                         ));
+                    print(outpatient.id);
                   },
                   child: CardDoctorVisitSchedule(
                     patientName: outpatient.patient.name,
