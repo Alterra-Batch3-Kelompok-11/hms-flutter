@@ -179,7 +179,7 @@ class PatientService {
     }
   }
 
-  Future<bool> insertConditionPatient(
+  Future<int> insertConditionPatient(
       {required String allergy,
       required String condition,
       required String medicine,
@@ -187,7 +187,7 @@ class PatientService {
       required String token}) async {
     try {
       final response = await _dio.post(
-        "$_baseUrl/patients_conditions",
+        "$_baseUrl/patient_conditions",
         data: {
           "outpatient_session_id": patientSessionId,
           "description": condition,
@@ -202,10 +202,12 @@ class PatientService {
       print("RESPOSNE : ${response.data['data']}");
       if (response.statusCode == 200) {
         print("status : ${response.data['data']['status']}");
-        return true;
+        final int outPatientId =
+            response.data['data']['outpatient_session_id'] as int;
+        return outPatientId;
       } else {
         print("status : ${response.data['data']['status']}");
-        return false;
+        throw DioError;
       }
     } on DioError {
       rethrow;

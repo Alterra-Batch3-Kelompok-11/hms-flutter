@@ -46,7 +46,7 @@ class LocalService {
     return _preferences.getBool("is_remember") ?? false;
   }
 
-  Future<String> getToken() async {
+  Future<String?> getToken() async {
     _preferences = await SharedPreferences.getInstance();
 
     String? token = _preferences.getString("token");
@@ -65,11 +65,15 @@ class LocalService {
   }
 
   Future<bool> checkExpiredToken() async {
-    String token = await getToken();
-    bool tokenExpired = Jwt.isExpired(token);
+    final String? token = await getToken();
 
-    if (tokenExpired == true) {
-      return true;
+    if (token != null || token!.isNotEmpty) {
+      bool tokenExpired = Jwt.isExpired(token);
+      if (tokenExpired == true) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }

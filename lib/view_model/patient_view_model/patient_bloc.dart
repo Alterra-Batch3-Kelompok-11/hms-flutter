@@ -180,39 +180,42 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
     on<GetDetailOutpatient>((event, emit) async {
       emit(PatientLoading());
 
-      final String token = await _localService.getToken();
-      try {
-        final response = await _patientService.getDetailOutpatient(
-            id: event.patientId, token: token);
+      final String? token = await _localService.getToken();
 
-        emit(DetailOutpatientLoaded(outpatientModel: response));
-      } catch (e) {
-        if (e is DioError) {
-          emit(PatientError(message: e.response!.data['message']));
-        } else {
-          emit(PatientError(message: e.toString()));
+      if (token != null || token!.isNotEmpty) {
+        try {
+          final response = await _patientService.getDetailOutpatient(
+              id: event.outSessionId, token: token);
+
+          emit(DetailOutpatientLoaded(outpatientModel: response));
+        } catch (e) {
+          if (e is DioError) {
+            emit(PatientError(message: e.response!.data['message']));
+          } else {
+            emit(PatientError(message: e.toString()));
+          }
         }
+      } else {
+        emit(const PatientError(message: "TOKEN EXPIRED"));
       }
     });
 
     on<InsertConditionPatient>((event, emit) async {
       emit(PatientLoading());
-      String token = await _localService.getToken();
+      final String? token = await _localService.getToken();
 
-      if (token != "") {
+      if (token != null || token!.isNotEmpty) {
         try {
-          final bool response = await _patientService.insertConditionPatient(
-              allergy: event.allergy,
-              condition: event.condition,
-              medicine: event.medicine,
-              patientSessionId: event.patientSessionId,
-              token: token);
+          final int outPatientSessionId =
+              await _patientService.insertConditionPatient(
+                  allergy: event.allergy,
+                  condition: event.condition,
+                  medicine: event.medicine,
+                  patientSessionId: event.patientSessionId,
+                  token: token);
 
-          if (response == true) {
-            emit(SuccessInsertCondition());
-          } else {
-            emit(const PatientError(message: "Something wrong"));
-          }
+          emit(
+              SuccessInsertCondition(outPatientSessionId: outPatientSessionId));
         } catch (e) {
           if (e is DioError) {
             print(e.response!.data['message']);

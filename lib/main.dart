@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
               create: (context) => AuthBloc(
                     context.read<AuthService>(),
                     context.read<LocalService>(),
-                  )),
+                  )..add(IsExpiredToken())),
           BlocProvider(
               create: (context) => DoctorBloc(
                     context.read<DoctorService>(),

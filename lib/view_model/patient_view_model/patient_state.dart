@@ -64,4 +64,11 @@ class DetailOutpatientLoaded extends PatientState {
   List<Object> get props => [outpatientModel];
 }
 
-class SuccessInsertCondition extends PatientState {}
+class SuccessInsertCondition extends PatientState {
+  final int outPatientSessionId;
+
+  const SuccessInsertCondition({required this.outPatientSessionId});
+
+  @override
+  List<Object> get props => [outPatientSessionId];
+}

@@ -35,3 +35,5 @@ class AuthIsRemember extends AuthState {
 
   const AuthIsRemember({required this.isRemember, required this.username});
 }
+
+class AuthExpiredToken extends AuthState {}

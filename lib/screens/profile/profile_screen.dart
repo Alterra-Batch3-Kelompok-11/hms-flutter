@@ -69,7 +69,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onPressed: () => HelperDialog.confirmationDialog(context,
                           titleText: "Keluar",
                           subTitle: "Yakin keluar dari aplikasi ?",
-                          buttonSubmitText: "Ya",
+                          buttonSubmitChild: Text(
+                            "Ya",
+                            style: Constant.primaryTextStyle.copyWith(
+                              fontSize: 15,
+                              color: Constant.whiteColor,
+                              fontWeight: Constant.mediumFontWeight,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                           color: Constant.baseColor,
                           icon: SvgPicture.asset(
                             "assets/icons/peringatan_icon.svg",

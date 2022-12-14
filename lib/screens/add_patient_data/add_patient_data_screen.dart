@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_text_field.dart';
+import 'package:hospital_management_system/screens/patient_data/patient_data_screen.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 import 'package:hospital_management_system/utils/helper_dialog.dart';
 import 'package:hospital_management_system/view_model/patient_view_model/patient_bloc.dart';
@@ -34,11 +35,6 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
 
   ValueNotifier<bool> checkValidateField = ValueNotifier(false);
 
-  updatePatientStatus(String status) {
-    var result = (status == "");
-    onSelectedStatusPatient.value = result;
-  }
-
   @override
   void initState() {
     _inputAlergyController = TextEditingController();
@@ -61,7 +57,11 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
       print("PATIENT STATE : $state");
       if (state is SuccessInsertCondition) {
         Navigator.pushNamedAndRemoveUntil(
-            context, RouteNames.navbar, (route) => false);
+            context, RouteNames.patientData, (route) => false,
+            arguments: PatientDataScreen(
+              outSessionId: state.outPatientSessionId,
+              enableBack: false,
+            ));
       } else if (state is PatientError) {
         print("ERROR MESSAGE : ${state.message}");
       }
@@ -210,7 +210,9 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
             valueListenable: checkValidateField,
             builder: (context, bool val, _) {
               return GlobalButton(
-                color: (val) ? Constant.baseColor : Constant.processColor,
+                color: (checkValidateField.value)
+                    ? Constant.baseColor
+                    : Constant.processColor,
                 onPressed: () {
                   print("widget.outPatientId : ${widget.outPatientId}");
                   print(_formKey.currentState!.validate());
@@ -219,15 +221,41 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
                         titleText: "Konfirmasi",
                         subTitle:
                             "Apakan anda yakin ingin menyimpan data pasien?",
-                        buttonSubmitText: "Ya",
+                        buttonSubmitChild:
+                            BlocBuilder<PatientBloc, PatientState>(
+                          builder: (context, state) {
+                            if (state is PatientLoading) {
+                              return const SizedBox(
+                                height: 30,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  color: Constant.whiteColor,
+                                  strokeWidth: 2,
+                                ),
+                              );
+                            } else {
+                              return Text(
+                                "Ya",
+                                style: Constant.primaryTextStyle.copyWith(
+                                  fontSize: 15,
+                                  color: Constant.whiteColor,
+                                  fontWeight: Constant.mediumFontWeight,
+                                ),
+                                textAlign: TextAlign.center,
+                              );
+                            }
+                          },
+                        ),
                         icon: const Icon(Icons.question_mark_outlined),
-                        buttonCancelText: "Tidak", onSubmit: () {
-                      context.read<PatientBloc>().add(InsertConditionPatient(
-                          patientSessionId: 2,
-                          allergy: _inputAlergyController.text,
-                          condition: _inputConditionController.text,
-                          medicine: _inputMedicineController.text));
-                    });
+                        buttonCancelText: "Tidak",
+                        onSubmit: () {
+                          context.read<PatientBloc>().add(
+                              InsertConditionPatient(
+                                  patientSessionId: widget.outPatientId,
+                                  allergy: _inputAlergyController.text,
+                                  condition: _inputConditionController.text,
+                                  medicine: _inputMedicineController.text));
+                        });
                   }
                 },
                 buttonChild: Text(

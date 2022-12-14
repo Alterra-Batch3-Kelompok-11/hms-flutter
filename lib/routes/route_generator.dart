@@ -33,7 +33,8 @@ class RouteGenerator {
         final args = settings.arguments as PatientDataScreen;
         return RouteBuilder(
             child: PatientDataScreen(
-          patientId: args.patientId,
+          outSessionId: args.outSessionId,
+          enableBack: args.enableBack,
         ));
       case RouteNames.addPatientData:
         final patientId = settings.arguments as int;

@@ -38,6 +38,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
+    on<IsExpiredToken>((event, emit) async {
+      bool token = await _localService.checkExpiredToken();
+
+      if (token == true) {
+        emit(AuthExpiredToken());
+      } else {
+        print("TOKEN BELUM EXPIRE");
+      }
+    });
+
     on<IsRemember>((event, emit) async {
       final AuthModel dataAuth = await _localService.getDataFromLocalStorage();
       if (dataAuth.isRemember == true) {
