@@ -8,6 +8,7 @@ import 'package:hospital_management_system/screens/navbar/navbar.dart';
 import 'package:hospital_management_system/screens/patient_data/widgets/patient_data_loading.dart';
 import 'package:hospital_management_system/screens/patient_data/widgets/patient_profile_card.dart';
 import 'package:hospital_management_system/utils/constant.dart';
+import '../../view_model/auth_view_model/auth_bloc.dart';
 import '../../view_model/patient_view_model/patient_bloc.dart';
 import 'widgets/patient_complaints_card.dart';
 import 'widgets/patient_medical_history_card.dart';
@@ -15,10 +16,14 @@ import 'widgets/patient_schedule_card.dart';
 
 class PatientDataScreen extends StatefulWidget {
   const PatientDataScreen(
-      {Key? key, required this.outSessionId, this.enableBack})
+      {Key? key,
+      required this.outSessionId,
+      required this.patientId,
+      this.enableBack})
       : super(key: key);
 
   final int outSessionId;
+  final int patientId;
   final bool? enableBack;
 
   @override
@@ -26,13 +31,16 @@ class PatientDataScreen extends StatefulWidget {
 }
 
 class _PatientDataScreenState extends State<PatientDataScreen> {
+  late int roleId;
   @override
   void initState() {
-    print(widget.outSessionId);
-    context
-        .read<PatientBloc>()
-        .add(GetDetailOutpatient(outSessionId: widget.outSessionId));
-
+    print("PATIENT ID ${widget.patientId}");
+    context.read<AuthBloc>().add(GetRoleId());
+    // context
+    //     .read<PatientBloc>()
+    //     .add(GetHistoryPatientTreatment(patientId: widget.patientId));
+    context.read<PatientBloc>().add(GetDetailOutpatient(
+        outSessionId: widget.outSessionId, patientId: widget.patientId));
     super.initState();
   }
 
@@ -40,7 +48,7 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        return widget.enableBack!;
+        return widget.enableBack ?? true;
       },
       child: Scaffold(
         backgroundColor: Constant.backgroundColor,
@@ -122,34 +130,65 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
                     ),
                   ),
                   Column(
-                    children: [1, 2]
+                    children: state.historyList
                         .map(
-                          (e) => const PatientMedicalHistoryCard(),
+                          (data) =>
+                              PatientMedicalHistoryCard(dataHistory: data),
                         )
                         .toList(),
                   ),
                   const SizedBox(
                     height: 24,
                   ),
-                  GlobalButton(
-                    onPressed: () => Navigator.pushNamed(
-                      context,
-                      RouteNames.addPatientData,
-                      arguments: outPatient.id,
-                    ),
-                    // onPressed: () {
-                    //   print(outPatient.id);
-                    //   print(outPatient.patientId);
-                    // },
-                    buttonChild: Text(
-                      "Terima",
-                      style: Constant.primaryTextStyle.copyWith(
-                        fontSize: Constant.subtitleFontSize,
-                        fontWeight: Constant.semiBoldFontWeight,
-                        color: Colors.white,
-                      ),
-                    ),
-                  )
+                  BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      if (state is AuthRoleId) {
+                        if (state.roleId == 2) {
+                          return GlobalButton(
+                            onPressed: () => Navigator.pushNamed(
+                              context,
+                              RouteNames.addPatientData,
+                              arguments: outPatient.id,
+                            ),
+                            buttonChild: Text(
+                              "Terima",
+                              style: Constant.primaryTextStyle.copyWith(
+                                fontSize: Constant.subtitleFontSize,
+                                fontWeight: Constant.semiBoldFontWeight,
+                                color: Colors.white,
+                              ),
+                            ),
+                          );
+                        } else {
+                          return const SizedBox.shrink();
+                        }
+                      } else {
+                        return const SizedBox.shrink();
+                      }
+                    },
+                  ),
+                  // Visibility(
+                  //   visible: outPatient.isFinish,
+                  //   child: GlobalButton(
+                  //     onPressed: () => Navigator.pushNamed(
+                  //       context,
+                  //       RouteNames.navbar,
+                  //       arguments: const NavbarScreen(selectedIndex: 0),
+                  //     ),
+                  //     // onPressed: () {
+                  //     //   print(outPatient.id);
+                  //     //   print(outPatient.patientId);
+                  //     // },
+                  //     buttonChild: Text(
+                  //       "Kembali ke dashboard",
+                  //       style: Constant.primaryTextStyle.copyWith(
+                  //         fontSize: Constant.subtitleFontSize,
+                  //         fontWeight: Constant.semiBoldFontWeight,
+                  //         color: Colors.white,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // )
                 ],
               );
             } else if (state is PatientError) {

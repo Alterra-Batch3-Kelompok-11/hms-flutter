@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hospital_management_system/models/history_patiens_model.dart';
+import 'package:hospital_management_system/models/history_patient_treatment_model.dart';
 import 'package:hospital_management_system/models/history_patients_approval_model.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
 import 'package:hospital_management_system/models/patient_queue_model.dart';
@@ -20,13 +21,11 @@ class PatientService {
               "Authorization": "Bearer $token",
             },
           ));
-      print("RESPONSE : " + response.data['data'].toString());
       final dataRespone =
           response.data['data'] != null ? response.data['data'] as List : [];
       List<OutpatientModel> outpatientList = [];
       //List<OutpatientModel> outpatientList = [];
       for (var i = 0; i < dataRespone.length; i++) {
-        print("DATA RESPONSE : " + dataRespone[i].toString());
         outpatientList.add(OutpatientModel.fromJson(dataRespone[i]));
       }
       return outpatientList;
@@ -116,8 +115,7 @@ class PatientService {
     }
   }
 
-  // ignore: non_constant_identifier_names
-  Future<List<Historypatiensapprovals>> GetHistoryApprovals(
+  Future<List<Historypatiensapprovals>> getHistoryApprovals(
       {required int idDoctor, required String token}) async {
     try {
       //respons with token
@@ -134,11 +132,9 @@ class PatientService {
       List<Historypatiensapprovals> historyListApprovals = [];
       //List<OutpatientModel> historyList = [];
       for (var i = 0; i < dataRespone.length; i++) {
-        print("DATA RESPONSE : " + dataRespone[i].toString());
         historyListApprovals
             .add(Historypatiensapprovals.fromJson(dataRespone[i]));
       }
-      print(" tess {$historyListApprovals}");
       return historyListApprovals;
     } on DioError {
       rethrow;
@@ -196,17 +192,43 @@ class PatientService {
         },
         options: Options(headers: {"Authorization": "Bearer $token"}),
       );
-
-      print("INSERT PATIENT CONDITION");
-
-      print("RESPOSNE : ${response.data['data']}");
       if (response.statusCode == 200) {
-        print("status : ${response.data['data']['status']}");
         final int outPatientId =
             response.data['data']['outpatient_session_id'] as int;
         return outPatientId;
       } else {
         print("status : ${response.data['data']['status']}");
+        throw DioError;
+      }
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  Future<List<HistoryPatientTreatmentModel>> getHistoryPatientTreatment(
+      int patientId) async {
+    try {
+      final response =
+          await _dio.get("$_baseUrl/patient_conditions/patient/$patientId");
+      List<HistoryPatientTreatmentModel> historyList;
+
+      print(response.data['data']);
+      if (response.statusCode == 200) {
+        print(response.statusCode);
+        if (response.data['data'] == null) {
+          historyList = [];
+          return historyList;
+        } else {
+          historyList = (response.data['data'] as List)
+              .map((json) => HistoryPatientTreatmentModel.fromJson(json))
+              .toList();
+
+          print("HISTORY SERVICE : ");
+          print(historyList[0].allergy);
+          return historyList;
+        }
+      } else {
+        print("dio error");
         throw DioError;
       }
     } on DioError {

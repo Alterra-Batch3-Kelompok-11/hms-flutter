@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hospital_management_system/models/auth_model.dart';
 import 'package:hospital_management_system/models/history_patiens_model.dart';
+import 'package:hospital_management_system/models/history_patient_treatment_model.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
 import 'package:hospital_management_system/models/patient_queue_model.dart';
 import 'package:hospital_management_system/services/local_service.dart';
@@ -156,10 +157,9 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
         print("TOKEN : $token");
 
         final List<Historypatiensapprovals>? historyListApprovals =
-            await _patientService.GetHistoryApprovals(
+            await _patientService.getHistoryApprovals(
                 idDoctor: id!, token: token!);
 
-        // }
         print("tes $historyListApprovals");
 
         emit(HistoryApprovalsLoaded(
@@ -187,7 +187,11 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
           final response = await _patientService.getDetailOutpatient(
               id: event.outSessionId, token: token);
 
-          emit(DetailOutpatientLoaded(outpatientModel: response));
+          final historyList =
+              await _patientService.getHistoryPatientTreatment(event.patientId);
+
+          emit(DetailOutpatientLoaded(
+              outpatientModel: response, historyList: historyList));
         } catch (e) {
           if (e is DioError) {
             emit(PatientError(message: e.response!.data['message']));
@@ -227,6 +231,35 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
         }
       } else {
         emit(const PatientError(message: "Expired token"));
+      }
+    });
+
+    on<GetHistoryPatientTreatment>((event, emit) async {
+      String? getToken = await _localService.getToken();
+
+      if (getToken!.isNotEmpty) {
+        try {
+          final historyList =
+              await _patientService.getHistoryPatientTreatment(event.patientId);
+
+          print("HISTORY BLOC : " + historyList[0].complaint);
+          emit(HistoryPatientTreatmentLoaded(historyList: historyList));
+          if (historyList.isNotEmpty) {
+          } else {
+            throw DioError;
+          }
+        } catch (e) {
+          if (e is DioError) {
+            // print(
+            //     "ERROR RESONSE FROM BLOC : ${e.response!.data['data']['message']}");
+            emit(const PatientError(message: "Data not found"));
+          } else {
+            print(e.toString());
+            emit(const PatientError(message: "Something wrong"));
+          }
+        }
+      } else {
+        emit(const PatientError(message: "Token expired"));
       }
     });
   }

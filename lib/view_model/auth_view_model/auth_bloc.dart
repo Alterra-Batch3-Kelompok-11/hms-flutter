@@ -60,5 +60,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await _authService.logout(_localService);
       emit(AuthIsLogout());
     });
+
+    on<GetRoleId>((event, emit) async {
+      final int roleId = await _localService.getRoleId();
+
+      emit(AuthRoleId(roleId: roleId));
+    });
   }
 }

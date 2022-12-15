@@ -47,11 +47,6 @@ class ListDoctorCard extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: doctorList.length,
                   itemBuilder: (context, index) {
-                    final String startTime =
-                        doctorList[index].doctorSchedules[0].startTime;
-                    final String endTime =
-                        doctorList[index].doctorSchedules[0].endTime;
-
                     print("doctorList.length ${doctorList.length}");
                     print("DOCTOR LIST : ${doctorList[index].name}");
                     return Container(

@@ -41,6 +41,13 @@ class LocalService {
     }
   }
 
+  Future<int> getRoleId() async {
+    _preferences = await SharedPreferences.getInstance();
+
+    final int? roleId = _preferences.getInt("role_id");
+    return roleId!;
+  }
+
   Future<bool> isRemember() async {
     _preferences = await SharedPreferences.getInstance();
     return _preferences.getBool("is_remember") ?? false;

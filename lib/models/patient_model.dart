@@ -4,6 +4,7 @@ class PatientModel {
   String name;
   String phone;
   String address;
+  int age;
   int gender;
   String birthDate;
   int religionId;
@@ -16,6 +17,7 @@ class PatientModel {
     required this.phone,
     required this.address,
     required this.gender,
+    required this.age,
     required this.birthDate,
     required this.religionId,
     required this.maritalStatus,
@@ -28,9 +30,10 @@ class PatientModel {
       name: json['name'],
       phone: json['phone'],
       address: json['address'],
-      gender: json['gender'],
+      age: json['age'] ?? 0,
+      gender: json['gender'] ?? 0,
       birthDate: json['birth_date'],
-      religionId: json['religion_id'],
+      religionId: json['religion_id'] ?? 0,
       maritalStatus: json['marital_status'],
     );
   }
@@ -43,6 +46,7 @@ class PatientModel {
       'phone': patientModel.phone,
       'address': patientModel.address,
       'gender': patientModel.gender,
+      'age': patientModel.age,
       'birth_date': patientModel.birthDate,
       'religion_id': patientModel.religionId,
       'marital_status': patientModel.maritalStatus,

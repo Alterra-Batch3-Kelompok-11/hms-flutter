@@ -25,9 +25,9 @@ class DoctorModel {
 
   factory DoctorModel.fromJson(Map<String, dynamic> json) {
     return DoctorModel(
-      id: json['id'],
+      id: json['id'] ?? 0,
       name: json['name'],
-      specialityId: json['speciality_id'],
+      specialityId: json['speciality_id'] ?? 0,
       licenseNumber: json['license_number'],
       specialityName: json['speciality_name'],
       doctorSchedules: (json['doctor_schedules']) == null ||

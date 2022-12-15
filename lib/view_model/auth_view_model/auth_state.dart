@@ -37,3 +37,12 @@ class AuthIsRemember extends AuthState {
 }
 
 class AuthExpiredToken extends AuthState {}
+
+class AuthRoleId extends AuthState {
+  final int roleId;
+
+  const AuthRoleId({required this.roleId});
+
+  @override
+  List<Object> get props => [roleId];
+}

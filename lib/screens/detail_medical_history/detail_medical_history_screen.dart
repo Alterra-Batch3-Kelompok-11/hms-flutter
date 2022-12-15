@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management_system/models/history_patient_treatment_model.dart';
 import 'package:hospital_management_system/screens/detail_medical_history/widgets/data_field.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
 class DetailMedicalHistoryScreen extends StatelessWidget {
-  const DetailMedicalHistoryScreen({Key? key}) : super(key: key);
+  const DetailMedicalHistoryScreen({Key? key, required this.dataHistory})
+      : super(key: key);
+
+  final HistoryPatientTreatmentModel dataHistory;
 
   @override
   Widget build(BuildContext context) {
@@ -50,16 +54,13 @@ class DetailMedicalHistoryScreen extends StatelessWidget {
               height: 50,
               thickness: 1,
             ),
-            const DataField(
-                dataName: "Waktu Kunjungan", dataValue: "17 November 2022"),
-            const DataField(dataName: "Dokter", dataValue: "Dr. Bones"),
-            const DataField(
-                dataName: "Keluhan", dataValue: "Batuk, Pilek, Pusing"),
-            const DataField(
-                dataName: "Kondisi",
-                dataValue:
-                    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis quas enim nam officia culpa consectetur corrupti quos sequi non, reiciendis excepturi, distinctio odio fuga. Iure, libero incidunt. Consequatur, tempore quod eos corporis quo eveniet, quibusdam minima est atque cum perferendis, impedit culpa. Et esse quo dolorem veniam perspiciatis ipsam minima."),
-            const DataField(dataName: "Obat", dataValue: "Fix formula 44"),
+            DataField(
+                dataName: "Waktu Kunjungan",
+                dataValue: dataHistory.scheduleDateIndo),
+            DataField(dataName: "Dokter", dataValue: dataHistory.doctor.name),
+            DataField(dataName: "Keluhan", dataValue: dataHistory.complaint),
+            DataField(dataName: "Kondisi", dataValue: dataHistory.description),
+            DataField(dataName: "Obat", dataValue: dataHistory.medicine),
           ],
         ),
       ),

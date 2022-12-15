@@ -25,7 +25,7 @@ class ScheduleModel {
       doctorId: json['doctor_id'],
       date: json['date'],
       dateIndo: json['date_indo'],
-      dayInt: json['day_int'] as int,
+      dayInt: json['day_int'],
       dayString: json['day_string'],
       startTime: json['start_time'],
       endTime: json['end_time'],

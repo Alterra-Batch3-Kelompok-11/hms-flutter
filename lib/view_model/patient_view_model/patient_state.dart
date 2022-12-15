@@ -57,11 +57,12 @@ class HistoryApprovalsLoaded extends PatientState {
 
 class DetailOutpatientLoaded extends PatientState {
   final OutpatientModel outpatientModel;
-
-  const DetailOutpatientLoaded({required this.outpatientModel});
+  final List<HistoryPatientTreatmentModel> historyList;
+  const DetailOutpatientLoaded(
+      {required this.outpatientModel, required this.historyList});
 
   @override
-  List<Object> get props => [outpatientModel];
+  List<Object> get props => [outpatientModel, historyList];
 }
 
 class SuccessInsertCondition extends PatientState {
@@ -71,4 +72,13 @@ class SuccessInsertCondition extends PatientState {
 
   @override
   List<Object> get props => [outPatientSessionId];
+}
+
+class HistoryPatientTreatmentLoaded extends PatientState {
+  final List<HistoryPatientTreatmentModel> historyList;
+
+  const HistoryPatientTreatmentLoaded({required this.historyList});
+
+  @override
+  List<Object> get props => [historyList];
 }

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_text_field.dart';
-import 'package:hospital_management_system/screens/patient_data/patient_data_screen.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 import 'package:hospital_management_system/utils/helper_dialog.dart';
 import 'package:hospital_management_system/view_model/patient_view_model/patient_bloc.dart';
@@ -56,12 +54,16 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
     context.read<PatientBloc>().stream.listen((state) {
       print("PATIENT STATE : $state");
       if (state is SuccessInsertCondition) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, RouteNames.patientData, (route) => false,
-            arguments: PatientDataScreen(
-              outSessionId: state.outPatientSessionId,
-              enableBack: false,
-            ));
+        // Navigator.pushNamedAndRemoveUntil(
+        //     context, RouteNames.patientData, (route) => false,
+        //     arguments: PatientDataScreen(
+        //       outSessionId: state.outPatientSessionId,
+        //       patientId: ,
+        //       enableBack: false,
+        //     ));
+
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
       } else if (state is PatientError) {
         print("ERROR MESSAGE : ${state.message}");
       }
@@ -84,6 +86,7 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
             color: Colors.white,
           ),
         ),
+        // leading: IconButton(onPressed: (){}, icon: icon),
       ),
       body: Form(
         key: _formKey,
