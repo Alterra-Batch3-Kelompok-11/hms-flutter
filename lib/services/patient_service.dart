@@ -16,12 +16,8 @@ class PatientService {
     try {
       //respons with token
       final response = await _dio.get(
-          "$_baseUrl/outpatient_sessions/doctor/$idDoctor/unprocesseds",
-          options: Options(
-            headers: {
-              "Authorization": "Bearer $token",
-            },
-          ));
+        "$_baseUrl/outpatient_sessions/doctor/$idDoctor/unprocesseds",
+      );
       final dataRespone =
           response.data['data'] != null ? response.data['data'] as List : [];
       List<OutpatientModel> outpatientList = [];
@@ -69,7 +65,7 @@ class PatientService {
       {required int idOutpatient,
       required String token,
       required int isApproved}) async {
-    OutpatientModel updateOutpatient;
+    // OutpatientModel updateOutpatient;
     try {
       final response = await _dio.put(
         "$_baseUrl/outpatient_sessions/$idOutpatient/approval",

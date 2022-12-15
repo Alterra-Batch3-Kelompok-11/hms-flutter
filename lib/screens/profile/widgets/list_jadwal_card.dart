@@ -44,60 +44,78 @@ class ListJadwalCard extends StatelessWidget {
             ),
             //
             //Body
-            ListView.separated(
-              padding: const EdgeInsets.all(10),
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: schedule.length,
-              itemBuilder: (context, index) {
-                final String startTime = schedule[index].startTime;
-                final String endTime = schedule[index].endTime;
-                return Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: Constant.horizontalPadding,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 10),
-                      Text(
-                        '${schedule[index].dayString}, ${schedule[index].dateIndo}',
+            (schedule.isEmpty)
+                ? Center(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: Constant.verticalPadding,
+                        horizontal: Constant.horizontalPadding,
+                      ),
+                      child: Text(
+                        "Tidak ada jadwal kunjungan untuk saat ini",
                         style: Constant.primaryTextStyle.copyWith(
+                          fontWeight: Constant.regularFontWeight,
                           fontSize: Constant.subtitleFontSize,
-                          fontWeight: Constant.semiBoldFontWeight,
+                          color: Colors.grey,
                         ),
+                        textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.access_time,
-                            color: Constant.lightColor,
-                            size: 16,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            '$startTime - $endTime WIB',
-                            style: Constant.secondaryTextStyle.copyWith(
-                              fontSize: Constant.bodyFontSize,
-                              fontWeight: Constant.mediumFontWeight,
+                    ),
+                  )
+                : ListView.separated(
+                    padding: const EdgeInsets.all(10),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: schedule.length,
+                    itemBuilder: (context, index) {
+                      final String startTime = schedule[index].startTime;
+                      final String endTime = schedule[index].endTime;
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: Constant.horizontalPadding,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 10),
+                            Text(
+                              '${schedule[index].dayString}, ${schedule[index].dateIndo}',
+                              style: Constant.primaryTextStyle.copyWith(
+                                fontSize: Constant.subtitleFontSize,
+                                fontWeight: Constant.semiBoldFontWeight,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 5),
-                    ],
+                            const SizedBox(height: 10),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.access_time,
+                                  color: Constant.lightColor,
+                                  size: 16,
+                                ),
+                                const SizedBox(width: 5),
+                                Text(
+                                  '$startTime - $endTime WIB',
+                                  style: Constant.secondaryTextStyle.copyWith(
+                                    fontSize: Constant.bodyFontSize,
+                                    fontWeight: Constant.mediumFontWeight,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 5),
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const Divider(
+                        //CAC4D0
+                        color: Color(0xFFCAC4D0),
+                        thickness: 1,
+                      );
+                    },
                   ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const Divider(
-                  //CAC4D0
-                  color: Color(0xFFCAC4D0),
-                  thickness: 1,
-                );
-              },
-            ),
           ],
         ),
       ),

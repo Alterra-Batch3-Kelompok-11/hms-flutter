@@ -31,8 +31,23 @@ class _PatientVisitHistoryState extends State<PatientVisitHistory> {
         return const GlobalLoading(layout: ScheduleLoading());
       } else if (state is HistoryVisitLoaded) {
         if (state.historyList.isEmpty) {
-          return const Center(
-            child: Text("Tidak ada data"),
+          return Center(
+            child: Container(
+              padding: const EdgeInsets.only(
+                top: 24,
+                left: 60,
+                right: 60,
+              ),
+              child: Text(
+                "Belum ada riwayat kunjungan untuk saat ini",
+                style: Constant.primaryTextStyle.copyWith(
+                  fontWeight: Constant.regularFontWeight,
+                  fontSize: Constant.subtitleFontSize,
+                  color: Colors.grey,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
           );
         } else {
           return ListView.builder(

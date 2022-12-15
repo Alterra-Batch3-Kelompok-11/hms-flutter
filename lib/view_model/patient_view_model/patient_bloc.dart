@@ -31,7 +31,10 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
           final String? token = dataAuth.token;
 
           final List<OutpatientModel>? outpatientList = await _patientService
-              .getOutpatientUnprocessed(idDoctor: id!, token: token!);
+              .getOutpatientUnprocessed(idDoctor: 7, token: token!);
+
+          print("PERMINTAAN KUNJUNGAN");
+          print(outpatientList);
           emit(OutpatientLoaded(outpatientList: outpatientList ?? []));
         } catch (e) {
           if (e is DioError) {
@@ -57,7 +60,7 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
         print("TOKEN : $token");
 
         final List<OutpatientModel>? outpatientList = await _patientService
-            .getOutpatientApproveds(idDoctor: id!, token: token!);
+            .getOutpatientApproveds(idDoctor: 7, token: token!);
 
         // }
         emit(OutpatientLoaded(outpatientList: outpatientList ?? []));
