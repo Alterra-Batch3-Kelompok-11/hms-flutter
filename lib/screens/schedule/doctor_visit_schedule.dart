@@ -58,28 +58,30 @@ class _DoctorVisitScheduleState extends State<DoctorVisitSchedule> {
               ),
             );
           } else {
-            return ListView(
+            return ListView.builder(
               padding: const EdgeInsets.symmetric(
                 horizontal: Constant.horizontalPadding,
                 vertical: Constant.verticalPadding,
               ),
-              children: outpatientList.map((outpatient) {
+              itemCount: outpatientList.length,
+              itemBuilder: ((context, index) {
                 return GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(context, RouteNames.patientData,
                         arguments: PatientDataScreen(
-                          outSessionId: outpatient.id,
-                          patientId: outpatient.patientId,
+                          outSessionId: outpatientList[index].id,
+                          patientId: outpatientList[index].patientId,
                         ));
-                    print(outpatient.id);
+                    print(outpatientList[index].id);
                   },
                   child: CardDoctorVisitSchedule(
-                    patientName: outpatient.patient.name,
-                    scheduleDate: outpatient.scheduleDateIndo,
-                    scheduleTime: outpatient.scheduleTime,
+                    queueNumber: index + 1,
+                    patientName: outpatientList[index].patient.name,
+                    scheduleDate: outpatientList[index].scheduleDateIndo,
+                    scheduleTime: outpatientList[index].scheduleTime,
                   ),
                 );
-              }).toList(),
+              }),
             );
           }
           // return const Text('Berhasil');

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_loading.dart';
 import 'package:hospital_management_system/screens/history/widgets/card_patient_visit_history.dart';
+import 'package:hospital_management_system/screens/patient_data/patient_data_screen.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 import 'package:hospital_management_system/view_model/patient_view_model/patient_bloc.dart';
 
@@ -36,11 +38,18 @@ class _PatientVisitHistoryState extends State<PatientVisitHistory> {
           return ListView.builder(
             itemCount: state.historyList.length,
             itemBuilder: (context, index) {
-              return CardPatientVisitHistory(
-                status: state.historyList[index].status,
-                patientName: state.historyList[index].patientName,
-                visitDate: state.historyList[index].scheduleDateIndo,
-                queueNumber: index + 1,
+              return GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, RouteNames.patientData,
+                      arguments: const PatientDataScreen(
+                          outSessionId: 11, patientId: 3));
+                },
+                child: CardPatientVisitHistory(
+                  status: state.historyList[index].status,
+                  patientName: state.historyList[index].patientName,
+                  visitDate: state.historyList[index].scheduleDateIndo,
+                  queueNumber: index + 1,
+                ),
               );
             },
             padding: const EdgeInsets.symmetric(

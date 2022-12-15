@@ -167,28 +167,28 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
                       }
                     },
                   ),
-                  Visibility(
-                    visible: outPatient.isFinish,
-                    child: GlobalButton(
-                      onPressed: () => Navigator.pushNamed(
-                        context,
-                        RouteNames.navbar,
-                        arguments: const NavbarScreen(selectedIndex: 0),
-                      ),
-                      // onPressed: () {
-                      //   print(outPatient.id);
-                      //   print(outPatient.patientId);
-                      // },
-                      buttonChild: Text(
-                        "Kembali ke dashboard",
-                        style: Constant.primaryTextStyle.copyWith(
-                          fontSize: Constant.subtitleFontSize,
-                          fontWeight: Constant.semiBoldFontWeight,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  )
+                  // Visibility(
+                  //   visible: outPatient.isFinish,
+                  //   child: GlobalButton(
+                  //     onPressed: () => Navigator.pushNamed(
+                  //       context,
+                  //       RouteNames.navbar,
+                  //       arguments: const NavbarScreen(selectedIndex: 0),
+                  //     ),
+                  //     // onPressed: () {
+                  //     //   print(outPatient.id);
+                  //     //   print(outPatient.patientId);
+                  //     // },
+                  //     buttonChild: Text(
+                  //       "Kembali ke dashboard",
+                  //       style: Constant.primaryTextStyle.copyWith(
+                  //         fontSize: Constant.subtitleFontSize,
+                  //         fontWeight: Constant.semiBoldFontWeight,
+                  //         color: Colors.white,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // )
                 ],
               );
             } else if (state is PatientError) {

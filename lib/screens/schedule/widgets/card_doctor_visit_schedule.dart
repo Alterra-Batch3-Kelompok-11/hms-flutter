@@ -7,11 +7,13 @@ class CardDoctorVisitSchedule extends StatelessWidget {
     required this.patientName,
     required this.scheduleDate,
     required this.scheduleTime,
+    required this.queueNumber,
   }) : super(key: key);
 
   final String patientName;
   final String scheduleDate;
   final String scheduleTime;
+  final int queueNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class CardDoctorVisitSchedule extends StatelessWidget {
                   color: Constant.veryLightColor,
                 ),
                 child: Center(
-                    child: Text("1",
+                    child: Text(queueNumber.toString(),
                         style: Constant.primaryTextStyle.copyWith(
                             fontSize: Constant.firstTitleSize,
                             fontWeight: Constant.semiBoldFontWeight,

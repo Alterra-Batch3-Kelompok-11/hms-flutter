@@ -61,6 +61,8 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
         //       patientId: ,
         //       enableBack: false,
         //     ));
+
+        Navigator.of(context).pop();
         Navigator.of(context).pop();
       } else if (state is PatientError) {
         print("ERROR MESSAGE : ${state.message}");

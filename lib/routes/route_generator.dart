@@ -30,7 +30,7 @@ class RouteGenerator {
       case RouteNames.profile:
         return RouteBuilder(child: const ProfileScreen());
       case RouteNames.patientData:
-        final args = settings.arguments as PatientDataScreen;
+        final PatientDataScreen args = settings.arguments as PatientDataScreen;
         return RouteBuilder(
             child: PatientDataScreen(
           outSessionId: args.outSessionId,
