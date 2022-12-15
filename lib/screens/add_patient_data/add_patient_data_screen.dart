@@ -54,14 +54,6 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
     context.read<PatientBloc>().stream.listen((state) {
       print("PATIENT STATE : $state");
       if (state is SuccessInsertCondition) {
-        // Navigator.pushNamedAndRemoveUntil(
-        //     context, RouteNames.patientData, (route) => false,
-        //     arguments: PatientDataScreen(
-        //       outSessionId: state.outPatientSessionId,
-        //       patientId: ,
-        //       enableBack: false,
-        //     ));
-
         Navigator.of(context).pop();
         Navigator.of(context).pop();
       } else if (state is PatientError) {
@@ -86,7 +78,7 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
             color: Colors.white,
           ),
         ),
-        // leading: IconButton(onPressed: (){}, icon: icon),
+        // leading: IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back),),
       ),
       body: Form(
         key: _formKey,

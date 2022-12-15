@@ -49,8 +49,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void dispose() {
+    FocusScope.of(context).unfocus();
+    super.dispose();
   }
 
   @override
@@ -109,6 +110,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           focusNode: fieldUsernameFocus,
                           prefixIcon: Icons.person,
                           validator: (value) {
+                            if (value!.isEmpty) {
+                              print("data kosong");
+                              return "Tidak";
+                            }
                             return null;
                           }),
                       const SizedBox(height: 20),
@@ -124,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           validator: (value) {
                             if (value!.isEmpty) {
                               print("data kosong");
-                              return "required";
+                              return "Field can't empty";
                             }
                             return null;
                           }),
@@ -159,6 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   password: _passwordController.text,
                                   isRemember: isRemember.value,
                                 ));
+                            FocusScope.of(context).unfocus();
                           }
                         },
                         buttonChild: BlocBuilder<AuthBloc, AuthState>(

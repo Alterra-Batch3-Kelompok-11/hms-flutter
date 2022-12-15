@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
+import 'package:hospital_management_system/screens/navbar/navbar.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 //bloc
 
@@ -121,7 +122,10 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
                         context.read<PatientBloc>().add(PutOutpatientApproval(
                             idOutpatient: outpatient.id, isApproved: 2));
                         Navigator.pushNamedAndRemoveUntil(
-                            context, RouteNames.navbar, (route) => false);
+                            context, RouteNames.navbar, (route) => false,
+                            arguments: const NavbarScreen(
+                              selectedIndex: 1,
+                            ));
                       },
                     );
                   },

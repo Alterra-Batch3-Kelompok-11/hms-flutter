@@ -82,3 +82,12 @@ class HistoryPatientTreatmentLoaded extends PatientState {
   @override
   List<Object> get props => [historyList];
 }
+
+class NotificationLoaded extends PatientState {
+  final List<NotificationModel> notificationList;
+
+  const NotificationLoaded({required this.notificationList});
+
+  @override
+  List<Object> get props => [notificationList];
+}
