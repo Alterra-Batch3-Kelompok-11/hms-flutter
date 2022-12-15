@@ -93,7 +93,9 @@ class PatientCountCard extends StatelessWidget {
             height: 15,
           ),
           (patientQueueToday!.patientsToday.isEmpty)
-              ? const Center(child: Text("Tidak ada pasien hari ini"))
+              ? Container(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: const Center(child: Text("Tidak ada pasien hari ini")))
               : Container(
                   padding: const EdgeInsets.symmetric(
                       horizontal: Constant.horizontalPadding, vertical: 12),
@@ -101,7 +103,7 @@ class PatientCountCard extends StatelessWidget {
                     borderRadius: Constant.cardBorderRadius,
                     border: Border.all(color: Colors.black12),
                   ),
-                  child: ListView.builder(
+                  child: ListView.separated(
                     physics: const ScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: patientQueueToday!.patientsToday.length,
@@ -199,7 +201,15 @@ class PatientCountCard extends StatelessWidget {
                         ],
                       );
                     },
-                  )),
+                    separatorBuilder: (context, index) {
+                      return const Divider(
+                        //CAC4D0
+                        color: Color(0xFFCAC4D0),
+                        thickness: 1,
+                      );
+                    },
+                  ),
+                ),
           const SizedBox(
             height: 15,
           ),

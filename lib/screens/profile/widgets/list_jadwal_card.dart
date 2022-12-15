@@ -10,18 +10,6 @@ class ListJadwalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // child: Column(
-      //   crossAxisAlignment: CrossAxisAlignment.start,
-      //   children: [
-      //     // Text(
-      //   'Jadwal Saya',
-      //   style: Constant.primaryTextStyle.copyWith(
-      //     fontSize: Constant.subtitleFontSize,
-      //     fontWeight: Constant.semiBoldFontWeight,
-      //   ),
-      //   textAlign: TextAlign.left,
-      // ),
-      // const SizedBox(height: Constant.verticalPadding),
       child: Container(
         decoration: const BoxDecoration(
           color: Colors.white,
@@ -56,7 +44,8 @@ class ListJadwalCard extends StatelessWidget {
             ),
             //
             //Body
-            ListView.builder(
+            ListView.separated(
+              padding: const EdgeInsets.all(10),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: schedule.length,
@@ -97,13 +86,15 @@ class ListJadwalCard extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 5),
-                      const Divider(
-                        //D9D9D9
-                        color: Color(0xffD9D9D9),
-                        thickness: 1,
-                      ),
                     ],
                   ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const Divider(
+                  //CAC4D0
+                  color: Color(0xFFCAC4D0),
+                  thickness: 1,
                 );
               },
             ),

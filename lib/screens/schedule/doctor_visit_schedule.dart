@@ -69,6 +69,7 @@ class _DoctorVisitScheduleState extends State<DoctorVisitSchedule> {
                     Navigator.pushNamed(context, RouteNames.patientData,
                         arguments: PatientDataScreen(
                           outSessionId: outpatient.id,
+                          patientId: outpatient.patientId,
                         ));
                     print(outpatient.id);
                   },

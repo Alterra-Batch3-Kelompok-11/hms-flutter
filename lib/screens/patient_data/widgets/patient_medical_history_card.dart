@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management_system/models/history_patient_treatment_model.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
+import 'package:hospital_management_system/screens/detail_medical_history/detail_medical_history_screen.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
 class PatientMedicalHistoryCard extends StatelessWidget {
-  const PatientMedicalHistoryCard({Key? key}) : super(key: key);
+  const PatientMedicalHistoryCard({Key? key, required this.dataHistory})
+      : super(key: key);
+
+  final HistoryPatientTreatmentModel dataHistory;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +33,7 @@ class PatientMedicalHistoryCard extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    "17 Oktober 2022",
+                    dataHistory.scheduleDateIndo,
                     style: Constant.primaryTextStyle.copyWith(
                       fontSize: Constant.bodyFontSize,
                       fontWeight: Constant.semiBoldFontWeight,
@@ -47,7 +52,7 @@ class PatientMedicalHistoryCard extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    "Dr Bones",
+                    dataHistory.doctor.name,
                     style: Constant.primaryTextStyle.copyWith(
                       fontSize: Constant.bodyFontSize,
                       fontWeight: Constant.semiBoldFontWeight,
@@ -74,7 +79,7 @@ class PatientMedicalHistoryCard extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  "Batuk, Pilek, Pusing",
+                  dataHistory.complaint,
                   style: Constant.primaryTextStyle.copyWith(
                     fontSize: Constant.subtitleFontSize,
                     fontWeight: Constant.regularFontWeight,
@@ -97,7 +102,7 @@ class PatientMedicalHistoryCard extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  "Sirup anti dahak",
+                  dataHistory.medicine,
                   style: Constant.primaryTextStyle.copyWith(
                     fontSize: Constant.subtitleFontSize,
                     fontWeight: Constant.regularFontWeight,
@@ -113,7 +118,9 @@ class PatientMedicalHistoryCard extends StatelessWidget {
             alignment: Alignment.bottomRight,
             child: TextButton(
                 onPressed: () {
-                   Navigator.pushNamed(context, RouteNames.detailMedicalHistory);
+                  Navigator.pushNamed(context, RouteNames.detailMedicalHistory,
+                      arguments:
+                          DetailMedicalHistoryScreen(dataHistory: dataHistory));
                 },
                 child: Text(
                   "Selengkapnya",

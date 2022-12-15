@@ -13,13 +13,13 @@ class ScheduleScreen extends StatefulWidget {
 }
 
 class _ScheduleScreenState extends State<ScheduleScreen> {
-  //@override
-  // void initState() {
-  //   context.read<OutpatientBloc>().add(GetOutpatientUnprocessed());
-  //   context.read<OutpatientBloc>().add(GetOutpatientProcessed());
+  @override
+  void initState() {
+    // context.read<OutpatientBloc>().add(GetOutpatientUnprocessed());
+    // context.read<OutpatientBloc>().add(GetOutpatientProcessed());
 
-  //   super.initState();
-  // }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
