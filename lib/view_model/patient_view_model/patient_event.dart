@@ -64,3 +64,5 @@ class GetHistoryPatientTreatment extends PatientEvent {
   @override
   List<Object> get props => [patientId];
 }
+
+class GetNotification extends PatientEvent {}

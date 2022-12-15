@@ -22,8 +22,8 @@ class PatientDataScreen extends StatefulWidget {
       this.enableBack})
       : super(key: key);
 
-  final int outSessionId;
-  final int patientId;
+  final int? outSessionId;
+  final int? patientId;
   final bool? enableBack;
 
   @override
@@ -35,12 +35,12 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
   @override
   void initState() {
     print("PATIENT ID ${widget.patientId}");
+    final sessionId = widget.outSessionId;
+    final patientId = widget.patientId;
+
     context.read<AuthBloc>().add(GetRoleId());
-    // context
-    //     .read<PatientBloc>()
-    //     .add(GetHistoryPatientTreatment(patientId: widget.patientId));
     context.read<PatientBloc>().add(GetDetailOutpatient(
-        outSessionId: widget.outSessionId, patientId: widget.patientId));
+        outSessionId: widget.outSessionId!, patientId: widget.patientId!));
     super.initState();
   }
 

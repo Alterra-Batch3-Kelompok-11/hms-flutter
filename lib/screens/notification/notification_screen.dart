@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../utils/constant.dart';
+import '../../view_model/patient_view_model/patient_bloc.dart';
+import 'widgets/notification_card.dart';
 
-class NotificationScreen extends StatelessWidget {
+class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
+
+  @override
+  State<NotificationScreen> createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen> {
+  @override
+  void initState() {
+    context.read<PatientBloc>().add(GetNotification());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,92 +35,46 @@ class NotificationScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Buildnotif(),
+      body: BlocBuilder<PatientBloc, PatientState>(
+        builder: (context, state) {
+          if (state is NotificationLoaded) {
+            if (state.notificationList.isNotEmpty) {
+              return ListView.builder(
+                itemCount: state.notificationList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: Constant.cardShadow,
+                      ),
+                      child: NotificationCard(
+                        notification: state.notificationList[index],
+                      ),
+                    ),
+                  );
+                },
+              );
+            } else {
+              return const Center(
+                child: Text("Tidak ada data"),
+              );
+            }
+          } else if (state is PatientLoading) {
+            return const SizedBox.shrink();
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
+      ),
     );
   }
 
 // ignore: non_constant_identifier_names
-  Widget Buildnotif() {
-    return ListView.builder(
-      itemCount: 6,
-      itemBuilder: (BuildContext context, int index) {
-        return Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: Constant.cardShadow,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTile(
-                  leading: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 10,
-                        height: 10,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: Colors.red),
-                      ),
-                    ],
-                  ),
-                  title: Text(
-                    "Pemeliharaan Sistem",
-                    style: Constant.primaryTextStyle.copyWith(
-                      fontSize: 12,
-                      fontWeight: Constant.semiBoldFontWeight,
-                    ),
-                  ),
-                  trailing: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "18-11-2022",
-                          style: Constant.primaryTextStyle.copyWith(
-                            fontSize: 10,
-                            fontWeight: Constant.semiBoldFontWeight,
-                          ),
-                        ),
-                        Text(
-                          "12.00 - 12.30",
-                          style: Constant.primaryTextStyle.copyWith(
-                            fontSize: 10,
-                            fontWeight: Constant.semiBoldFontWeight,
-                          ),
-                        ),
-                      ]),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-
-      //   Card(shape: ,
-      //     child: Column(
-      //       mainAxisSize: MainAxisSize.min,
-      //       children: [
-      //         ListTile(
-      //           leading: Icon(Icons.adjust),
-      //           title: Text("Pemeliharaan Sistem"),
-      //           trailing: Column(children: [
-      //             Text("18-11-2022"),
-      //             Text("12.00 - 12.30"),
-      //           ]),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      //   SizedBox(
-      //     width: Constant.horizontalPadding,
-      //   ),
-
-      // ],
-    );
-  }
+  // Widget Buildnotif() {
+  //   return
+  // }
 }

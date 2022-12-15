@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hospital_management_system/models/history_patiens_model.dart';
 import 'package:hospital_management_system/models/history_patient_treatment_model.dart';
 import 'package:hospital_management_system/models/history_patients_approval_model.dart';
+import 'package:hospital_management_system/models/notification_model.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
 import 'package:hospital_management_system/models/patient_queue_model.dart';
 
@@ -229,6 +230,39 @@ class PatientService {
         }
       } else {
         print("dio error");
+        throw DioError;
+      }
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  Future<List<NotificationModel>> getNotification(
+      {required String token}) async {
+    try {
+      List<NotificationModel> notificationList;
+      final response = await _dio.get(
+        "$_baseUrl/notifications",
+        options: Options(
+          headers: {"Authorization": "Bearer $token"},
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        if (response.data['data'] == null) {
+          notificationList = [];
+          print("NOTIFICATION");
+          print(notificationList);
+          return notificationList;
+        } else {
+          notificationList = (response.data['data'] as List)
+              .map((json) => NotificationModel.fromJson(json))
+              .toList();
+          print("NOTIFICATION");
+          print(notificationList);
+          return notificationList;
+        }
+      } else {
         throw DioError;
       }
     } on DioError {

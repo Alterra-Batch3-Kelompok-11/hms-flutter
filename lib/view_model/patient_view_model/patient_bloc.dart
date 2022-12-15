@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:hospital_management_system/models/auth_model.dart';
 import 'package:hospital_management_system/models/history_patiens_model.dart';
 import 'package:hospital_management_system/models/history_patient_treatment_model.dart';
+import 'package:hospital_management_system/models/notification_model.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
 import 'package:hospital_management_system/models/patient_queue_model.dart';
 import 'package:hospital_management_system/services/local_service.dart';
@@ -256,6 +257,30 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
           } else {
             print(e.toString());
             emit(const PatientError(message: "Something wrong"));
+          }
+        }
+      } else {
+        emit(const PatientError(message: "Token expired"));
+      }
+    });
+
+    on<GetNotification>((event, emit) async {
+      emit(PatientLoading());
+      final String? token = await _localService.getToken();
+      if (token != null || token != "") {
+        try {
+          final historyList =
+              await _patientService.getNotification(token: token!);
+
+          print(historyList);
+          emit(NotificationLoaded(notificationList: historyList));
+        } catch (e) {
+          if (e is DioError) {
+            print(e.response!.data['message']);
+            emit(PatientError(message: e.response!.data['message']));
+          } else {
+            print(e.toString());
+            emit(PatientError(message: e.toString()));
           }
         }
       } else {
