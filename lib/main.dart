@@ -5,10 +5,12 @@ import 'package:hospital_management_system/routes/route_generator.dart';
 import 'package:hospital_management_system/services/auth_service.dart';
 import 'package:hospital_management_system/services/doctor_service.dart';
 import 'package:hospital_management_system/services/local_service.dart';
+import 'package:hospital_management_system/services/nurse_service.dart';
 import 'package:hospital_management_system/services/patient_service.dart';
 
 import 'package:hospital_management_system/view_model/auth_view_model/auth_bloc.dart';
 import 'package:hospital_management_system/view_model/doctor_view_model/doctor_bloc.dart';
+import 'package:hospital_management_system/view_model/nurse_view_model/nurse_bloc.dart';
 import 'package:hospital_management_system/view_model/patient_view_model/patient_bloc.dart';
 
 import 'routes/route_names.dart';
@@ -29,6 +31,7 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(create: (context) => AuthService()),
         RepositoryProvider(create: (context) => DoctorService()),
         RepositoryProvider(create: (context) => PatientService()),
+        RepositoryProvider(create: (context) => NurseService()),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -45,6 +48,11 @@ class MyApp extends StatelessWidget {
           BlocProvider(
               create: (context) => PatientBloc(
                     context.read<PatientService>(),
+                    context.read<LocalService>(),
+                  )),
+          BlocProvider(
+              create: (context) => NurseBloc(
+                    context.read<NurseService>(),
                     context.read<LocalService>(),
                   )),
         ],

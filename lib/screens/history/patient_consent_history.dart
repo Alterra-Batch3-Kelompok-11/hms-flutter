@@ -28,8 +28,23 @@ class _PatientConsentHistoryState extends State<PatientConsentHistory> {
         return const GlobalLoading(layout: ScheduleLoading());
       } else if (state is HistoryApprovalsLoaded) {
         if (state.historyListApprovals.isEmpty) {
-          return const Center(
-            child: Text("Tidak ada data"),
+          return Center(
+            child: Container(
+              padding: const EdgeInsets.only(
+                top: 24,
+                left: 60,
+                right: 60,
+              ),
+              child: Text(
+                "Tidak ada riwayat persetujuan untuk saat ini",
+                style: Constant.primaryTextStyle.copyWith(
+                  fontWeight: Constant.regularFontWeight,
+                  fontSize: Constant.subtitleFontSize,
+                  color: Colors.grey,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
           );
         } else {
           return ListView.builder(

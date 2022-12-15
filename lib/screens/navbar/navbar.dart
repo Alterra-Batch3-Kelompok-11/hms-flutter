@@ -31,8 +31,8 @@ class _NavbarScreenState extends State<NavbarScreen> {
 
   @override
   void initState() {
+    context.read<AuthBloc>().add(GetRoleId());
     currentIndex.value = widget.selectedIndex ?? 0;
-    print("INIT STATE");
     context.read<AuthBloc>().stream.listen((state) {
       if (state is AuthExpiredToken) {
         HelperDialog.alertDialog(context,

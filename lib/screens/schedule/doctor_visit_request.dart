@@ -93,7 +93,10 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
                         context.read<PatientBloc>().add(PutOutpatientApproval(
                             idOutpatient: outpatient.id, isApproved: 1));
                         Navigator.pushNamedAndRemoveUntil(
-                            context, RouteNames.navbar, (route) => false);
+                            context, RouteNames.navbar, (route) => false,
+                            arguments: const NavbarScreen(
+                              selectedIndex: 1,
+                            ));
                       },
                     );
                   },
