@@ -92,9 +92,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   )
                 : BlocBuilder<DoctorBloc, DoctorState>(
-                    buildWhen: (previous, current) {
-                      return current is ProfileDoctorLoaded;
-                    },
+                    // buildWhen: (previous, current) {
+                    //   return current is ProfileDoctorLoaded;
+                    // },
                     builder: (context, state) {
                       if (state is ProfileDoctorLoaded) {
                         return DoctorHomeHeader(

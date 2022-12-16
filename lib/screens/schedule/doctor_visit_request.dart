@@ -31,7 +31,21 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PatientBloc, PatientState>(
+    return BlocConsumer<PatientBloc, PatientState>(
+      listener: (context, state) {
+        // if (state is OutpatientApprovalSuccess) {
+        //   //  if (state. == 1) {
+        //   //    HelperDialog.snackBar(
+        //   //      context: context,
+        //   //      message: "Permintaan kunjungan berhasil disetujui",
+        //   //    );
+        //   //  }
+        //   HelperDialog.snackBar(
+        //     context: context,
+        //     message: "Permintaan kunjungan berhasil disetujui",
+        //   );
+        // }
+      },
       builder: (context, state) {
         if (state is OutpatientLoaded) {
           final List<OutpatientModel> outpatientList =
@@ -92,6 +106,11 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
                       onSubmit: () {
                         context.read<PatientBloc>().add(PutOutpatientApproval(
                             idOutpatient: outpatient.id, isApproved: 1));
+                        HelperDialog.snackBar(
+                          context: context,
+                          message: "Permintaan kunjungan berhasil disetujui",
+                        );
+
                         Navigator.pushNamedAndRemoveUntil(
                             context, RouteNames.navbar, (route) => false,
                             arguments: const NavbarScreen(
@@ -124,6 +143,10 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
                       onSubmit: () {
                         context.read<PatientBloc>().add(PutOutpatientApproval(
                             idOutpatient: outpatient.id, isApproved: 2));
+                        HelperDialog.snackBar(
+                          context: context,
+                          message: "Permintaan kunjungan berhasil ditolak",
+                        );
                         Navigator.pushNamedAndRemoveUntil(
                             context, RouteNames.navbar, (route) => false,
                             arguments: const NavbarScreen(
