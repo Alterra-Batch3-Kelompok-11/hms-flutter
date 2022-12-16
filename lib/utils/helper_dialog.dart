@@ -3,42 +3,81 @@ import 'package:hospital_management_system/screens/global_widgets/global_button.
 import 'package:hospital_management_system/utils/constant.dart';
 
 class HelperDialog {
-  static SnackBar snackBarMessage(
-      {required String title, required String message}) {
-    return SnackBar(
-      backgroundColor: Constant.backgroundColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(Constant.verticalPadding),
-          topRight: Radius.circular(Constant.verticalPadding),
+  static Future<void> snackBar({
+    required BuildContext context,
+    double? bottomMargin,
+    required String message,
+  }) async {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        margin: EdgeInsets.only(
+          bottom: bottomMargin ?? 530,
+          left: 10,
+          right: 10,
         ),
-      ),
-      content: SizedBox(
-        height: 40,
-        width: double.maxFinite,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              title,
-              style: Constant.primaryTextStyle.copyWith(
-                fontSize: 13,
-                fontWeight: Constant.boldFontWeight,
-                color: Constant.errorColor,
-              ),
-            ),
-            Text(
-              message,
-              style: Constant.primaryTextStyle.copyWith(
-                fontSize: 10,
-                color: Constant.errorColor,
-              ),
-            )
-          ],
+        behavior: SnackBarBehavior.floating,
+        content: Text(
+          message,
+          style: Constant.primaryTextStyle.copyWith(
+            fontSize: Constant.bodyFontSize,
+            fontWeight: Constant.mediumFontWeight,
+            color: Constant.darkColor,
+          ),
+        ),
+        duration: new Duration(seconds: 2),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(10.0),
+          ),
+        ),
+        backgroundColor: Constant.lightestColor,
+        action: SnackBarAction(
+          label: 'x',
+          textColor: Constant.darkColor,
+          // close the snackbar
+          onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
         ),
       ),
     );
   }
+
+  // static SnackBar snackBarMessage(
+  //     {required String title, required String message}) {
+  //   return SnackBar(
+  //     backgroundColor: Constant.backgroundColor,
+  //     shape: const RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.only(
+  //         topLeft: Radius.circular(Constant.verticalPadding),
+  //         topRight: Radius.circular(Constant.verticalPadding),
+  //       ),
+  //     ),
+  //     content: SizedBox(
+  //       height: 40,
+  //       width: double.maxFinite,
+  //       child: Column(
+  //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //         children: [
+  //           Text(
+  //             title,
+  //             style: Constant.primaryTextStyle.copyWith(
+  //               fontSize: 13,
+  //               fontWeight: Constant.boldFontWeight,
+  //               color: Constant.errorColor,
+  //             ),
+  //           ),
+  //           Text(
+  //             message,
+  //             style: Constant.primaryTextStyle.copyWith(
+  //               fontSize: 10,
+  //               color: Constant.errorColor,
+  //             ),
+  //           )
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   static Future<void> alertDialog(
     BuildContext context, {

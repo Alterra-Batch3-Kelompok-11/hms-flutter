@@ -109,7 +109,9 @@ class CardDoctorVisitRequest extends StatelessWidget {
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   GlobalButton(
+                    //snackbar
                     onPressed: onAcceptButton,
+                   // onPressed: onAcceptButton,
                     buttonChild: Text(
                       "Terima",
                       style: Constant.primaryTextStyle.copyWith(
