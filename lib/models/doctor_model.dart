@@ -9,6 +9,7 @@ class DoctorModel {
   final int specialityId;
   final String licenseNumber;
   final String specialityName;
+  final String profilePic;
   final List<ScheduleModel> doctorSchedules;
 
   DoctorModel({
@@ -20,6 +21,7 @@ class DoctorModel {
     required this.specialityId,
     required this.licenseNumber,
     required this.specialityName,
+    required this.profilePic,
     required this.doctorSchedules,
   });
 
@@ -39,6 +41,7 @@ class DoctorModel {
       createdAt: json['created_at'] ?? "",
       updatedAt: json['updated_at'] ?? "",
       deletedAt: json['deleted_at'] ?? "",
+      profilePic: json['profile_pic'] ?? "",
     );
   }
 
@@ -53,6 +56,7 @@ class DoctorModel {
       'created_at': doctor.createdAt,
       'updated_at': doctor.updatedAt,
       'deleted_at': doctor.deletedAt,
+      'profile_pic': doctor.profilePic,
     };
   }
 }
