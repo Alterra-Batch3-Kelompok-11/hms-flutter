@@ -15,6 +15,9 @@ class DoctorProfileScreen extends StatelessWidget {
       children: [
         const SizedBox(height: Constant.verticalPadding),
         DetailProfileCard(
+            profilePic: doctor.profilePic == ''
+                ? 'https://i.pinimg.com/564x/18/b5/b5/18b5b599bb873285bd4def283c0d3c09.jpg'
+                : doctor.profilePic,
             doctorName: doctor.name,
             licenseNumber: doctor.licenseNumber,
             specialis: doctor.specialityName),

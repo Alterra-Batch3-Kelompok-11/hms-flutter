@@ -49,6 +49,9 @@ class ListDoctorCard extends StatelessWidget {
                   itemBuilder: (context, index) {
                     print("doctorList.length ${doctorList.length}");
                     print("DOCTOR LIST : ${doctorList[index].name}");
+                    String profilePic = doctorList[index].profilePic == ''
+                        ? 'https://i.pinimg.com/564x/18/b5/b5/18b5b599bb873285bd4def283c0d3c09.jpg'
+                        : doctorList[index].profilePic;
                     return Container(
                       margin: const EdgeInsets.only(bottom: 10),
                       child: Column(
@@ -58,11 +61,10 @@ class ListDoctorCard extends StatelessWidget {
                               Container(
                                 width: 36,
                                 height: 36,
-                                decoration: const BoxDecoration(
+                                decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
-                                    image:
-                                        AssetImage("assets/images/profile.jpg"),
+                                    image: NetworkImage(profilePic),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -89,6 +91,7 @@ class ListDoctorCard extends StatelessWidget {
                               ),
                             ],
                           ),
+                        
                         ],
                       ),
                     );

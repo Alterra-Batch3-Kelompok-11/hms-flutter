@@ -4,6 +4,7 @@ import 'package:hospital_management_system/utils/constant.dart';
 class DetailProfileCard extends StatelessWidget {
   const DetailProfileCard({
     Key? key,
+    required this.profilePic,
     required this.doctorName,
     required this.licenseNumber,
     required this.specialis,
@@ -12,6 +13,7 @@ class DetailProfileCard extends StatelessWidget {
   final String doctorName;
   final String licenseNumber;
   final String specialis;
+  final String profilePic;
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +37,10 @@ class DetailProfileCard extends StatelessWidget {
           Container(
             width: 88,
             height: 88,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
-                image: AssetImage('assets/images/profile.jpg'),
+                image: NetworkImage(profilePic),
                 fit: BoxFit.cover,
               ),
             ),

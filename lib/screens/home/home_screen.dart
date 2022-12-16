@@ -24,6 +24,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 bool? isDoctor;
+String profileKosong =
+    'https://i.pinimg.com/564x/18/b5/b5/18b5b599bb873285bd4def283c0d3c09.jpg';
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
@@ -60,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Constant.lightColor,
           toolbarHeight: 90,
           title: Padding(
-            padding: const EdgeInsets.only(left: 25),
+            padding: const EdgeInsets.only(left: 6),
             child: (isDoctor != true)
                 ? BlocBuilder<NurseBloc, NurseState>(
                     builder: (context, state) {
@@ -76,7 +78,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       } else if (state is NurseProfileLoaded) {
-                        return NurseHomeHeader(nurseName: state.nurse.name);
+                        return NurseHomeHeader(
+                            profilePic: state.nurse.profilePic == ''
+                                ? profileKosong
+                                : state.nurse.profilePic,
+                            nurseName: state.nurse.name);
                       } else {
                         return GlobalLoading(
                           layout: Text(
@@ -98,6 +104,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (context, state) {
                       if (state is ProfileDoctorLoaded) {
                         return DoctorHomeHeader(
+                            profilePic: state.doctorModel.profilePic == ''
+                                ? profileKosong
+                                : state.doctorModel.profilePic,
                             doctorName: state.doctorModel.name);
                       } else if (state is LoadingDoctor) {
                         return GlobalLoading(
@@ -132,18 +141,14 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Icons.notifications),
             ),
           ],
-          leading: Transform.translate(
-            offset: const Offset(15, 0),
-            child: const CircleAvatar(
-              backgroundImage: AssetImage('assets/images/profile.jpg'),
-            ),
-          ),
-          leadingWidth: 50,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
+      body: Container(
         child: ListView(
+          padding: const EdgeInsets.symmetric(
+            horizontal: Constant.horizontalPadding,
+            vertical: Constant.verticalPadding,
+          ),
           children: [
             BlocBuilder<PatientBloc, PatientState>(
               buildWhen: (previous, current) {
@@ -186,7 +191,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 }
               },
-            )
+            ),
+            const SizedBox(height: 20),
           ],
         ),
       ),
