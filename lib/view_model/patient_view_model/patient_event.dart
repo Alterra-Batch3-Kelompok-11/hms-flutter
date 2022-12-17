@@ -65,4 +65,6 @@ class GetHistoryPatientTreatment extends PatientEvent {
   List<Object> get props => [patientId];
 }
 
+class GetPatientHistory extends PatientEvent {}
+
 class GetNotification extends PatientEvent {}

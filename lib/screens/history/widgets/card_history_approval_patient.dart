@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
-class CardPatientConsentHistory extends StatelessWidget {
-  const CardPatientConsentHistory(
+class CardHistoryApprovalPatient extends StatelessWidget {
+  const CardHistoryApprovalPatient(
       {Key? key,
       required this.status,
       required this.patientName,

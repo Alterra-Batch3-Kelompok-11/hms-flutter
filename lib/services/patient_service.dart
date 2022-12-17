@@ -3,7 +3,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hospital_management_system/models/history_patiens_model.dart';
 import 'package:hospital_management_system/models/history_patient_treatment_model.dart';
 import 'package:hospital_management_system/models/history_patients_approval_model.dart';
+import 'package:hospital_management_system/models/insert_patient_condition_model.dart';
 import 'package:hospital_management_system/models/notification_model.dart';
+import 'package:hospital_management_system/models/nurse_model.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
 import 'package:hospital_management_system/models/patient_queue_model.dart';
 
@@ -18,14 +20,28 @@ class PatientService {
       final response = await _dio.get(
         "$_baseUrl/outpatient_sessions/doctor/$idDoctor/unprocesseds",
       );
-      final dataRespone =
-          response.data['data'] != null ? response.data['data'] as List : [];
-      List<OutpatientModel> outpatientList = [];
-      //List<OutpatientModel> outpatientList = [];
-      for (var i = 0; i < dataRespone.length; i++) {
-        outpatientList.add(OutpatientModel.fromJson(dataRespone[i]));
+      final List<OutpatientModel> outpatientList;
+
+      if (response.statusCode == 200) {
+        if (response.data['data'] == null) {
+          outpatientList = [];
+          return outpatientList;
+        } else {
+          outpatientList = (response.data['data'] as List)
+              .map((json) => OutpatientModel.fromJson(json))
+              .toList();
+          return outpatientList;
+        }
+      } else {
+        throw DioError;
       }
-      return outpatientList;
+      // final dataRespone =
+      //     response.data['data'] != null ? response.data['data'] as List : [];
+      // //List<OutpatientModel> outpatientList = [];
+      // for (var i = 0; i < dataRespone.length; i++) {
+      //   outpatientList.add(OutpatientModel.fromJson(dataRespone[i]));
+      // }
+      // return outpatientList;
     } on DioError {
       rethrow;
     }
@@ -42,18 +58,30 @@ class PatientService {
               "Authorization": "Bearer $token",
             },
           ));
-      print('INI data Respone ${response.data['data']}');
-
-      final dataRespone =
-          response.data['data'] != null ? response.data['data'] as List : [];
-      List<OutpatientModel> outpatientList = [];
-      print('INI data Respone $dataRespone');
-
-      for (var i = 0; i < dataRespone.length; i++) {
-        outpatientList.add(OutpatientModel.fromJson(dataRespone[i]));
+      final List<OutpatientModel> outpatientList;
+      if (response.statusCode == 200) {
+        if (response.data['data'] == null) {
+          outpatientList = [];
+          return outpatientList;
+        } else {
+          outpatientList = (response.data['data'] as List)
+              .map((json) => OutpatientModel.fromJson(json))
+              .toList();
+          return outpatientList;
+        }
+      } else {
+        throw DioError;
       }
-      print('INI APAAA $outpatientList');
-      return outpatientList;
+
+      // final dataRespone =
+      //     response.data['data'] != null ? response.data['data'] as List : [];
+      // print('INI data Respone $dataRespone');
+
+      // for (var i = 0; i < dataRespone.length; i++) {
+      //   outpatientList.add(OutpatientModel.fromJson(dataRespone[i]));
+      // }
+      // print('INI APAAA $outpatientList');
+      // return outpatientList;
     } on DioError {
       rethrow;
     }
@@ -96,17 +124,28 @@ class PatientService {
               "Authorization": "Bearer $token",
             },
           ));
-      // print(" coba RESPONSE : " + response.data['data'].toString());
-      final dataRespone =
-          response.data['data'] != null ? response.data['data'] as List : [];
-      List<Historypatiens> historyList = [];
-      //List<OutpatientModel> historyList = [];
-      for (var i = 0; i < dataRespone.length; i++) {
-        // print("DATA RESPONSE : " + dataRespone[i].toString());
-        historyList.add(Historypatiens.fromJson(dataRespone[i]));
+      final List<Historypatiens> historyList;
+      if (response.statusCode == 200) {
+        if (response.data['data'] == null) {
+          historyList = [];
+        } else {
+          historyList = (response.data['data'] as List)
+              .map((json) => Historypatiens.fromJson(json))
+              .toList();
+        }
+        return historyList;
+      } else {
+        throw DioError;
       }
-      print(" tess {$historyList}");
-      return historyList;
+      // final dataRespone =
+      //     response.data['data'] != null ? response.data['data'] as List : [];
+      // //List<OutpatientModel> historyList = [];
+      // for (var i = 0; i < dataRespone.length; i++) {
+      //   // print("DATA RESPONSE : " + dataRespone[i].toString());
+      //   historyList.add(Historypatiens.fromJson(dataRespone[i]));
+      // }
+      // print(" tess {$historyList}");
+      // return historyList;
     } on DioError {
       rethrow;
     }
@@ -123,16 +162,28 @@ class PatientService {
                   "Authorization": "Bearer $token",
                 },
               ));
-      print(" coba1 RESPONSE : " + response.data['data'].toString());
-      final dataRespone =
-          response.data['data'] != null ? response.data['data'] as List : [];
-      List<Historypatiensapprovals> historyListApprovals = [];
-      //List<OutpatientModel> historyList = [];
-      for (var i = 0; i < dataRespone.length; i++) {
-        historyListApprovals
-            .add(Historypatiensapprovals.fromJson(dataRespone[i]));
+      final List<Historypatiensapprovals> historyListApprovals;
+
+      if (response.statusCode == 200) {
+        if (response.data['data'] == null) {
+          historyListApprovals = [];
+        } else {
+          historyListApprovals = (response.data['data'] as List)
+              .map((json) => Historypatiensapprovals.fromJson(json))
+              .toList();
+        }
+        return historyListApprovals;
+      } else {
+        throw DioError;
       }
-      return historyListApprovals;
+      // final dataRespone =
+      //     response.data['data'] != null ? response.data['data'] as List : [];
+      // //List<OutpatientModel> historyList = [];
+      // for (var i = 0; i < dataRespone.length; i++) {
+      //   historyListApprovals
+      //       .add(Historypatiensapprovals.fromJson(dataRespone[i]));
+      // }
+      // return historyListApprovals;
     } on DioError {
       rethrow;
     }
@@ -166,13 +217,17 @@ class PatientService {
         ),
       );
 
-      return OutpatientModel.fromJson(response.data['data']);
+      if (response.statusCode == 200) {
+        return OutpatientModel.fromJson(response.data['data']);
+      } else {
+        throw DioError;
+      }
     } on DioError {
       rethrow;
     }
   }
 
-  Future<int> insertConditionPatient(
+  Future<InsertPatientConditionModel> insertConditionPatient(
       {required String allergy,
       required String condition,
       required String medicine,
@@ -190,9 +245,7 @@ class PatientService {
         options: Options(headers: {"Authorization": "Bearer $token"}),
       );
       if (response.statusCode == 200) {
-        final int outPatientId =
-            response.data['data']['outpatient_session_id'] as int;
-        return outPatientId;
+        return InsertPatientConditionModel.fronJson(response.data['data']);
       } else {
         print("status : ${response.data['data']['status']}");
         throw DioError;
@@ -207,9 +260,7 @@ class PatientService {
     try {
       final response =
           await _dio.get("$_baseUrl/patient_conditions/patient/$patientId");
-      List<HistoryPatientTreatmentModel> historyList;
-
-      print(response.data['data']);
+      final List<HistoryPatientTreatmentModel> historyList;
       if (response.statusCode == 200) {
         print(response.statusCode);
         if (response.data['data'] == null) {
@@ -258,6 +309,21 @@ class PatientService {
           print(notificationList);
           return notificationList;
         }
+      } else {
+        throw DioError;
+      }
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  Future<int> getDoctorIdFromNurse(int nurseId) async {
+    try {
+      final response = await _dio.get("$_baseUrl/nurses/$nurseId");
+
+      if (response.statusCode == 200) {
+        NurseModel nurse = NurseModel.fromJson(response.data['data']);
+        return nurse.doctorId;
       } else {
         throw DioError;
       }

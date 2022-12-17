@@ -4,32 +4,38 @@ import 'package:hospital_management_system/models/doctor_model.dart';
 
 class DoctorService {
   final Dio _dio = Dio();
+  final String baseUrl = dotenv.env["BASE_URL"].toString();
 
   Future<DoctorModel> getProfileDoctor({required int id}) async {
-    String baseUrl = dotenv.env["BASE_URL"].toString();
     try {
       final response = await _dio.get("$baseUrl/doctors/$id");
 
-      print("DATA DOCTOR");
-      print(response.data['data']);
-      return DoctorModel.fromJson(response.data['data']);
+      if (response.statusCode == 200) {
+        print("DATA DOCTOR");
+        print(response.data['data']);
+        return DoctorModel.fromJson(response.data['data']);
+      } else {
+        throw DioError;
+      }
     } on DioError {
       rethrow;
     }
   }
 
   Future<List<DoctorModel>> getDoctorSchedule() async {
-    String baseUrl = dotenv.env['BASE_URL'].toString();
-
     try {
       final response = await _dio.get("$baseUrl/doctors/today");
 
-      if (response.data['data'] == null) {
-        return [];
+      if (response.statusCode == 200) {
+        if (response.data['data'] == null) {
+          return [];
+        } else {
+          return (response.data['data'] as List)
+              .map((data) => DoctorModel.fromJson(data))
+              .toList();
+        }
       } else {
-        return (response.data['data'] as List)
-            .map((data) => DoctorModel.fromJson(data))
-            .toList();
+        throw DioError;
       }
     } on DioError {
       rethrow;

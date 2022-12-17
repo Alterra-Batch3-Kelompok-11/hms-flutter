@@ -10,8 +10,6 @@ class NurseService {
     try {
       final response = await _dio.get("$_baseUrl/nurses/$nurseId");
 
-      print(response.data['data']);
-      print(response.statusCode);
       if (response.statusCode == 200) {
         return NurseModel.fromJson(response.data['data']);
       } else {

@@ -20,10 +20,19 @@ class NurseError extends NurseState {
   List<Object> get props => [message];
 }
 
-class NurseProfileLoaded extends NurseState {
+class ExpiredNurseToken extends NurseState {
+  final String message;
+
+  const ExpiredNurseToken({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+
+class ProfileNurseLoaded extends NurseState {
   final NurseModel nurse;
 
-  const NurseProfileLoaded({required this.nurse});
+  const ProfileNurseLoaded({required this.nurse});
 
   @override
   List<Object> get props => [nurse];

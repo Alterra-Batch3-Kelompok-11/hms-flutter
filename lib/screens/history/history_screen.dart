@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:hospital_management_system/screens/history/patient_consent_history.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_system/screens/global_widgets/global_loading.dart';
+import 'package:hospital_management_system/screens/history/history_approval_patient.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
+import '../../view_model/patient_view_model/patient_bloc.dart';
+import '../schedule/widgets/schedule_loading.dart';
 import 'patient_visit_history.dart';
 
-class HistoryScreen extends StatelessWidget {
+class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HistoryScreen> createState() => _HistoryScreenState();
+}
+
+class _HistoryScreenState extends State<HistoryScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<PatientBloc>().add(GetPatientHistory());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +66,20 @@ class HistoryScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: const TabBarView(
-          physics: NeverScrollableScrollPhysics(),
-          children: [
-            PatientVisitHistory(),
-            PatientConsentHistory(),
-          ],
+        body: BlocBuilder<PatientBloc, PatientState>(
+          builder: (context, state) {
+            if (state is PatientHistoryLoaded) {
+              return TabBarView(
+                children: [
+                  PatientVisitHistory(listHistoryVisit: state.historyList),
+                  HistoryApprovalPatient(
+                      listHistoryApproval: state.historyListApprovals),
+                ],
+              );
+            } else {
+              return const GlobalLoading(layout: ScheduleLoading());
+            }
+          },
         ),
       ),
     );

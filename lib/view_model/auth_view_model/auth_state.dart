@@ -46,3 +46,14 @@ class AuthRoleId extends AuthState {
   @override
   List<Object> get props => [roleId];
 }
+
+class AuthLoading extends AuthState {}
+
+class AuthError extends AuthState {
+  final String message;
+
+  const AuthError({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}

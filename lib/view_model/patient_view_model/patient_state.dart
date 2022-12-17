@@ -35,6 +35,15 @@ class PatientError extends PatientState {
   List<Object> get props => [message];
 }
 
+class PatientExpiredToken extends PatientState {
+  final String message;
+
+  const PatientExpiredToken({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+
 class OutpatientApprovalSuccess extends PatientState {}
 
 class HistoryVisitLoaded extends PatientState {
@@ -67,11 +76,13 @@ class DetailOutpatientLoaded extends PatientState {
 
 class SuccessInsertCondition extends PatientState {
   final int outPatientSessionId;
+  final int outPatientId;
 
-  const SuccessInsertCondition({required this.outPatientSessionId});
+  const SuccessInsertCondition(
+      {required this.outPatientSessionId, required this.outPatientId});
 
   @override
-  List<Object> get props => [outPatientSessionId];
+  List<Object> get props => [outPatientSessionId, outPatientId];
 }
 
 class HistoryPatientTreatmentLoaded extends PatientState {
@@ -90,4 +101,15 @@ class NotificationLoaded extends PatientState {
 
   @override
   List<Object> get props => [notificationList];
+}
+
+class PatientHistoryLoaded extends PatientState {
+  final List<Historypatiensapprovals> historyListApprovals;
+  final List<Historypatiens> historyList;
+
+  const PatientHistoryLoaded(
+      {required this.historyListApprovals, required this.historyList});
+
+  @override
+  List<Object> get props => [historyList, historyListApprovals];
 }

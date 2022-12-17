@@ -4,11 +4,10 @@ import 'package:hospital_management_system/models/outpatient_model.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_loading.dart';
-import 'package:hospital_management_system/screens/navbar/navbar.dart';
 import 'package:hospital_management_system/screens/patient_data/widgets/patient_data_loading.dart';
 import 'package:hospital_management_system/screens/patient_data/widgets/patient_profile_card.dart';
 import 'package:hospital_management_system/utils/constant.dart';
-import '../../view_model/auth_view_model/auth_bloc.dart';
+import 'package:hospital_management_system/view_model/user_view_model/user_bloc.dart';
 import '../../view_model/patient_view_model/patient_bloc.dart';
 import 'widgets/patient_complaints_card.dart';
 import 'widgets/patient_medical_history_card.dart';
@@ -38,7 +37,8 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
     final sessionId = widget.outSessionId;
     final patientId = widget.patientId;
 
-    context.read<AuthBloc>().add(GetRoleId());
+    context.read<UserBloc>().add(GetUserRole());
+
     context.read<PatientBloc>().add(GetDetailOutpatient(
         outSessionId: widget.outSessionId!, patientId: widget.patientId!));
     super.initState();
@@ -48,7 +48,11 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        return widget.enableBack ?? true;
+        context.read<PatientBloc>().add(GetOutpatientUnprocessed());
+        context.read<PatientBloc>().add(GetOutpatientApproveds());
+        context.read<PatientBloc>().add(GetPatientHistory());
+        context.read<UserBloc>().add(GetDataUser());
+        return Future.value(true);
       },
       child: Scaffold(
         backgroundColor: Constant.backgroundColor,
@@ -63,15 +67,15 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
               color: Colors.white,
             ),
           ),
-          leading: IconButton(
-              onPressed: () => Navigator.of(context)
-                  .pushNamedAndRemoveUntil(RouteNames.navbar, (route) => false,
-                      arguments: const NavbarScreen(
-                        selectedIndex: 1,
-                      )),
-              icon: const Icon(
-                Icons.arrow_back,
-              )),
+          // leading: IconButton(
+          //     onPressed: () => Navigator.of(context)
+          //         .pushNamedAndRemoveUntil(RouteNames.navbar, (route) => false,
+          //             arguments: const NavbarScreen(
+          //               selectedIndex: 1,
+          //             )),
+          //     icon: const Icon(
+          //       Icons.arrow_back,
+          //     )),
           automaticallyImplyLeading: widget.enableBack ?? true,
         ),
         body: BlocBuilder<PatientBloc, PatientState>(
@@ -140,9 +144,9 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
                   const SizedBox(
                     height: 24,
                   ),
-                  BlocBuilder<AuthBloc, AuthState>(
+                  BlocBuilder<UserBloc, UserState>(
                     builder: (context, state) {
-                      if (state is AuthRoleId) {
+                      if (state is UserRoleLoaded) {
                         if (state.roleId == 2) {
                           return GlobalButton(
                             onPressed: () => Navigator.pushNamed(

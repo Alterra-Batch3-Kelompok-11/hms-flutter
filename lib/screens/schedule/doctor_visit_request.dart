@@ -33,18 +33,26 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
   Widget build(BuildContext context) {
     return BlocConsumer<PatientBloc, PatientState>(
       listener: (context, state) {
-        // if (state is OutpatientApprovalSuccess) {
-        //   //  if (state. == 1) {
-        //   //    HelperDialog.snackBar(
-        //   //      context: context,
-        //   //      message: "Permintaan kunjungan berhasil disetujui",
-        //   //    );
-        //   //  }
-        //   HelperDialog.snackBar(
-        //     context: context,
-        //     message: "Permintaan kunjungan berhasil disetujui",
-        //   );
-        // }
+        if (state is OutpatientApprovalSuccess) {
+          //  if (state. == 1) {
+          //    HelperDialog.snackBar(
+          //      context: context,
+          //      message: "Permintaan kunjungan berhasil disetujui",
+          //    );
+          //  }
+          HelperDialog.snackBar(
+            context: context,
+            message: "Permintaan kunjungan berhasil disetujui",
+            bottomMargin: 750,
+          );
+
+          // Navigator.pushNamedAndRemoveUntil(
+          //     context, RouteNames.navbar, (route) => false,
+          //     arguments: const NavbarScreen(
+          //       selectedIndex: 1,
+          //     ));
+          Navigator.pop(context);
+        }
       },
       builder: (context, state) {
         if (state is OutpatientLoaded) {
@@ -86,36 +94,53 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
                       context,
                       titleText: "Pemberitahuan",
                       subTitle: "Apakah anda yakin ingin menerima pasien ini?",
-                      buttonSubmitChild: Text(
-                        "Ya",
-                        style: Constant.primaryTextStyle.copyWith(
-                          fontSize: 15,
-                          color: Constant.whiteColor,
-                          fontWeight: Constant.mediumFontWeight,
-                        ),
-                        textAlign: TextAlign.center,
+                      buttonSubmitChild: BlocBuilder<PatientBloc, PatientState>(
+                        builder: (context, state) {
+                          if (state is PatientLoading) {
+                            return const SizedBox(
+                              height: 30,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                color: Constant.whiteColor,
+                                strokeWidth: 2,
+                              ),
+                            );
+                          } else {
+                            return Text(
+                              "Ya",
+                              style: Constant.primaryTextStyle.copyWith(
+                                fontSize: 15,
+                                color: Constant.whiteColor,
+                                fontWeight: Constant.mediumFontWeight,
+                              ),
+                              textAlign: TextAlign.center,
+                            );
+                          }
+                        },
                       ),
                       buttonCancelText: "Batal",
-                      //icon peringatan bulat
+
+                      ///icon peringatan bulat
                       icon: SvgPicture.asset(
                         "assets/icons/pemberitahuan_icon.svg",
                         color: Constant.baseColor,
                       ),
-                      // icon: Icons.report_gmailerrorred_sharp,
+
+                      /// icon: Icons.report_gmailerrorred_sharp,
                       color: Constant.baseColor,
                       onSubmit: () {
                         context.read<PatientBloc>().add(PutOutpatientApproval(
                             idOutpatient: outpatient.id, isApproved: 1));
-                        HelperDialog.snackBar(
-                          context: context,
-                          message: "Permintaan kunjungan berhasil disetujui",
-                        );
+                        // HelperDialog.snackBar(
+                        //   context: context,
+                        //   message: "Permintaan kunjungan berhasil disetujui",
+                        // );
 
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, RouteNames.navbar, (route) => false,
-                            arguments: const NavbarScreen(
-                              selectedIndex: 1,
-                            ));
+                        // Navigator.pushNamedAndRemoveUntil(
+                        //     context, RouteNames.navbar, (route) => false,
+                        //     arguments: const NavbarScreen(
+                        //       selectedIndex: 1,
+                        //     ));
                       },
                     );
                   },
@@ -146,6 +171,7 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
                         HelperDialog.snackBar(
                           context: context,
                           message: "Permintaan kunjungan berhasil ditolak",
+                          bottomMargin: 780,
                         );
                         Navigator.pushNamedAndRemoveUntil(
                             context, RouteNames.navbar, (route) => false,

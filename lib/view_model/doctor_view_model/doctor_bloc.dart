@@ -15,35 +15,52 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
   DoctorBloc(this._doctorService, this._localService) : super(DoctorInitial()) {
     on<GetProfileDoctor>((event, emit) async {
       emit(LoadingDoctor());
-      try {
-        AuthModel dataAuth = await _localService.getDataFromLocalStorage();
-        final int? id = dataAuth.doctorId;
+      final bool expiredToken =
+          await _localService.checkExpiredTokenFromLocal();
 
-        DoctorModel doctor = await _doctorService.getProfileDoctor(id: id!);
-        emit(ProfileDoctorLoaded(doctorModel: doctor));
-      } catch (e) {
-        if (e is DioError) {
-          final errorResponse = e.response;
-          emit(ErrorDoctorState(message: errorResponse!.data['message']));
+      if (expiredToken == false) {
+        try {
+          AuthModel? dataAuth = await _localService.getDataFromLocal();
 
-          print("DIO ERROR : " + errorResponse.data['message']);
+          if (dataAuth.doctorId != null || dataAuth.doctorId != 0) {
+            DoctorModel doctor =
+                await _doctorService.getProfileDoctor(id: dataAuth.doctorId!);
+            emit(ProfileDoctorLoaded(doctorModel: doctor));
+          } else {
+            throw Exception;
+          }
+        } catch (e) {
+          if (e is DioError) {
+            emit(ErrorDoctor(message: e.response!.data['message']));
+            print("DIO ERROR : " + e.response!.data['message']);
+          } else {
+            print("ERROR : " + e.toString());
+            emit(ErrorDoctor(message: e.toString()));
+          }
         }
-        print("ERROR : " + e.toString());
-        emit(ErrorDoctorState(message: e.toString()));
+      } else {
+        emit(const ExpiredTokenDoctor(message: "Expired token"));
       }
     });
 
     on<GetScheduleAllDoctor>((event, emit) async {
       emit(LoadingDoctor());
-      try {
-        final result = await _doctorService.getDoctorSchedule();
-        emit(ScheduleAllDoctorLoaded(doctorList: result));
-      } catch (e) {
-        if (e is DioError) {
-          emit(ErrorDoctorState(message: e.response!.data['message']));
-        } else {
-          emit(ErrorDoctorState(message: e.toString()));
+      final bool expiredToken =
+          await _localService.checkExpiredTokenFromLocal();
+
+      if (expiredToken == false) {
+        try {
+          final result = await _doctorService.getDoctorSchedule();
+          emit(ScheduleAllDoctorLoaded(doctorList: result));
+        } catch (e) {
+          if (e is DioError) {
+            emit(ErrorDoctor(message: e.response!.data['message']));
+          } else {
+            emit(ErrorDoctor(message: e.toString()));
+          }
         }
+      } else {
+        emit(const ExpiredTokenDoctor(message: "Expired token"));
       }
     });
   }
