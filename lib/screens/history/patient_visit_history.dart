@@ -1,37 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
-import 'package:hospital_management_system/screens/global_widgets/global_loading.dart';
 import 'package:hospital_management_system/screens/history/widgets/card_patient_visit_history.dart';
 import 'package:hospital_management_system/screens/patient_data/patient_data_screen.dart';
 import 'package:hospital_management_system/utils/constant.dart';
-import 'package:hospital_management_system/view_model/patient_view_model/patient_bloc.dart';
 
-import '../schedule/widgets/schedule_loading.dart';
+import '../../models/history_patiens_model.dart';
 
-class PatientVisitHistory extends StatefulWidget {
-  const PatientVisitHistory({Key? key}) : super(key: key);
+class PatientVisitHistory extends StatelessWidget {
+  const PatientVisitHistory({Key? key, required this.listHistoryVisit})
+      : super(key: key);
 
-  @override
-  State<PatientVisitHistory> createState() => _PatientVisitHistoryState();
-}
-
-class _PatientVisitHistoryState extends State<PatientVisitHistory> {
-  @override
-  void initState() {
-    context.read<PatientBloc>().add(GetHistoryVisit());
-    super.initState();
-  }
+  final List<Historypatiens> listHistoryVisit;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PatientBloc, PatientState>(builder: ((context, state) {
-      if (state is PatientLoading) {
-        print("tes {$state}");
-        return const GlobalLoading(layout: ScheduleLoading());
-      } else if (state is HistoryVisitLoaded) {
-        if (state.historyList.isEmpty) {
-          return Center(
+    return (listHistoryVisit.isEmpty)
+        ? Center(
             child: Container(
               padding: const EdgeInsets.only(
                 top: 24,
@@ -48,10 +32,9 @@ class _PatientVisitHistoryState extends State<PatientVisitHistory> {
                 textAlign: TextAlign.center,
               ),
             ),
-          );
-        } else {
-          return ListView.builder(
-            itemCount: state.historyList.length,
+          )
+        : ListView.builder(
+            itemCount: listHistoryVisit.length,
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
@@ -60,9 +43,9 @@ class _PatientVisitHistoryState extends State<PatientVisitHistory> {
                           outSessionId: 11, patientId: 3));
                 },
                 child: CardPatientVisitHistory(
-                  status: state.historyList[index].status,
-                  patientName: state.historyList[index].patientName,
-                  visitDate: state.historyList[index].scheduleDateIndo,
+                  status: listHistoryVisit[index].status,
+                  patientName: listHistoryVisit[index].patientName,
+                  visitDate: listHistoryVisit[index].scheduleDateIndo,
                   queueNumber: index + 1,
                 ),
               );
@@ -72,27 +55,5 @@ class _PatientVisitHistoryState extends State<PatientVisitHistory> {
               vertical: Constant.verticalPadding,
             ),
           );
-        }
-      } else if (state is PatientError) {
-        return const SizedBox.shrink();
-      } else {
-        return const GlobalLoading(layout: ScheduleLoading());
-      }
-    }));
-
-    // return ListView(
-    //   padding: const EdgeInsets.symmetric(
-    //     horizontal: Constant.horizontalPadding,
-    //     vertical: Constant.verticalPadding,
-    //   ),
-    //   children: ["Jono", "Joni", "Jojo"].map((patientName) {
-    //     return CardPatientVisitHistory(
-    //       patientName: patientName,
-    //       visitDate: "08-11-2022 14:30",
-    //       queueNumber: 2,
-    //       isComplete: true,
-    //     );
-    //   }).toList(),
-    // );
   }
 }

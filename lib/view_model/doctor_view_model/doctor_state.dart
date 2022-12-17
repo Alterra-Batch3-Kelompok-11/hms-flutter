@@ -29,8 +29,20 @@ class ScheduleAllDoctorLoaded extends DoctorState {
   List<Object> get props => [doctorList];
 }
 
-class ErrorDoctorState extends DoctorState {
+class ExpiredTokenDoctor extends DoctorState {
   final String message;
 
-  const ErrorDoctorState({required this.message});
+  const ExpiredTokenDoctor({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+
+class ErrorDoctor extends DoctorState {
+  final String message;
+
+  const ErrorDoctor({required this.message});
+
+  @override
+  List<Object> get props => [message];
 }

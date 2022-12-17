@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:hospital_management_system/models/auth_model.dart';
 import 'package:hospital_management_system/models/history_patiens_model.dart';
 import 'package:hospital_management_system/models/history_patient_treatment_model.dart';
+import 'package:hospital_management_system/models/insert_patient_condition_model.dart';
 import 'package:hospital_management_system/models/notification_model.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
 import 'package:hospital_management_system/models/patient_queue_model.dart';
@@ -24,27 +25,39 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
     on<GetOutpatientUnprocessed>(
       (event, emit) async {
         emit(PatientLoading());
-        final AuthModel dataAuth =
-            await _localService.getDataFromLocalStorage();
-        try {
-          final int? id = dataAuth.doctorId;
-          final String? token = dataAuth.token;
+        final bool? expiredToken =
+            await _localService.checkExpiredTokenFromLocal();
+        if (expiredToken == false) {
+          try {
+            final AuthModel dataAuth = await _localService.getDataFromLocal();
+            final int doctorId;
+            if (dataAuth.doctorId == 0 || dataAuth.doctorId == null) {
+              doctorId =
+                  await _patientService.getDoctorIdFromNurse(dataAuth.nurseId!);
+            } else {
+              doctorId = dataAuth.doctorId!;
+            }
 
-          final List<OutpatientModel>? outpatientList = await _patientService
-              .getOutpatientUnprocessed(idDoctor: 7, token: token!);
+            print("doctorId $doctorId");
+            final List<OutpatientModel> outpatientList =
+                await _patientService.getOutpatientUnprocessed(
+                    idDoctor: doctorId, token: dataAuth.token);
 
-          print("PERMINTAAN KUNJUNGAN");
-          print(outpatientList);
-          emit(OutpatientLoaded(outpatientList: outpatientList ?? []));
-        } catch (e) {
-          if (e is DioError) {
-            final errorResponse = e.response;
-            emit(PatientError(message: errorResponse!.data['message']));
-            print("DIO ERROR : " + errorResponse.data['message']);
+            print("PERMINTAAN KUNJUNGAN");
+            print(outpatientList);
+            emit(OutpatientLoaded(outpatientList: outpatientList));
+          } catch (e) {
+            if (e is DioError) {
+              final errorResponse = e.response;
+              emit(PatientError(message: errorResponse!.data['message']));
+              print("DIO ERROR : " + errorResponse.data['message']);
+            }
+
+            print("ERROR : " + e.toString());
+            emit(PatientError(message: e.toString()));
           }
-
-          print("ERROR : " + e.toString());
-          emit(PatientError(message: e.toString()));
+        } else {
+          emit(const PatientExpiredToken(message: "Expired token"));
         }
       },
     );
@@ -52,150 +65,165 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
     // JADWAL KUNJUNGAN
     on<GetOutpatientApproveds>((event, emit) async {
       emit(PatientLoading());
-      final AuthModel dataAuth = await _localService.getDataFromLocalStorage();
-      try {
-        final int? id = dataAuth.doctorId;
-        final String? token = dataAuth.token;
-        print("ID DOCTOR : $id");
-        print("TOKEN : $token");
+      final bool? expiredToken =
+          await _localService.checkExpiredTokenFromLocal();
+      if (expiredToken == false) {
+        try {
+          final AuthModel dataAuth = await _localService.getDataFromLocal();
+          final List<OutpatientModel>? outpatientList =
+              await _patientService.getOutpatientApproveds(
+                  idDoctor: dataAuth.doctorId!, token: dataAuth.token);
 
-        final List<OutpatientModel>? outpatientList = await _patientService
-            .getOutpatientApproveds(idDoctor: 7, token: token!);
-
-        // }
-        emit(OutpatientLoaded(outpatientList: outpatientList ?? []));
-      } catch (e) {
-        if (e is DioError) {
-          final errorResponse = e.response;
-          emit(PatientError(message: errorResponse!.data['message']));
-
-          print("DIO ERROR : " + errorResponse.data['message']);
+          emit(OutpatientLoaded(outpatientList: outpatientList ?? []));
+        } catch (e) {
+          if (e is DioError) {
+            emit(PatientError(message: e.response!.data['message']));
+          } else {
+            print("ERROR : " + e.toString());
+            emit(PatientError(message: e.toString()));
+          }
         }
-
-        print("ERROR : " + e.toString());
-        emit(PatientError(message: e.toString()));
+      } else {
+        emit(const PatientExpiredToken(message: "Expired Token"));
       }
     });
 
     on<GetPatientQueueToday>((event, emit) async {
       emit(PatientLoading());
+      final bool? expiredToken =
+          await _localService.checkExpiredTokenFromLocal();
+      if (expiredToken == false) {
+        try {
+          AuthModel dataAuth = await _localService.getDataFromLocal();
+          PatientQueueToday response =
+              await _patientService.getPatientQueueToday(
+                  idDokter: dataAuth.doctorId!, token: dataAuth.token);
 
-      AuthModel dataAuth = await _localService.getDataFromLocalStorage();
-      try {
-        PatientQueueToday response = await _patientService.getPatientQueueToday(
-            idDokter: dataAuth.doctorId!, token: dataAuth.token);
-
-        emit(PatientQueueTodayLoaded(patientQueueToday: response));
-      } catch (e) {
-        if (e is DioError) {
-          print(e.response!.data['message']);
-          emit(PatientError(message: e.response!.data['message']));
-        } else {
-          print(e.toString());
-          emit(const PatientError(message: "Something Wrong"));
+          emit(PatientQueueTodayLoaded(patientQueueToday: response));
+        } catch (e) {
+          if (e is DioError) {
+            print(e.response!.data['message']);
+            emit(PatientError(message: e.response!.data['message']));
+          } else {
+            print(e.toString());
+            emit(const PatientError(message: "Something Wrong"));
+          }
         }
+      } else {
+        emit(const PatientExpiredToken(message: "Expired Token"));
       }
     });
 
     // APPROVAL KUNJUNGAN
     on<PutOutpatientApproval>((event, emit) async {
       emit(PatientLoading());
-      final AuthModel dataAuth = await _localService.getDataFromLocalStorage();
-      try {
-        final String? token = dataAuth.token;
+      final bool? expiredToken =
+          await _localService.checkExpiredTokenFromLocal();
 
-        print("TOKEN : $token");
+      if (expiredToken == false) {
+        try {
+          final AuthModel dataAuth = await _localService.getDataFromLocal();
+          await _patientService.putOutpatientApproval(
+              token: dataAuth.token,
+              idOutpatient: event.idOutpatient,
+              isApproved: event.isApproved);
 
-        await _patientService.putOutpatientApproval(
-            token: token!,
-            idOutpatient: event.idOutpatient,
-            isApproved: event.isApproved);
-
-        emit(OutpatientApprovalSuccess());
-      } catch (e) {
-        if (e is DioError) {
-          final errorResponse = e.response;
-          emit(PatientError(message: errorResponse!.data['message']));
-          print("DIO ERROR : " + errorResponse.data['message']);
+          emit(OutpatientApprovalSuccess());
+        } catch (e) {
+          if (e is DioError) {
+            final errorResponse = e.response;
+            emit(PatientError(message: errorResponse!.data['message']));
+            print("DIO ERROR : " + errorResponse.data['message']);
+          }
+          print("ERROR : " + e.toString());
+          emit(PatientError(message: e.toString()));
         }
-        print("ERROR : " + e.toString());
-        emit(PatientError(message: e.toString()));
+      } else {
+        emit(const PatientExpiredToken(message: "Expired Token"));
       }
     });
 
-    on<GetHistoryVisit>((event, emit) async {
-      emit(PatientLoading());
-      final AuthModel dataAuth = await _localService.getDataFromLocalStorage();
-      try {
-        final int? id = dataAuth.doctorId;
-        final String? token = dataAuth.token;
-        print("ID DOCTOR : $id");
-        print("TOKEN : $token");
+    /// AKAN DIHAPUS
+    // on<GetHistoryVisit>((event, emit) async {
+    //   emit(PatientLoading());
+    //   final bool? expiredToken =
+    //       await _localService.checkExpiredTokenFromLocal();
 
-        final List<Historypatiens>? historyList =
-            await _patientService.getHistoryVisit(idDoctor: id!, token: token!);
+    //   if (expiredToken == false) {
+    //     try {
+    //       final AuthModel dataAuth = await _localService.getDataFromLocal();
 
-        // }
-        print("tes $historyList");
-        emit(HistoryVisitLoaded(historyList: historyList ?? []));
-      } catch (e) {
-        if (e is DioError) {
-          final errorResponse = e.response;
-          emit(PatientError(message: errorResponse!.data['message']));
+    //       final List<Historypatiens> historyList =
+    //           await _patientService.getHistoryVisit(
+    //               idDoctor: dataAuth.doctorId!, token: dataAuth.token);
 
-          print("DIO ERROR : " + errorResponse.data['message']);
-        }
+    //       emit(HistoryVisitLoaded(historyList: historyList));
+    //     } catch (e) {
+    //       if (e is DioError) {
+    //         final errorResponse = e.response;
+    //         emit(PatientError(message: errorResponse!.data['message']));
 
-        print("ERROR : " + e.toString());
-        emit(PatientError(message: e.toString()));
-      }
-    });
+    //         print("DIO ERROR : " + errorResponse.data['message']);
+    //       }
 
-    on<GetHistoryApprovals>((event, emit) async {
-      emit(PatientLoading());
-      final AuthModel dataAuth = await _localService.getDataFromLocalStorage();
-      try {
-        final int? id = dataAuth.doctorId;
-        final String? token = dataAuth.token;
-        print("ID DOCTOR : $id");
-        print("TOKEN : $token");
+    //       print("ERROR : " + e.toString());
+    //       emit(PatientError(message: e.toString()));
+    //     }
+    //   } else {
+    //     emit(const PatientExpiredToken(message: "Expired Token"));
+    //   }
+    // });
 
-        final List<Historypatiensapprovals>? historyListApprovals =
-            await _patientService.getHistoryApprovals(
-                idDoctor: id!, token: token!);
+    /// AKAN DIHAPUS
+    // on<GetHistoryApprovals>((event, emit) async {
+    //   emit(PatientLoading());
+    //   final bool? expiredToken =
+    //       await _localService.checkExpiredTokenFromLocal();
 
-        print("tes $historyListApprovals");
+    //   if (expiredToken == false) {
+    //     try {
+    //       final AuthModel dataAuth = await _localService.getDataFromLocal();
+    //       final List<Historypatiensapprovals> historyListApprovals =
+    //           await _patientService.getHistoryApprovals(
+    //               idDoctor: dataAuth.doctorId!, token: dataAuth.token);
+    //       emit(HistoryApprovalsLoaded(
+    //           historyListApprovals: historyListApprovals));
+    //     } catch (e) {
+    //       if (e is DioError) {
+    //         final errorResponse = e.response;
+    //         emit(PatientError(message: errorResponse!.data['message']));
 
-        emit(HistoryApprovalsLoaded(
-            historyListApprovals: historyListApprovals ?? []));
-      } catch (e) {
-        if (e is DioError) {
-          final errorResponse = e.response;
-          emit(PatientError(message: errorResponse!.data['message']));
-
-          print("DIO ERROR : " + errorResponse.data['message']);
-        }
-
-        print("ERROR : " + e.toString());
-        emit(PatientError(message: e.toString()));
-      }
-    });
+    //         print("DIO ERROR : " + errorResponse.data['message']);
+    //       } else {
+    //         print("ERROR : " + e.toString());
+    //         emit(PatientError(message: e.toString()));
+    //       }
+    //     }
+    //   } else {
+    //     emit(const PatientExpiredToken(message: "Expired Token"));
+    //   }
+    // });
 
     on<GetDetailOutpatient>((event, emit) async {
       emit(PatientLoading());
+      final bool? expiredToken =
+          await _localService.checkExpiredTokenFromLocal();
 
-      final String? token = await _localService.getToken();
-
-      if (token != null || token!.isNotEmpty) {
+      if (expiredToken == false) {
         try {
-          final response = await _patientService.getDetailOutpatient(
-              id: event.outSessionId, token: token);
+          final String? token = await _localService.getTokenFromLocal();
 
-          final historyList =
-              await _patientService.getHistoryPatientTreatment(event.patientId);
+          if (token != null || token!.isNotEmpty) {
+            final response = await _patientService.getDetailOutpatient(
+                id: event.outSessionId, token: token);
+            final historyList = await _patientService
+                .getHistoryPatientTreatment(event.patientId);
 
-          emit(DetailOutpatientLoaded(
-              outpatientModel: response, historyList: historyList));
+            emit(DetailOutpatientLoaded(
+                outpatientModel: response, historyList: historyList));
+          } else {
+            emit(const PatientError(message: "Token is null"));
+          }
         } catch (e) {
           if (e is DioError) {
             emit(PatientError(message: e.response!.data['message']));
@@ -204,26 +232,29 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
           }
         }
       } else {
-        emit(const PatientError(message: "TOKEN EXPIRED"));
+        emit(const PatientExpiredToken(message: "Expired Token"));
       }
     });
 
     on<InsertConditionPatient>((event, emit) async {
       emit(PatientLoading());
-      final String? token = await _localService.getToken();
+      final bool? expiredToken =
+          await _localService.checkExpiredTokenFromLocal();
 
-      if (token != null || token!.isNotEmpty) {
+      if (expiredToken == false) {
         try {
-          final int outPatientSessionId =
+          final String? token = await _localService.getTokenFromLocal();
+          final InsertPatientConditionModel response =
               await _patientService.insertConditionPatient(
                   allergy: event.allergy,
                   condition: event.condition,
                   medicine: event.medicine,
                   patientSessionId: event.patientSessionId,
-                  token: token);
+                  token: token!);
 
-          emit(
-              SuccessInsertCondition(outPatientSessionId: outPatientSessionId));
+          emit(SuccessInsertCondition(
+              outPatientSessionId: response.outPatientSessionId,
+              outPatientId: response.patientId));
         } catch (e) {
           if (e is DioError) {
             print(e.response!.data['message']);
@@ -234,48 +265,44 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
           }
         }
       } else {
-        emit(const PatientError(message: "Expired token"));
+        emit(const PatientExpiredToken(message: "Expired Token"));
       }
     });
 
     on<GetHistoryPatientTreatment>((event, emit) async {
-      String? getToken = await _localService.getToken();
+      emit(PatientLoading());
+      final bool? expiredToken =
+          await _localService.checkExpiredTokenFromLocal();
 
-      if (getToken!.isNotEmpty) {
+      if (expiredToken == false) {
         try {
           final historyList =
               await _patientService.getHistoryPatientTreatment(event.patientId);
-
-          print("HISTORY BLOC : " + historyList[0].complaint);
           emit(HistoryPatientTreatmentLoaded(historyList: historyList));
-          if (historyList.isNotEmpty) {
-          } else {
-            throw DioError;
-          }
         } catch (e) {
           if (e is DioError) {
-            // print(
-            //     "ERROR RESONSE FROM BLOC : ${e.response!.data['data']['message']}");
-            emit(const PatientError(message: "Data not found"));
+            emit(PatientError(message: e.response!.data['message']));
           } else {
             print(e.toString());
             emit(const PatientError(message: "Something wrong"));
           }
         }
       } else {
-        emit(const PatientError(message: "Token expired"));
+        emit(const PatientExpiredToken(message: "Expired Token"));
       }
     });
 
     on<GetNotification>((event, emit) async {
       emit(PatientLoading());
-      final String? token = await _localService.getToken();
-      if (token != null || token != "") {
+      final bool? expiredToken =
+          await _localService.checkExpiredTokenFromLocal();
+
+      if (expiredToken == false) {
         try {
+          final String? token = await _localService.getTokenFromLocal();
           final historyList =
               await _patientService.getNotification(token: token!);
 
-          print(historyList);
           emit(NotificationLoaded(notificationList: historyList));
         } catch (e) {
           if (e is DioError) {
@@ -287,7 +314,37 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
           }
         }
       } else {
-        emit(const PatientError(message: "Token expired"));
+        emit(const PatientExpiredToken(message: "Expired Token"));
+      }
+    });
+
+    on<GetPatientHistory>((event, emit) async {
+      emit(PatientLoading());
+      final bool? expiredToken =
+          await _localService.checkExpiredTokenFromLocal();
+
+      if (expiredToken == false) {
+        try {
+          final AuthModel dataAuth = await _localService.getDataFromLocal();
+          final List<Historypatiens> historyList =
+              await _patientService.getHistoryVisit(
+                  idDoctor: dataAuth.doctorId!, token: dataAuth.token);
+          final List<Historypatiensapprovals> historyListApprovals =
+              await _patientService.getHistoryApprovals(
+                  idDoctor: dataAuth.doctorId!, token: dataAuth.token);
+
+          emit(PatientHistoryLoaded(
+              historyListApprovals: historyListApprovals,
+              historyList: historyList));
+        } catch (e) {
+          if (e is DioError) {
+            emit(PatientError(message: e.response!.data['message']));
+          } else {
+            emit(PatientError(message: e.toString()));
+          }
+        }
+      } else {
+        emit(const PatientExpiredToken(message: "Expired Token"));
       }
     });
   }

@@ -15,18 +15,18 @@ class NurseBloc extends Bloc<NurseEvent, NurseState> {
   NurseBloc(this._nurseService, this._localService) : super(NurseInitial()) {
     on<GetProfileNurse>((event, emit) async {
       emit(NurseLoading());
-      final AuthModel? dataAuth = await _localService.getDataFromLocalStorage();
-
-      if (dataAuth!.token != "" || dataAuth.token.isNotEmpty) {
+      final bool expiredToken =
+          await _localService.checkExpiredTokenFromLocal();
+      if (expiredToken == false) {
         try {
+          final AuthModel? dataAuth = await _localService.getDataFromLocal();
           final response =
-              await _nurseService.getNurseProfile(nurseId: dataAuth.nurseId!);
-          print("NURSE LOADED");
-          emit(NurseProfileLoaded(nurse: response));
+              await _nurseService.getNurseProfile(nurseId: dataAuth!.nurseId!);
+          emit(ProfileNurseLoaded(nurse: response));
         } catch (e) {
           if (e is DioError) {
             print(e.response);
-            emit(NurseError(message: e.response!.data['data']['message']));
+            emit(NurseError(message: e.response!.data['message']));
           } else {
             print(e.toString());
             emit(NurseError(message: e.toString()));
@@ -34,7 +34,7 @@ class NurseBloc extends Bloc<NurseEvent, NurseState> {
         }
       } else {
         print("TOKEN EXPIRED");
-        emit(const NurseError(message: "Expired token"));
+        emit(const ExpiredNurseToken(message: "Expired token"));
       }
     });
   }

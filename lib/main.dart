@@ -12,6 +12,7 @@ import 'package:hospital_management_system/view_model/auth_view_model/auth_bloc.
 import 'package:hospital_management_system/view_model/doctor_view_model/doctor_bloc.dart';
 import 'package:hospital_management_system/view_model/nurse_view_model/nurse_bloc.dart';
 import 'package:hospital_management_system/view_model/patient_view_model/patient_bloc.dart';
+import 'package:hospital_management_system/view_model/user_view_model/user_bloc.dart';
 
 import 'routes/route_names.dart';
 
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
               create: (context) => AuthBloc(
                     context.read<AuthService>(),
                     context.read<LocalService>(),
-                  )..add(IsExpiredToken())),
+                  )),
           BlocProvider(
               create: (context) => DoctorBloc(
                     context.read<DoctorService>(),
@@ -53,6 +54,10 @@ class MyApp extends StatelessWidget {
           BlocProvider(
               create: (context) => NurseBloc(
                     context.read<NurseService>(),
+                    context.read<LocalService>(),
+                  )),
+          BlocProvider(
+              create: (context) => UserBloc(
                     context.read<LocalService>(),
                   )),
         ],

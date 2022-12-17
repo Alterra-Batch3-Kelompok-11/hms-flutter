@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hospital_management_system/models/auth_model.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/utils/helper_dialog.dart';
 import 'package:hospital_management_system/view_model/auth_view_model/auth_bloc.dart';
+import 'package:hospital_management_system/view_model/user_view_model/user_bloc.dart';
 import '../../utils/constant.dart';
 import '../../screens/home/home_screen.dart';
 import '../schedule/schedule_screen.dart';
@@ -20,19 +22,19 @@ class NavbarScreen extends StatefulWidget {
 }
 
 class _NavbarScreenState extends State<NavbarScreen> {
-  List pages = [
-    const HomeScreen(),
-    const ScheduleScreen(),
-    const HistoryScreen(),
-    const ProfileScreen(),
-  ];
+  List pages = [];
 
   ValueNotifier<int> currentIndex = ValueNotifier<int>(0);
+  AuthModel? dataUser;
 
   @override
   void initState() {
-    context.read<AuthBloc>().add(GetRoleId());
+    super.initState();
+
     currentIndex.value = widget.selectedIndex ?? 0;
+
+    context.read<UserBloc>().add(GetDataUser());
+
     context.read<AuthBloc>().stream.listen((state) {
       if (state is AuthExpiredToken) {
         HelperDialog.alertDialog(context,
@@ -43,7 +45,34 @@ class _NavbarScreenState extends State<NavbarScreen> {
                 context, RouteNames.login, (route) => false));
       }
     });
-    super.initState();
+    pages.addAll([
+      BlocBuilder<UserBloc, UserState>(
+        builder: (context, state) {
+          if (state is DataUserLoaded) {
+            return HomeScreen(dataUser: state.dataUser);
+          } else {
+            return const Center(
+              child: Text("Tidak ada data"),
+            );
+          }
+        },
+      ),
+      const ScheduleScreen(),
+      const HistoryScreen(),
+      BlocBuilder<UserBloc, UserState>(
+        builder: (context, state) {
+          print("NAVBAR STATE : $state");
+          if (state is DataUserLoaded) {
+            print(state.dataUser.name);
+            return ProfileScreen(dataUser: state.dataUser);
+          } else {
+            return const Center(
+              child: Text("Tidak ada data"),
+            );
+          }
+        },
+      ),
+    ]);
   }
 
   @override
