@@ -51,147 +51,75 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
     _inputAlergyController.clear();
     _inputConditionController.clear();
     _inputMedicineController.clear();
+
+    print("DISPOSE");
   }
 
   @override
   void didChangeDependencies() {
+    super.didChangeDependencies();
+
     context.read<PatientBloc>().stream.listen((state) {
       print("PATIENT STATE : $state");
       if (state is SuccessInsertCondition) {
-        print("SESSION ID ${state.outPatientSessionId}");
-        print("PATIENT ID ${state.outPatientId}");
-
-        outpatientSessionId = state.outPatientSessionId;
-        patientId = state.outPatientId;
-
-        // Navigator.popUntil(context, (route) => ModalRoute.withName(RouteNames.patientData));
+        context.read<UserBloc>().add(GetUserRole());
+        context.read<PatientBloc>().add(GetDetailOutpatient(
+            outSessionId: state.outPatientSessionId,
+            patientId: state.outPatientId));
         Navigator.pop(context);
         Navigator.pop(context);
+
+        HelperDialog.snackBar(
+            context: context,
+            message: "Berhasil menyimpan kondisi pasien",
+            bottomMargin: 750);
       } else if (state is PatientError) {
+        Navigator.pop(context);
+        HelperDialog.snackBar(
+            context: context, message: state.message, bottomMargin: 890);
         print("ERROR MESSAGE : ${state.message}");
       }
     });
-    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        context.read<UserBloc>().add(GetUserRole());
-        print("BERHASIL");
-        context.read<PatientBloc>().add(GetDetailOutpatient(
-            outSessionId: outpatientSessionId!, patientId: patientId!));
-        return true;
-      },
-      child: Scaffold(
-        backgroundColor: Constant.backgroundColor,
-        appBar: AppBar(
-          backgroundColor: Constant.lightColor,
-          elevation: 0,
-          title: Text(
-            "Data Kondisi Pasien",
-            style: Constant.primaryTextStyle.copyWith(
-              fontWeight: Constant.boldFontWeight,
-              fontSize: Constant.firstTitleSize,
-              color: Colors.white,
-            ),
+    return Scaffold(
+      backgroundColor: Constant.backgroundColor,
+      appBar: AppBar(
+        backgroundColor: Constant.lightColor,
+        elevation: 0,
+        title: Text(
+          "Data Kondisi Pasien",
+          style: Constant.primaryTextStyle.copyWith(
+            fontWeight: Constant.boldFontWeight,
+            fontSize: Constant.firstTitleSize,
+            color: Colors.white,
           ),
-          // leading: IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back),),
         ),
-        body: Form(
-          key: _formKey,
-          child: ListView(
-            shrinkWrap: true,
-            padding: const EdgeInsets.symmetric(
-              vertical: Constant.verticalPadding,
-              horizontal: Constant.horizontalPadding,
+        // leading: IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back),),
+      ),
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          shrinkWrap: true,
+          padding: const EdgeInsets.symmetric(
+            vertical: Constant.verticalPadding,
+            horizontal: Constant.horizontalPadding,
+          ),
+          children: [
+            Text(
+              "Alergi",
+              style: Constant.primaryTextStyle.copyWith(
+                fontSize: Constant.secondTitleFontSize,
+                fontWeight: Constant.boldFontWeight,
+              ),
             ),
-            children: [
-              Text(
-                "Alergi",
-                style: Constant.primaryTextStyle.copyWith(
-                  fontSize: Constant.secondTitleFontSize,
-                  fontWeight: Constant.boldFontWeight,
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              GlobalTextField(
-                  fieldController: _inputAlergyController,
-                  onChange: (value) {
-                    if (_inputAlergyController.text.isEmpty &&
-                        _inputConditionController.text.isEmpty &&
-                        _inputMedicineController.text.isEmpty) {
-                      checkValidateField.value = false;
-                    } else {
-                      checkValidateField.value = true;
-                    }
-                    return null;
-                  },
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "field can not be empty";
-                    } else {
-                      return null;
-                    }
-                  },
-                  hintText: "Masukkan riwayat alergi pasien",
-                  valueNotifier: onFieldAlergyFocus,
-                  focusNode: fieldAlergyFocusNode),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                "Kondisi",
-                style: Constant.primaryTextStyle.copyWith(
-                  fontSize: Constant.secondTitleFontSize,
-                  fontWeight: Constant.boldFontWeight,
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              GlobalTextField(
-                  fieldController: _inputConditionController,
-                  onChange: (value) {
-                    if (_inputAlergyController.text.isEmpty &&
-                        _inputConditionController.text.isEmpty &&
-                        _inputMedicineController.text.isEmpty) {
-                      checkValidateField.value = false;
-                    } else {
-                      checkValidateField.value = true;
-                    }
-                    return null;
-                  },
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "field can not be empty";
-                    } else {
-                      return null;
-                    }
-                  },
-                  maxLength: 120,
-                  maxLine: 5,
-                  hintText: "Masukkan kondisi terkini pasien",
-                  valueNotifier: onFiedlConditionFocus,
-                  focusNode: fieldConditionFocusNode),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                "Obat",
-                style: Constant.primaryTextStyle.copyWith(
-                  fontSize: Constant.secondTitleFontSize,
-                  fontWeight: Constant.boldFontWeight,
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              GlobalTextField(
-                fieldController: _inputMedicineController,
+            const SizedBox(
+              height: 10,
+            ),
+            GlobalTextField(
+                fieldController: _inputAlergyController,
                 onChange: (value) {
                   if (_inputAlergyController.text.isEmpty &&
                       _inputConditionController.text.isEmpty &&
@@ -203,86 +131,157 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
                   return null;
                 },
                 validator: (value) {
-                  if (value == null) {
+                  if (value!.isEmpty) {
                     return "field can not be empty";
                   } else {
                     return null;
                   }
                 },
-                hintText: "Masukkan Obat",
-                valueNotifier: onFiedlDrugFocus,
-                focusNode: fieldDrugFocusNode,
+                hintText: "Masukkan riwayat alergi pasien",
+                valueNotifier: onFieldAlergyFocus,
+                focusNode: fieldAlergyFocusNode),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              "Kondisi",
+              style: Constant.primaryTextStyle.copyWith(
+                fontSize: Constant.secondTitleFontSize,
+                fontWeight: Constant.boldFontWeight,
               ),
-            ],
-          ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            GlobalTextField(
+                fieldController: _inputConditionController,
+                onChange: (value) {
+                  if (_inputAlergyController.text.isEmpty &&
+                      _inputConditionController.text.isEmpty &&
+                      _inputMedicineController.text.isEmpty) {
+                    checkValidateField.value = false;
+                  } else {
+                    checkValidateField.value = true;
+                  }
+                  return null;
+                },
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "field can not be empty";
+                  } else {
+                    return null;
+                  }
+                },
+                maxLength: 120,
+                maxLine: 5,
+                hintText: "Masukkan kondisi terkini pasien",
+                valueNotifier: onFiedlConditionFocus,
+                focusNode: fieldConditionFocusNode),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              "Obat",
+              style: Constant.primaryTextStyle.copyWith(
+                fontSize: Constant.secondTitleFontSize,
+                fontWeight: Constant.boldFontWeight,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            GlobalTextField(
+              fieldController: _inputMedicineController,
+              onChange: (value) {
+                if (_inputAlergyController.text.isEmpty &&
+                    _inputConditionController.text.isEmpty &&
+                    _inputMedicineController.text.isEmpty) {
+                  checkValidateField.value = false;
+                } else {
+                  checkValidateField.value = true;
+                }
+                return null;
+              },
+              validator: (value) {
+                if (value == null) {
+                  return "field can not be empty";
+                } else {
+                  return null;
+                }
+              },
+              hintText: "Masukkan Obat",
+              valueNotifier: onFiedlDrugFocus,
+              focusNode: fieldDrugFocusNode,
+            ),
+          ],
         ),
-        bottomNavigationBar: Container(
-          margin: const EdgeInsets.symmetric(
-              horizontal: Constant.horizontalPadding,
-              vertical: Constant.verticalPadding),
-          child: ValueListenableBuilder(
-              valueListenable: checkValidateField,
-              builder: (context, bool val, _) {
-                return GlobalButton(
-                  color: (checkValidateField.value)
-                      ? Constant.baseColor
-                      : Constant.processColor,
-                  onPressed: () {
-                    print("widget.outPatientId : ${widget.outPatientId}");
-                    print(_formKey.currentState!.validate());
-                    if (_formKey.currentState!.validate()) {
-                      HelperDialog.confirmationDialog(context,
-                          titleText: "Konfirmasi",
-                          subTitle:
-                              "Apakan anda yakin ingin menyimpan data pasien?",
-                          buttonSubmitChild:
-                              BlocBuilder<PatientBloc, PatientState>(
-                            builder: (context, state) {
-                              if (state is PatientLoading) {
-                                return const SizedBox(
-                                  height: 30,
-                                  width: 20,
-                                  child: CircularProgressIndicator(
-                                    color: Constant.whiteColor,
-                                    strokeWidth: 2,
-                                  ),
-                                );
-                              } else {
-                                return Text(
-                                  "Ya",
-                                  style: Constant.primaryTextStyle.copyWith(
-                                    fontSize: 15,
-                                    color: Constant.whiteColor,
-                                    fontWeight: Constant.mediumFontWeight,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                );
-                              }
-                            },
-                          ),
-                          icon: const Icon(Icons.question_mark_outlined),
-                          buttonCancelText: "Tidak",
-                          onSubmit: () {
-                            // context.read<PatientBloc>().add(
-                            //     InsertConditionPatient(
-                            //         patientSessionId: widget.outPatientId,
-                            //         allergy: _inputAlergyController.text,
-                            //         condition: _inputConditionController.text,
-                            //         medicine: _inputMedicineController.text));
-                          });
-                    }
-                  },
-                  buttonChild: Text(
-                    "Simpan",
-                    style: Constant.primaryTextStyle.copyWith(
-                      fontSize: Constant.subtitleFontSize,
-                      fontWeight: Constant.semiBoldFontWeight,
-                      color: Colors.white,
-                    ),
+      ),
+      bottomNavigationBar: Container(
+        margin: const EdgeInsets.symmetric(
+            horizontal: Constant.horizontalPadding,
+            vertical: Constant.verticalPadding),
+        child: ValueListenableBuilder(
+            valueListenable: checkValidateField,
+            builder: (context, bool val, _) {
+              return GlobalButton(
+                color: (checkValidateField.value)
+                    ? Constant.baseColor
+                    : Constant.processColor,
+                onPressed: () {
+                  print("widget.outPatientId : ${widget.outPatientId}");
+                  print(_formKey.currentState!.validate());
+                  if (_formKey.currentState!.validate()) {
+                    HelperDialog.confirmationDialog(context,
+                        titleText: "Konfirmasi",
+                        subTitle:
+                            "Apakan anda yakin ingin menyimpan data pasien?",
+                        buttonSubmitChild:
+                            BlocBuilder<PatientBloc, PatientState>(
+                          builder: (context, state) {
+                            if (state is PatientLoading) {
+                              return const SizedBox(
+                                height: 30,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  color: Constant.whiteColor,
+                                  strokeWidth: 2,
+                                ),
+                              );
+                            } else {
+                              return Text(
+                                "Ya",
+                                style: Constant.primaryTextStyle.copyWith(
+                                  fontSize: 15,
+                                  color: Constant.whiteColor,
+                                  fontWeight: Constant.mediumFontWeight,
+                                ),
+                                textAlign: TextAlign.center,
+                              );
+                            }
+                          },
+                        ),
+                        icon: const Icon(Icons.question_mark_outlined),
+                        buttonCancelText: "Tidak",
+                        onSubmit: () {
+                          context.read<PatientBloc>().add(
+                              InsertConditionPatient(
+                                  patientSessionId: widget.outPatientId,
+                                  allergy: _inputAlergyController.text,
+                                  condition: _inputConditionController.text,
+                                  medicine: _inputMedicineController.text));
+                        });
+                  }
+                },
+                buttonChild: Text(
+                  "Simpan",
+                  style: Constant.primaryTextStyle.copyWith(
+                    fontSize: Constant.subtitleFontSize,
+                    fontWeight: Constant.semiBoldFontWeight,
+                    color: Colors.white,
                   ),
-                );
-              }),
-        ),
+                ),
+              );
+            }),
       ),
     );
   }

@@ -59,8 +59,23 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 },
               );
             } else {
-              return const Center(
-                child: Text("Tidak ada data"),
+              return Center(
+                child: Container(
+                  padding: const EdgeInsets.only(
+                    top: 24,
+                    left: 60,
+                    right: 60,
+                  ),
+                  child: Text(
+                    "Tidak ada permintaan kunjungan untuk saat ini",
+                    style: Constant.primaryTextStyle.copyWith(
+                      fontWeight: Constant.regularFontWeight,
+                      fontSize: Constant.subtitleFontSize,
+                      color: Colors.grey,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               );
             }
           } else if (state is PatientLoading) {

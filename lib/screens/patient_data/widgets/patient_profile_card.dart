@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hospital_management_system/models/patient_model.dart';
 import 'package:hospital_management_system/utils/constant.dart';
+import 'package:intl/intl.dart';
 
 class PatientProfileCard extends StatelessWidget {
   const PatientProfileCard({
@@ -53,7 +54,7 @@ class PatientProfileCard extends StatelessWidget {
             height: 5,
           ),
           Text(
-            patient.birthDate,
+            DateFormat('dd-MM-yyyy').format(DateTime.parse(patient.birthDate)),
             style: Constant.primaryTextStyle.copyWith(
               fontSize: Constant.subtitleFontSize,
               fontWeight: Constant.semiBoldFontWeight,

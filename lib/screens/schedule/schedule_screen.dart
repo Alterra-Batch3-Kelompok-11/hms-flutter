@@ -69,6 +69,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             ),
           ),
           body: BlocBuilder<PatientBloc, PatientState>(
+            buildWhen: (previous, current) {
+              return current is PatientScheduleLoaded;
+            },
             builder: (context, state) {
               if (state is PatientScheduleLoaded) {
                 return TabBarView(

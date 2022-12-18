@@ -45,8 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
         _usernameController.text = currentUsername!;
       }
     });
-    _usernameController = TextEditingController(text: "1029384756");
-    _passwordController = TextEditingController(text: "john123");
+    _usernameController = TextEditingController(text: "1234567893");
+    _passwordController = TextEditingController(text: "melati123");
 
     super.initState();
   }

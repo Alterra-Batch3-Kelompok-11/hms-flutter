@@ -367,12 +367,23 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
       if (expiredToken == false) {
         try {
           final AuthModel dataAuth = await _localService.getDataFromLocal();
-          final List<Historypatiens> historyList =
-              await _patientService.getHistoryVisit(
-                  idDoctor: dataAuth.doctorId!, token: dataAuth.token);
+          final int doctorId;
+
+          if (dataAuth.doctorId == 0 || dataAuth.doctorId == null) {
+            doctorId =
+                await _patientService.getDoctorIdFromNurse(dataAuth.nurseId!);
+          } else {
+            doctorId = dataAuth.doctorId!;
+          }
+
+          print("DOCTOR ID FROM NURSE :$doctorId");
+          print("DOCTOR ID FROM :${dataAuth.doctorId}");
+
+          final List<Historypatiens> historyList = await _patientService
+              .getHistoryVisit(idDoctor: doctorId, token: dataAuth.token);
           final List<Historypatiensapprovals> historyListApprovals =
               await _patientService.getHistoryApprovals(
-                  idDoctor: dataAuth.doctorId!, token: dataAuth.token);
+                  idDoctor: doctorId, token: dataAuth.token);
 
           emit(PatientHistoryLoaded(
               historyListApprovals: historyListApprovals,
