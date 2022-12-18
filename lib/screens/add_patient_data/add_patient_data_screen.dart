@@ -61,6 +61,9 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
         print("SESSION ID ${state.outPatientSessionId}");
         print("PATIENT ID ${state.outPatientId}");
 
+        outpatientSessionId = state.outPatientSessionId;
+        patientId = state.outPatientId;
+
         // Navigator.popUntil(context, (route) => ModalRoute.withName(RouteNames.patientData));
         Navigator.pop(context);
         Navigator.pop(context);
@@ -260,12 +263,12 @@ class _AddPatientDataScreenState extends State<AddPatientDataScreen> {
                           icon: const Icon(Icons.question_mark_outlined),
                           buttonCancelText: "Tidak",
                           onSubmit: () {
-                            context.read<PatientBloc>().add(
-                                InsertConditionPatient(
-                                    patientSessionId: widget.outPatientId,
-                                    allergy: _inputAlergyController.text,
-                                    condition: _inputConditionController.text,
-                                    medicine: _inputMedicineController.text));
+                            // context.read<PatientBloc>().add(
+                            //     InsertConditionPatient(
+                            //         patientSessionId: widget.outPatientId,
+                            //         allergy: _inputAlergyController.text,
+                            //         condition: _inputConditionController.text,
+                            //         medicine: _inputMedicineController.text));
                           });
                     }
                   },

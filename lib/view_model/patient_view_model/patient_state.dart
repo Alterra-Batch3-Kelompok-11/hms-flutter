@@ -113,3 +113,15 @@ class PatientHistoryLoaded extends PatientState {
   @override
   List<Object> get props => [historyList, historyListApprovals];
 }
+
+class PatientScheduleLoaded extends PatientState {
+  final List<OutpatientModel> listOutpatientUnprocessed;
+  final List<OutpatientModel> listOutpatientApproved;
+
+  const PatientScheduleLoaded(
+      {required this.listOutpatientUnprocessed,
+      required this.listOutpatientApproved});
+
+  @override
+  List<Object> get props => [listOutpatientUnprocessed, listOutpatientApproved];
+}

@@ -22,6 +22,7 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
 
   PatientBloc(this._patientService, this._localService)
       : super(PatientInitial()) {
+    /// AKAN DIHAPUS
     on<GetOutpatientUnprocessed>(
       (event, emit) async {
         emit(PatientLoading());
@@ -62,6 +63,7 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
       },
     );
 
+    /// AKAN DIHAPUS
     // JADWAL KUNJUNGAN
     on<GetOutpatientApproveds>((event, emit) async {
       emit(PatientLoading());
@@ -310,6 +312,45 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
             emit(PatientError(message: e.response!.data['message']));
           } else {
             print(e.toString());
+            emit(PatientError(message: e.toString()));
+          }
+        }
+      } else {
+        emit(const PatientExpiredToken(message: "Expired Token"));
+      }
+    });
+
+    on<GetPatientSchedule>((event, emit) async {
+      emit(PatientLoading());
+      final bool? expiredToken =
+          await _localService.checkExpiredTokenFromLocal();
+
+      if (expiredToken == false) {
+        try {
+          final AuthModel dataAuth = await _localService.getDataFromLocal();
+          final int doctorId;
+
+          if (dataAuth.doctorId == 0 || dataAuth.doctorId == null) {
+            doctorId =
+                await _patientService.getDoctorIdFromNurse(dataAuth.nurseId!);
+          } else {
+            doctorId = dataAuth.doctorId!;
+          }
+
+          final List<OutpatientModel> listOutpatientUnprocessed =
+              await _patientService.getOutpatientUnprocessed(
+                  idDoctor: doctorId, token: dataAuth.token);
+          final List<OutpatientModel> listOutpatientApproved =
+              await _patientService.getOutpatientApproveds(
+                  idDoctor: doctorId, token: dataAuth.token);
+
+          emit(PatientScheduleLoaded(
+              listOutpatientUnprocessed: listOutpatientUnprocessed,
+              listOutpatientApproved: listOutpatientApproved));
+        } catch (e) {
+          if (e is DioError) {
+            emit(PatientError(message: e.response!.data['message']));
+          } else {
             emit(PatientError(message: e.toString()));
           }
         }

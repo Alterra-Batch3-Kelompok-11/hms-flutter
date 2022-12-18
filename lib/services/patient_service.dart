@@ -48,7 +48,7 @@ class PatientService {
   }
 
   //get outpatient processed by iddoctor
-  Future<List<OutpatientModel>?> getOutpatientApproveds(
+  Future<List<OutpatientModel>> getOutpatientApproveds(
       {required int idDoctor, required String token}) async {
     try {
       final response = await _dio.get(

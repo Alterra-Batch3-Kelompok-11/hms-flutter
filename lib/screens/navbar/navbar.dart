@@ -51,9 +51,7 @@ class _NavbarScreenState extends State<NavbarScreen> {
           if (state is DataUserLoaded) {
             return HomeScreen(dataUser: state.dataUser);
           } else {
-            return const Center(
-              child: Text("Tidak ada data"),
-            );
+            return const SizedBox.shrink();
           }
         },
       ),
@@ -66,9 +64,7 @@ class _NavbarScreenState extends State<NavbarScreen> {
             print(state.dataUser.name);
             return ProfileScreen(dataUser: state.dataUser);
           } else {
-            return const Center(
-              child: Text("Tidak ada data"),
-            );
+            return const SizedBox.shrink();
           }
         },
       ),

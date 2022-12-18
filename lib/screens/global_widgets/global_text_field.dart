@@ -10,6 +10,7 @@ class GlobalTextField extends StatelessWidget {
     required this.focusNode,
     this.maxLine,
     this.prefixIcon,
+    this.suffixIcon,
     this.obscureText = false,
     this.maxLength,
     required this.validator,
@@ -23,6 +24,7 @@ class GlobalTextField extends StatelessWidget {
   final int? maxLength;
   final ValueNotifier<bool> valueNotifier;
   final IconData? prefixIcon;
+  final Widget? suffixIcon;
   final bool obscureText;
   final String? Function(String?)? validator;
   final String? Function(String?)? onChange;
@@ -57,6 +59,7 @@ class GlobalTextField extends StatelessWidget {
           onTap: updateFillColor,
           onChanged: onChange,
           decoration: InputDecoration(
+              suffixIcon: suffixIcon,
               filled: true,
               prefixIcon: (prefixIcon == null) ? null : Icon(prefixIcon),
               focusedBorder: const UnderlineInputBorder(

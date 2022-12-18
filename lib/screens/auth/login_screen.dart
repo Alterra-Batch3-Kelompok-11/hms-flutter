@@ -31,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late TextEditingController _usernameController;
   late TextEditingController _passwordController;
   ValueNotifier<bool> isRemember = ValueNotifier(false);
+  ValueNotifier<bool> isShowPassword = ValueNotifier(false);
   String? currentUsername;
 
   @override
@@ -51,12 +52,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    print("REFRESH SCREEN");
     return Scaffold(
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
@@ -123,21 +120,31 @@ class _LoginScreenState extends State<LoginScreen> {
                             return null;
                           }),
                       const SizedBox(height: 20),
-                      GlobalTextField(
-                          fieldController: _passwordController,
-                          hintText: "Sandi",
-                          valueNotifier: onFieldPasswordFocus,
-                          focusNode: fieldPasswordFocus,
-                          obscureText: true,
-                          maxLine: 1,
-                          prefixIcon: Icons.lock,
-                          // obscureText: true,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              print("data kosong");
-                              return "Field can't empty";
-                            }
-                            return null;
+                      ValueListenableBuilder(
+                          valueListenable: isShowPassword,
+                          builder: (context, bool value, _) {
+                            return GlobalTextField(
+                                fieldController: _passwordController,
+                                hintText: "Sandi",
+                                valueNotifier: onFieldPasswordFocus,
+                                focusNode: fieldPasswordFocus,
+                                obscureText: value ? false : true,
+                                maxLine: 1,
+                                prefixIcon: Icons.lock,
+                                suffixIcon: IconButton(
+                                    splashColor: Colors.transparent,
+                                    onPressed: () => isShowPassword.value =
+                                        !isShowPassword.value,
+                                    icon: value
+                                        ? const Icon(Icons.visibility)
+                                        : const Icon(Icons.visibility_off)),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    print("data kosong");
+                                    return "Field can't empty";
+                                  }
+                                  return null;
+                                });
                           }),
                       Row(
                         children: [
