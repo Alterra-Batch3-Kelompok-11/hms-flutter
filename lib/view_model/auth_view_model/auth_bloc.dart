@@ -57,19 +57,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _onIsRemember(IsRemember event, Emitter<AuthState> emit) async {
     try {
-      final bool expiredToken =
-          await _localService.checkExpiredTokenFromLocal();
-
-      print("IS LOGIN $expiredToken");
-      if (expiredToken == false) {
-        emit(AuthIsLogin());
+      final AuthModel dataAuth = await _localService.getDataFromLocal();
+      if (dataAuth.isRemember == true) {
+        emit(AuthIsRemember(
+            isRemember: dataAuth.isRemember!, username: dataAuth.username));
       }
     } catch (e) {
-      if (e is DioError) {
-        emit(AuthError(message: e.response!.data['message']));
-      } else {
-        emit(AuthError(message: e.toString()));
-      }
+      emit(AuthError(message: e.toString()));
     }
   }
 
