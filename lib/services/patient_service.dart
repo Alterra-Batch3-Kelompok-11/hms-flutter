@@ -331,4 +331,29 @@ class PatientService {
       rethrow;
     }
   }
+
+  //INI JADWAL DI NURSE
+  Future<List<OutpatientModel>> getOutpatientByDocterId({
+    required int idDoctor,
+  }) async {
+    try {
+      final response = await _dio.get(
+        "$_baseUrl/outpatient_sessions/doctor/$idDoctor",
+      );
+      print('INI data Respone ${response.data['data']}');
+
+      final dataRespone =
+          response.data['data'] != null ? response.data['data'] as List : [];
+      List<OutpatientModel> outpatientList = [];
+      print('INI data Respone $dataRespone');
+
+      for (var i = 0; i < dataRespone.length; i++) {
+        outpatientList.add(OutpatientModel.fromJson(dataRespone[i]));
+      }
+
+      return outpatientList;
+    } on DioError {
+      rethrow;
+    }
+  }
 }
