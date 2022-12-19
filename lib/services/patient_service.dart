@@ -30,6 +30,8 @@ class PatientService {
           outpatientList = (response.data['data'] as List)
               .map((json) => OutpatientModel.fromJson(json))
               .toList();
+
+          print("BERHASIL");
           return outpatientList;
         }
       } else {

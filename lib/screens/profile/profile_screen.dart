@@ -57,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         padding: const EdgeInsets.symmetric(
           horizontal: Constant.horizontalPadding,
         ),
-        child: (widget.dataUser!.doctorId == 0)
+        child: (widget.dataUser!.nurseId != 0)
             ? BlocBuilder<NurseBloc, NurseState>(
                 buildWhen: (previous, current) {
                   return current is ProfileNurseLoaded;
@@ -68,8 +68,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     return const GlobalLoading(layout: DetailDoctorLoading());
                   } else if (state is ProfileNurseLoaded) {
                     return NurseProfileScreen(
-                      nurse: state.nurse,
-                      schedule: const [],
+                      nurse: state.dataNurse,
+                      schedule: state.schedule,
                     );
                   } else if (state is NurseError) {
                     return const GlobalLoading(layout: DetailDoctorLoading());

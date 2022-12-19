@@ -95,49 +95,49 @@ class DetailProfileCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 5),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 59,
-                    child: Text(
-                      'Jadwal ',
-                      style: Constant.primaryTextStyle.copyWith(
-                        fontSize: Constant.bodyFontSize,
-                        fontWeight: Constant.semiBoldFontWeight,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    ': ',
-                    style: Constant.primaryTextStyle.copyWith(
-                      fontSize: Constant.bodyFontSize,
-                      fontWeight: Constant.semiBoldFontWeight,
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Senin - Jumat',
-                        style: Constant.primaryTextStyle.copyWith(
-                          fontSize: Constant.bodyFontSize,
-                          fontWeight: Constant.regularFontWeight,
-                        ),
-                       // textAlign: TextAlign.left,
-                      ),
-                      Text(
-                        '08.00 - 16.00',
-                        style: Constant.primaryTextStyle.copyWith(
-                          fontSize: Constant.bodyFontSize,
-                          fontWeight: Constant.regularFontWeight,
-                        ),
-                     //   textAlign: TextAlign.left,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              // Row(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     SizedBox(
+              //       width: 59,
+              //       child: Text(
+              //         'Jadwal ',
+              //         style: Constant.primaryTextStyle.copyWith(
+              //           fontSize: Constant.bodyFontSize,
+              //           fontWeight: Constant.semiBoldFontWeight,
+              //         ),
+              //       ),
+              //     ),
+              //     Text(
+              //       ': ',
+              //       style: Constant.primaryTextStyle.copyWith(
+              //         fontSize: Constant.bodyFontSize,
+              //         fontWeight: Constant.semiBoldFontWeight,
+              //       ),
+              //     ),
+              //     Column(
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: [
+              //         Text(
+              //           'Senin - Jumat',
+              //           style: Constant.primaryTextStyle.copyWith(
+              //             fontSize: Constant.bodyFontSize,
+              //             fontWeight: Constant.regularFontWeight,
+              //           ),
+              //          // textAlign: TextAlign.left,
+              //         ),
+              //         Text(
+              //           '08.00 - 16.00',
+              //           style: Constant.primaryTextStyle.copyWith(
+              //             fontSize: Constant.bodyFontSize,
+              //             fontWeight: Constant.regularFontWeight,
+              //           ),
+              //        //   textAlign: TextAlign.left,
+              //         ),
+              //       ],
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ],

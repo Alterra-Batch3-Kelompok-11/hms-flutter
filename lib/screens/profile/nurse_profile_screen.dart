@@ -25,7 +25,7 @@ class NurseProfileScreen extends StatelessWidget {
             doctorName: nurse.name,
             licenseNumber: nurse.licenseNumber,
             specialis: nurse.specialityName),
-        const ListJadwalCard(schedule: []),
+        ListJadwalCard(schedule: schedule),
       ],
     );
   }

@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hospital_management_system/models/auth_model.dart';
 import 'package:hospital_management_system/models/nurse_model.dart';
+import 'package:hospital_management_system/models/schedule_model.dart';
 import 'package:hospital_management_system/services/local_service.dart';
 import 'package:hospital_management_system/services/nurse_service.dart';
 
@@ -20,9 +21,14 @@ class NurseBloc extends Bloc<NurseEvent, NurseState> {
       if (expiredToken == false) {
         try {
           final AuthModel? dataAuth = await _localService.getDataFromLocal();
-          final response =
+          final dataNurse =
               await _nurseService.getNurseProfile(nurseId: dataAuth!.nurseId!);
-          emit(ProfileNurseLoaded(nurse: response));
+
+          final doctorSchedule = await _nurseService.getScheduleByDoctorId(
+              doctorId: dataAuth.doctorId!);
+
+          emit(ProfileNurseLoaded(
+              dataNurse: dataNurse, schedule: doctorSchedule));
         } catch (e) {
           if (e is DioError) {
             print(e.response);

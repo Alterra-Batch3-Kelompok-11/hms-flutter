@@ -30,10 +30,11 @@ class ExpiredNurseToken extends NurseState {
 }
 
 class ProfileNurseLoaded extends NurseState {
-  final NurseModel nurse;
+  final NurseModel dataNurse;
+  final List<ScheduleModel> schedule;
 
-  const ProfileNurseLoaded({required this.nurse});
+  const ProfileNurseLoaded({required this.dataNurse, required this.schedule});
 
   @override
-  List<Object> get props => [nurse];
+  List<Object> get props => [dataNurse, schedule];
 }
