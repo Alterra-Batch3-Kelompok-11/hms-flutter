@@ -49,7 +49,9 @@ class _HomeScreenState extends State<HomeScreen> {
           title: Padding(
               padding: const EdgeInsets.only(left: 6),
               child: DoctorHomeHeader(
-                  doctorName: widget.dataUser!.name,
+                  doctorName: (widget.dataUser!.roleId == 2)
+                      ? "Dr. " + widget.dataUser!.name
+                      : widget.dataUser!.name,
                   profilePic: profileKosong)),
           actions: [
             IconButton(

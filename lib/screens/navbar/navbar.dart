@@ -55,7 +55,17 @@ class _NavbarScreenState extends State<NavbarScreen> {
           }
         },
       ),
-      const ScheduleScreen(),
+      BlocBuilder<UserBloc, UserState>(
+        builder: (context, state) {
+          if (state is DataUserLoaded) {
+            return ScheduleScreen(
+              dataUser: state.dataUser,
+            );
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
+      ),
       const HistoryScreen(),
       BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {

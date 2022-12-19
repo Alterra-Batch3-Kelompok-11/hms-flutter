@@ -96,10 +96,17 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
           await _localService.checkExpiredTokenFromLocal();
       if (expiredToken == false) {
         try {
-          AuthModel dataAuth = await _localService.getDataFromLocal();
-          PatientQueueToday response =
-              await _patientService.getPatientQueueToday(
-                  idDokter: dataAuth.doctorId!, token: dataAuth.token);
+          final AuthModel dataAuth = await _localService.getDataFromLocal();
+          final int doctorId;
+
+          if (dataAuth.doctorId == 0 || dataAuth.doctorId == null) {
+            doctorId =
+                await _patientService.getDoctorIdFromNurse(dataAuth.nurseId!);
+          } else {
+            doctorId = dataAuth.doctorId!;
+          }
+          PatientQueueToday response = await _patientService
+              .getPatientQueueToday(idDokter: doctorId, token: dataAuth.token);
 
           emit(PatientQueueTodayLoaded(patientQueueToday: response));
         } catch (e) {
