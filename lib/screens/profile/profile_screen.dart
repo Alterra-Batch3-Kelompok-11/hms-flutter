@@ -67,7 +67,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   if (state is NurseLoading) {
                     return const GlobalLoading(layout: DetailDoctorLoading());
                   } else if (state is ProfileNurseLoaded) {
-                    return NurseProfileScreen(nurse: state.nurse);
+                    return NurseProfileScreen(
+                      nurse: state.nurse,
+                      schedule: const [],
+                    );
                   } else if (state is NurseError) {
                     return const GlobalLoading(layout: DetailDoctorLoading());
                   } else {

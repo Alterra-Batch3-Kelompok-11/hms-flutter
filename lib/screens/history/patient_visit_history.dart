@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hospital_management_system/routes/route_names.dart';
 import 'package:hospital_management_system/screens/history/widgets/card_patient_visit_history.dart';
-import 'package:hospital_management_system/screens/patient_data/patient_data_screen.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 
 import '../../models/history_patiens_model.dart';
@@ -36,18 +34,11 @@ class PatientVisitHistory extends StatelessWidget {
         : ListView.builder(
             itemCount: listHistoryVisit.length,
             itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, RouteNames.patientData,
-                      arguments: const PatientDataScreen(
-                          outSessionId: 11, patientId: 11));
-                },
-                child: CardPatientVisitHistory(
-                  status: listHistoryVisit[index].status,
-                  patientName: listHistoryVisit[index].patientName,
-                  visitDate: listHistoryVisit[index].scheduleDateIndo,
-                  queueNumber: index + 1,
-                ),
+              return CardPatientVisitHistory(
+                status: listHistoryVisit[index].status,
+                patientName: listHistoryVisit[index].patientName,
+                visitDate: listHistoryVisit[index].scheduleDateIndo,
+                queueNumber: index + 1,
               );
             },
             padding: const EdgeInsets.symmetric(

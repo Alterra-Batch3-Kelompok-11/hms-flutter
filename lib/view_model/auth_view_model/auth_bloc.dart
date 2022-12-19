@@ -12,73 +12,74 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthService _authService;
   final LocalService _localService;
   AuthBloc(this._authService, this._localService) : super(AuthInitial()) {
-    on<Login>((event, emit) async {
-      try {
-        emit(AuthLoadingState());
-        final AuthModel authModel = await _authService.login(
-            username: event.username, password: event.password);
+    on<Login>(_onLogin);
+    on<IsLogin>(_onIsLogin);
+    on<IsRemember>(_onIsRemember);
+    on<Logout>(_onLogout);
+  }
 
-        await _localService.saveDataToLocal(authModel, event.isRemember);
+  void _onLogin(Login event, Emitter<AuthState> emit) async {
+    try {
+      emit(AuthLoadingState());
+      final AuthModel authModel = await _authService.login(
+          username: event.username, password: event.password);
 
-        emit(AuthSuccessLoginState());
-      } catch (e) {
-        if (e is DioError) {
-          print(e.response!.data['message']);
-          emit(AuthError(message: e.response!.data['message']));
-        } else {
-          emit(AuthError(message: e.toString()));
-        }
-      }
-    });
+      await _localService.saveDataToLocal(authModel, event.isRemember);
 
-    on<IsLogin>((event, emit) async {
-      try {
-        final bool expiredToken =
-            await _localService.checkExpiredTokenFromLocal();
-
-        print("IS LOGIN $expiredToken");
-        if (expiredToken == false) {
-          emit(AuthIsLogin());
-        }
-      } catch (e) {
-        if (e is DioError) {
-          emit(AuthError(message: e.response!.data['message']));
-        } else {
-          emit(AuthError(message: e.toString()));
-        }
-      }
-    });
-
-    // on<IsExpiredToken>((event, emit) async {
-    //   bool token = await _localService.checkExpiredToken();
-
-    //   if (token == true) {
-    //     emit(AuthExpiredToken());
-    //   } else {
-    //     print("TOKEN BELUM EXPIRE");
-    //   }
-    // });
-
-    on<IsRemember>((event, emit) async {
-      try {
-        final AuthModel dataAuth = await _localService.getDataFromLocal();
-        if (dataAuth.isRemember == true) {
-          emit(AuthIsRemember(
-              isRemember: dataAuth.isRemember!, username: dataAuth.username));
-        }
-      } catch (e) {
+      emit(AuthSuccessLoginState());
+    } catch (e) {
+      if (e is DioError) {
+        print(e.response!.data['message']);
+        emit(AuthError(message: e.response!.data['message']));
+      } else {
         emit(AuthError(message: e.toString()));
       }
-    });
+    }
+  }
 
-    on<Logout>((event, emit) async {
-      emit(AuthLoading());
-      try {
-        await _localService.setDataLocalIfLogout();
-        emit(AuthIsLogout());
-      } catch (e) {
+  void _onIsLogin(IsLogin event, Emitter<AuthState> emit) async {
+    try {
+      final bool expiredToken =
+          await _localService.checkExpiredTokenFromLocal();
+
+      print("IS LOGIN $expiredToken");
+      if (expiredToken == false) {
+        emit(AuthIsLogin());
+      }
+    } catch (e) {
+      if (e is DioError) {
+        emit(AuthError(message: e.response!.data['message']));
+      } else {
         emit(AuthError(message: e.toString()));
       }
-    });
+    }
+  }
+
+  void _onIsRemember(IsRemember event, Emitter<AuthState> emit) async {
+    try {
+      final bool expiredToken =
+          await _localService.checkExpiredTokenFromLocal();
+
+      print("IS LOGIN $expiredToken");
+      if (expiredToken == false) {
+        emit(AuthIsLogin());
+      }
+    } catch (e) {
+      if (e is DioError) {
+        emit(AuthError(message: e.response!.data['message']));
+      } else {
+        emit(AuthError(message: e.toString()));
+      }
+    }
+  }
+
+  void _onLogout(Logout event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    try {
+      await _localService.setDataLocalIfLogout();
+      emit(AuthIsLogout());
+    } catch (e) {
+      emit(AuthError(message: e.toString()));
+    }
   }
 }

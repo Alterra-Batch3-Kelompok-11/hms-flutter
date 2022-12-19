@@ -10,26 +10,29 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   final LocalService _localService;
 
   UserBloc(this._localService) : super(UserInitial()) {
-    on<GetDataUser>((event, emit) async {
-      emit(UserLoading());
-      try {
-        final AuthModel dataUser = await _localService.getDataFromLocal();
-        emit(DataUserLoaded(dataUser: dataUser));
-      } catch (e) {
-        emit(UserError(message: e.toString()));
-      }
-    });
+    on<GetDataUser>(_onGetDataUser);
+    on<GetUserRole>(_onGetUserRole);
+  }
 
-    on<GetUserRole>((event, emit) async {
-      emit(UserLoading());
+  void _onGetDataUser(GetDataUser event, Emitter<UserState> emit) async {
+    emit(UserLoading());
+    try {
+      final AuthModel dataUser = await _localService.getDataFromLocal();
+      emit(DataUserLoaded(dataUser: dataUser));
+    } catch (e) {
+      emit(UserError(message: e.toString()));
+    }
+  }
 
-      try {
-        final int userRole = await _localService.getRoleIdFromLocal();
+  void _onGetUserRole(GetUserRole event, Emitter<UserState> emit) async {
+    emit(UserLoading());
 
-        emit(UserRoleLoaded(userRole));
-      } catch (e) {
-        emit(UserError(message: e.toString()));
-      }
-    });
+    try {
+      final int userRole = await _localService.getRoleIdFromLocal();
+
+      emit(UserRoleLoaded(userRole));
+    } catch (e) {
+      emit(UserError(message: e.toString()));
+    }
   }
 }
