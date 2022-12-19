@@ -36,6 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
+    super.initState();
     context.read<AuthBloc>().add(IsRemember());
 
     context.read<AuthBloc>().stream.listen((state) {
@@ -45,167 +46,168 @@ class _LoginScreenState extends State<LoginScreen> {
         _usernameController.text = currentUsername!;
       }
     });
-    _usernameController = TextEditingController(text: "1234567893");
-    _passwordController = TextEditingController(text: "melati123");
+    _usernameController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
 
-    super.initState();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    context.read<AuthBloc>().stream.listen((state) {
+      print("LOGIN STATE : $state");
+      if (state is AuthSuccessLoginState) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, RouteNames.navbar, (route) => false,
+            arguments: const NavbarScreen(
+              selectedIndex: 0,
+            )).then((_) {
+          return context.read<UserBloc>().add(GetDataUser());
+        });
+      } else if (state is AuthError) {
+        HelperDialog.snackBar(
+            context: context, message: state.message, bottomMargin: 800);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     print("REFRESH SCREEN");
     return Scaffold(
-      body: BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) {
-          print("LOGIN STATE : $state");
-          if (state is AuthSuccessLoginState) {
-            Navigator.pushNamedAndRemoveUntil(
-                context, RouteNames.navbar, (route) => false,
-                arguments: const NavbarScreen(
-                  selectedIndex: 0,
-                )).then((_) {
-              return context.read<UserBloc>().add(GetDataUser());
-            });
-          } else if (state is AuthError) {
-            HelperDialog.snackBar(
-                context: context, message: state.message, bottomMargin: 780);
-          }
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              alignment: Alignment.topCenter,
-              image: const Image(
-                image: AssetImage('assets/images/login_background.png'),
-              ).image,
-              fit: BoxFit.fitWidth,
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            alignment: Alignment.topCenter,
+            image: const Image(
+              image: AssetImage('assets/images/login_background.png'),
+            ).image,
+            fit: BoxFit.fitWidth,
           ),
-          child: Container(
-            height: 425,
+        ),
+        child: Container(
+          height: 425,
 
-            // color: Colors.white,
-            margin: const EdgeInsets.only(
-                top: 140, left: 20, right: 20, bottom: 20),
-            padding: const EdgeInsets.only(top: 36, left: 20, right: 20),
-            child: Form(
-              key: _key,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        'Masuk',
-                        style: GoogleFonts.poppins(
-                            color: Colors.blue,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 10),
-                      GlobalTextField(
-                          fieldController: _usernameController,
-                          hintText: "Nomor Lisensi",
-                          valueNotifier: onFieldUsernameFocus,
-                          focusNode: fieldUsernameFocus,
-                          prefixIcon: Icons.person,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              print("data kosong");
-                              return "Tidak";
-                            }
-                            return null;
-                          }),
-                      const SizedBox(height: 20),
-                      ValueListenableBuilder(
-                          valueListenable: isShowPassword,
-                          builder: (context, bool value, _) {
-                            return GlobalTextField(
-                                fieldController: _passwordController,
-                                hintText: "Sandi",
-                                valueNotifier: onFieldPasswordFocus,
-                                focusNode: fieldPasswordFocus,
-                                obscureText: value ? false : true,
-                                maxLine: 1,
-                                prefixIcon: Icons.lock,
-                                suffixIcon: IconButton(
-                                    splashColor: Colors.transparent,
-                                    onPressed: () => isShowPassword.value =
-                                        !isShowPassword.value,
-                                    icon: value
-                                        ? const Icon(Icons.visibility)
-                                        : const Icon(Icons.visibility_off)),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    print("data kosong");
-                                    return "Field can't empty";
-                                  }
-                                  return null;
-                                });
-                          }),
-                      Row(
-                        children: [
-                          ValueListenableBuilder(
-                              valueListenable: isRemember,
-                              builder: (context, bool val, _) {
-                                return Checkbox(
-                                  onChanged: (bool? value) {
-                                    isRemember.value = value!;
-                                    print(isRemember.value);
-                                  },
-                                  value: isRemember.value,
-                                );
-                              }),
-                          Text(
-                            'Ingat saya',
-                            style: GoogleFonts.poppins(
-                                color: Colors.blue.shade900,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      GlobalButton(
-                        onPressed: () {
-                          print(_usernameController.text);
-                          if (_key.currentState!.validate()) {
-                            context.read<AuthBloc>().add(Login(
-                                  username: _usernameController.text,
-                                  password: _passwordController.text,
-                                  isRemember: isRemember.value,
-                                ));
-                            FocusScope.of(context).unfocus();
+          // color: Colors.white,
+          margin:
+              const EdgeInsets.only(top: 140, left: 20, right: 20, bottom: 20),
+          padding: const EdgeInsets.only(top: 36, left: 20, right: 20),
+          child: Form(
+            key: _key,
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    Text(
+                      'Masuk',
+                      style: GoogleFonts.poppins(
+                          color: Colors.blue,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 10),
+                    GlobalTextField(
+                        fieldController: _usernameController,
+                        hintText: "Nomor Lisensi",
+                        valueNotifier: onFieldUsernameFocus,
+                        focusNode: fieldUsernameFocus,
+                        prefixIcon: Icons.person,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            print("data kosong");
+                            return "Tidak";
+                          }
+                          return null;
+                        }),
+                    const SizedBox(height: 20),
+                    ValueListenableBuilder(
+                        valueListenable: isShowPassword,
+                        builder: (context, bool value, _) {
+                          return GlobalTextField(
+                              fieldController: _passwordController,
+                              hintText: "Sandi",
+                              valueNotifier: onFieldPasswordFocus,
+                              focusNode: fieldPasswordFocus,
+                              obscureText: value ? false : true,
+                              maxLine: 1,
+                              prefixIcon: Icons.lock,
+                              suffixIcon: IconButton(
+                                  splashColor: Colors.transparent,
+                                  onPressed: () => isShowPassword.value =
+                                      !isShowPassword.value,
+                                  icon: value
+                                      ? const Icon(Icons.visibility)
+                                      : const Icon(Icons.visibility_off)),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  print("data kosong");
+                                  return "Field can't empty";
+                                }
+                                return null;
+                              });
+                        }),
+                    Row(
+                      children: [
+                        ValueListenableBuilder(
+                            valueListenable: isRemember,
+                            builder: (context, bool val, _) {
+                              return Checkbox(
+                                onChanged: (bool? value) {
+                                  isRemember.value = value!;
+                                  print(isRemember.value);
+                                },
+                                value: isRemember.value,
+                              );
+                            }),
+                        Text(
+                          'Ingat saya',
+                          style: GoogleFonts.poppins(
+                              color: Colors.blue.shade900,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    GlobalButton(
+                      onPressed: () {
+                        print(_usernameController.text);
+                        if (_key.currentState!.validate()) {
+                          context.read<AuthBloc>().add(Login(
+                                username: _usernameController.text,
+                                password: _passwordController.text,
+                                isRemember: isRemember.value,
+                              ));
+                          FocusScope.of(context).unfocus();
+                        }
+                      },
+                      buttonChild: BlocBuilder<AuthBloc, AuthState>(
+                        builder: (context, state) {
+                          if (state is AuthLoadingState) {
+                            return const SizedBox(
+                              height: 30,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                color: Constant.whiteColor,
+                                strokeWidth: 2,
+                              ),
+                            );
+                          } else {
+                            return Text(
+                              "Terima",
+                              style: Constant.primaryTextStyle.copyWith(
+                                fontSize: Constant.subtitleFontSize,
+                                fontWeight: Constant.semiBoldFontWeight,
+                                color: Colors.white,
+                              ),
+                            );
                           }
                         },
-                        buttonChild: BlocBuilder<AuthBloc, AuthState>(
-                          builder: (context, state) {
-                            if (state is AuthLoadingState) {
-                              return const SizedBox(
-                                height: 30,
-                                width: 20,
-                                child: CircularProgressIndicator(
-                                  color: Constant.whiteColor,
-                                  strokeWidth: 2,
-                                ),
-                              );
-                            } else {
-                              return Text(
-                                "Terima",
-                                style: Constant.primaryTextStyle.copyWith(
-                                  fontSize: Constant.subtitleFontSize,
-                                  fontWeight: Constant.semiBoldFontWeight,
-                                  color: Colors.white,
-                                ),
-                              );
-                            }
-                          },
-                        ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),

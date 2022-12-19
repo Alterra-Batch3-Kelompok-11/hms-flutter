@@ -88,21 +88,20 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 20),
             BlocBuilder<DoctorBloc, DoctorState>(
-              buildWhen: (previous, current) {
-                return current is ScheduleAllDoctorLoaded;
-              },
+              // buildWhen: (previous, current) {
+              //   return current is ScheduleAllDoctorLoaded;
+              // },
               builder: (context, state) {
                 if (state is ScheduleAllDoctorLoaded) {
+                  print("SCEHDULE DOCTOR : ${state.doctorList}");
                   List<DoctorModel> doctorList = state.doctorList;
                   return ListDoctorCard(doctorList: doctorList);
-                } else if (state is LoadingDoctor) {
-                  return const GlobalLoading(
-                    layout: ListDoctorLoading(),
-                  );
                 } else if (state is ErrorDoctor) {
+                  print("ERROR ${state.message}");
                   print(state.message);
                   return const SizedBox.shrink();
                 } else {
+                  print("ELSE");
                   return const GlobalLoading(
                     layout: ListDoctorLoading(),
                   );

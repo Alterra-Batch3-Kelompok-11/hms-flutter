@@ -51,6 +51,7 @@ class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
       if (expiredToken == false) {
         try {
           final result = await _doctorService.getDoctorSchedule();
+
           emit(ScheduleAllDoctorLoaded(doctorList: result));
         } catch (e) {
           if (e is DioError) {

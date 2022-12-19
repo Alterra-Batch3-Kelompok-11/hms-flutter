@@ -35,13 +35,13 @@ class RouteGenerator {
             child: PatientDataScreen(
           outSessionId: args.outSessionId,
           patientId: args.patientId,
-          enableBack: args.enableBack,
         ));
       case RouteNames.addPatientData:
-        final patientId = settings.arguments as int;
+        final args = settings.arguments as AddPatientDataScreen;
         return RouteBuilder(
             child: AddPatientDataScreen(
-          outPatientId: patientId,
+          patientSessionId: args.patientSessionId,
+          patientId: args.patientId,
         ));
       case RouteNames.home:
         return RouteBuilder(child: const HomeScreen());
