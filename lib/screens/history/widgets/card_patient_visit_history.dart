@@ -19,7 +19,10 @@ class CardPatientVisitHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(Constant.horizontalPadding),
+      padding: const EdgeInsets.symmetric(
+        horizontal: Constant.verticalPadding,
+        vertical: Constant.horizontalPadding,
+      ),
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: Constant.whiteColor,
@@ -27,48 +30,37 @@ class CardPatientVisitHistory extends StatelessWidget {
         boxShadow: Constant.cardShadow,
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                "Antrian",
-                style: Constant.primaryTextStyle.copyWith(
-                  fontSize: Constant.subtitleFontSize,
-                  color: Constant.darker,
-                ),
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-              ),
+              Text("Antrian",
+                  style: Constant.primaryTextStyle.copyWith(
+                    fontSize: Constant.captionFontSize,
+                    fontWeight: Constant.regularFontWeight,
+                  )),
               const SizedBox(
-                height: 5,
+                height: 10,
               ),
               Container(
-                width: 75,
-                height: 45,
-                padding: const EdgeInsets.all(10),
+                // padding: const EdgeInsets.all(10),
+                width: 42,
+                height: 30,
                 decoration: BoxDecoration(
                   borderRadius: Constant.cardBorderRadius,
-                  color: Constant.lightestColor,
+                  color: Constant.veryLightColor,
                 ),
                 child: Center(
-                  child: Text(
-                    "$queueNumber",
-                    style: Constant.primaryTextStyle.copyWith(
-                      fontSize: Constant.secondTitleFontSize,
-                      fontWeight: Constant.boldFontWeight,
-                      color: Constant.baseColor,
-                    ),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
+                    child: Text(queueNumber.toString(),
+                        style: Constant.primaryTextStyle.copyWith(
+                            fontSize: Constant.firstTitleSize,
+                            fontWeight: Constant.semiBoldFontWeight,
+                            color: Constant.baseColor))),
+              )
             ],
           ),
           const SizedBox(
-            width: 20,
+            width: 25,
           ),
           Expanded(
             child: Column(
@@ -77,7 +69,8 @@ class CardPatientVisitHistory extends StatelessWidget {
                 Text(
                   "Nama Pasien",
                   style: Constant.primaryTextStyle.copyWith(
-                    fontSize: Constant.subtitleFontSize,
+                    fontSize: Constant.captionFontSize,
+                    fontWeight: Constant.regularFontWeight,
                     color: Constant.darker,
                   ),
                   maxLines: 3,
@@ -93,18 +86,18 @@ class CardPatientVisitHistory extends StatelessWidget {
                     fontWeight: Constant.semiBoldFontWeight,
                     color: Constant.baseColor,
                   ),
-                  maxLines: 2,
+                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(
                   height: 4,
                 ),
                 Text(
-                  "Tanggal Kunjungan",
+                  "Tanggal Terima",
                   style: Constant.primaryTextStyle.copyWith(
                     fontSize: Constant.captionFontSize,
+                    fontWeight: Constant.regularFontWeight,
                     color: Constant.darker,
-                    fontWeight: Constant.regularFontWeight
                   ),
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
@@ -115,7 +108,20 @@ class CardPatientVisitHistory extends StatelessWidget {
                 Text(
                   visitDate,
                   style: Constant.primaryTextStyle.copyWith(
-                    fontSize: Constant.subtitleFontSize,
+                    fontSize: Constant.bodyFontSize,
+                    fontWeight: Constant.semiBoldFontWeight,
+                    color: Constant.baseColor,
+                  ),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  status,
+                  style: Constant.primaryTextStyle.copyWith(
+                    fontSize: Constant.bodyFontSize,
                     fontWeight: Constant.semiBoldFontWeight,
                     color: Constant.baseColor,
                   ),
@@ -125,20 +131,30 @@ class CardPatientVisitHistory extends StatelessWidget {
               ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 30,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  status,
+                  style: Constant.primaryTextStyle.copyWith(
+                      fontSize: Constant.bodyFontSize,
+                      color: (status == "Proses")
+                          ? Constant.processColor
+                          : Constant.successColor,
+                      fontWeight: Constant.semiBoldFontWeight),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
           const SizedBox(
-            width: 20,
-          ),
-          Text(
-            status,
-            style: Constant.primaryTextStyle.copyWith(
-                fontSize: Constant.subtitleFontSize,
-                color: (status == "Proses")
-                    ? Constant.processColor
-                    : Constant.successColor,
-                fontWeight: Constant.semiBoldFontWeight),
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-          ),
+            width: 4,
+          )
         ],
       ),
     );

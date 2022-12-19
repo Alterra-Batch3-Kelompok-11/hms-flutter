@@ -29,7 +29,7 @@ class CardHistoryApprovalPatient extends StatelessWidget {
           Row(children: [
             Icon(
               Icons.circle,
-              size: 15,
+              size: 12,
               color: (status == "Kunjungan Ditolak")
                   ? Constant.errorColor
                   : Constant.successColor,
@@ -40,7 +40,7 @@ class CardHistoryApprovalPatient extends StatelessWidget {
             Text(
               status,
               style: Constant.primaryTextStyle.copyWith(
-                fontSize: Constant.subtitleFontSize,
+                fontSize: Constant.bodyFontSize,
                 color: (status == "Kunjungan Ditolak")
                     ? Constant.errorColor
                     : Constant.successColor,
@@ -61,20 +61,21 @@ class CardHistoryApprovalPatient extends StatelessWidget {
                 child: Text(
                   patientName,
                   style: Constant.primaryTextStyle.copyWith(
-                    fontSize: Constant.subtitleFontSize,
+                    fontSize: Constant.bodyFontSize,
                     color: Constant.darker,
-                    fontWeight: Constant.semiBoldFontWeight,
+                    fontWeight: Constant.mediumFontWeight,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
+              
               Text(
                 visitDate,
                 style: Constant.primaryTextStyle.copyWith(
-                  fontSize: Constant.subtitleFontSize,
+                  fontSize: Constant.bodyFontSize,
                   color: Constant.darker,
-                  fontWeight: Constant.semiBoldFontWeight,
+                  fontWeight: Constant.mediumFontWeight,
                 ),
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,

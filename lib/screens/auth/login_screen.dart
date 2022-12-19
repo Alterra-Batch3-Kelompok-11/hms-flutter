@@ -118,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             print("data kosong");
-                            return "Tidak";
+                            return "Nomor Lisensi tidak boleh kosong";
                           }
                           return null;
                         }),
@@ -144,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   print("data kosong");
-                                  return "Field can't empty";
+                                  return "Sandi tidak boleh kosong";
                                 }
                                 return null;
                               });
