@@ -95,11 +95,20 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
       final bool? expiredToken =
           await _localService.checkExpiredTokenFromLocal();
       if (expiredToken == false) {
+
         try {
-          AuthModel dataAuth = await _localService.getDataFromLocal();
+          final AuthModel dataAuth = await _localService.getDataFromLocal();
+          final int doctorId;
+
+          if (dataAuth.doctorId == 0 || dataAuth.doctorId == null) {
+            doctorId =
+                await _patientService.getDoctorIdFromNurse(dataAuth.nurseId!);
+          } else {
+            doctorId = dataAuth.doctorId!;
+          }
           PatientQueueToday response =
               await _patientService.getPatientQueueToday(
-                  idDokter: dataAuth.doctorId!, token: dataAuth.token);
+                  idDokter: doctorId, token: dataAuth.token);
 
           emit(PatientQueueTodayLoaded(patientQueueToday: response));
         } catch (e) {
@@ -287,6 +296,39 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
           } else {
             print(e.toString());
             emit(const PatientError(message: "Something wrong"));
+          }
+        }
+      } else {
+        emit(const PatientExpiredToken(message: "Expired Token"));
+      }
+    });
+
+    on<GetOutpatientByIdDoctor>((event, emit) async {
+      emit(PatientLoading());
+      final bool? expiredToken =
+          await _localService.checkExpiredTokenFromLocal();
+
+      if (expiredToken == false) {
+        try {
+          final AuthModel dataAuth = await _localService.getDataFromLocal();
+          final int doctorId;
+
+          if (dataAuth.doctorId == 0 || dataAuth.doctorId == null) {
+            doctorId =
+                await _patientService.getDoctorIdFromNurse(dataAuth.nurseId!);
+          } else {
+            doctorId = dataAuth.doctorId!;
+          }
+
+          final List<OutpatientModel>? outpatientList =
+              await _patientService.getOutpatientByDocterId(idDoctor: doctorId);
+
+          emit(OutpatientLoaded(outpatientList: outpatientList ?? []));
+        } catch (e) {
+          if (e is DioError) {
+            emit(PatientError(message: e.response!.data['message']));
+          } else {
+            emit(PatientError(message: e.toString()));
           }
         }
       } else {
