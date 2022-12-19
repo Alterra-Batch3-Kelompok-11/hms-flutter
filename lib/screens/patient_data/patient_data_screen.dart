@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_system/models/outpatient_model.dart';
 import 'package:hospital_management_system/routes/route_names.dart';
+import 'package:hospital_management_system/screens/add_patient_data/add_patient_data_screen.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_button.dart';
 import 'package:hospital_management_system/screens/global_widgets/global_loading.dart';
 import 'package:hospital_management_system/screens/patient_data/widgets/patient_data_loading.dart';
@@ -14,16 +15,14 @@ import 'widgets/patient_medical_history_card.dart';
 import 'widgets/patient_schedule_card.dart';
 
 class PatientDataScreen extends StatefulWidget {
-  const PatientDataScreen(
-      {Key? key,
-      required this.outSessionId,
-      required this.patientId,
-      this.enableBack})
-      : super(key: key);
+  const PatientDataScreen({
+    Key? key,
+    required this.outSessionId,
+    required this.patientId,
+  }) : super(key: key);
 
   final int? outSessionId;
   final int? patientId;
-  final bool? enableBack;
 
   @override
   State<PatientDataScreen> createState() => _PatientDataScreenState();
@@ -67,16 +66,6 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
               color: Colors.white,
             ),
           ),
-          // leading: IconButton(
-          //     onPressed: () => Navigator.of(context)
-          //         .pushNamedAndRemoveUntil(RouteNames.navbar, (route) => false,
-          //             arguments: const NavbarScreen(
-          //               selectedIndex: 1,
-          //             )),
-          //     icon: const Icon(
-          //       Icons.arrow_back,
-          //     )),
-          automaticallyImplyLeading: widget.enableBack ?? true,
         ),
         body: BlocBuilder<PatientBloc, PatientState>(
           builder: (context, state) {
@@ -149,12 +138,13 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
                     builder: (context, state) {
                       if (state is UserRoleLoaded) {
                         if (state.roleId == 2 && outPatient.isFinish == false) {
-                          print("IS FINISH ${outPatient.isFinish}");
                           return GlobalButton(
                             onPressed: () => Navigator.pushNamed(
                               context,
                               RouteNames.addPatientData,
-                              arguments: outPatient.id,
+                              arguments: AddPatientDataScreen(
+                                  patientSessionId: outPatient.id,
+                                  patientId: outPatient.patientId),
                             ),
                             buttonChild: Text(
                               "Terima",

@@ -44,9 +44,8 @@ class _DoctorVisitRequestState extends State<DoctorVisitRequest> {
             .pushNamedAndRemoveUntil(RouteNames.navbar, (route) => false,
                 arguments: const NavbarScreen(
                   selectedIndex: 1,
-                ))
-            .then((value) =>
-                context.read<PatientBloc>().add(GetPatientSchedule()));
+                ));
+        context.read<PatientBloc>().add(GetPatientSchedule());
       }
     });
     super.didChangeDependencies();

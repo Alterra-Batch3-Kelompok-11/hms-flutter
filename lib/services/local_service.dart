@@ -80,6 +80,8 @@ class LocalService {
 
     if (token != null || token!.isNotEmpty) {
       bool tokenExpired = Jwt.isExpired(token);
+
+      print("TOKEN EXPIRED $tokenExpired");
       if (tokenExpired == true) {
         return true;
       } else {

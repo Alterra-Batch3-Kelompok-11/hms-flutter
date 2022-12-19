@@ -67,7 +67,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     right: 60,
                   ),
                   child: Text(
-                    "Tidak ada permintaan kunjungan untuk saat ini",
+                    "Tidak ada notifikasi untuk saat ini",
                     style: Constant.primaryTextStyle.copyWith(
                       fontWeight: Constant.regularFontWeight,
                       fontSize: Constant.subtitleFontSize,

@@ -40,7 +40,7 @@ class PatientVisitHistory extends StatelessWidget {
                 onTap: () {
                   Navigator.pushNamed(context, RouteNames.patientData,
                       arguments: const PatientDataScreen(
-                          outSessionId: 11, patientId: 3));
+                          outSessionId: 11, patientId: 11));
                 },
                 child: CardPatientVisitHistory(
                   status: listHistoryVisit[index].status,

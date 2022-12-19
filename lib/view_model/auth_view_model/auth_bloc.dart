@@ -33,9 +33,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<IsLogin>((event, emit) async {
       try {
-        final bool? isLogin = await _localService.checkExpiredTokenFromLocal();
+        final bool expiredToken =
+            await _localService.checkExpiredTokenFromLocal();
 
-        if (isLogin == true) {
+        print("IS LOGIN $expiredToken");
+        if (expiredToken == false) {
           emit(AuthIsLogin());
         }
       } catch (e) {
@@ -78,11 +80,5 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthError(message: e.toString()));
       }
     });
-
-    // on<GetRoleId>((event, emit) async {
-    //   final int roleId = await _localService.getRoleIdFromLocal();
-
-    //   emit(AuthRoleId(roleId: roleId));
-    // });
   }
 }

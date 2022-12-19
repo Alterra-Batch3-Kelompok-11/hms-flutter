@@ -20,11 +20,13 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
+    super.initState();
+
     Timer(const Duration(milliseconds: 2000), () {
       context.read<AuthBloc>().add(IsLogin());
-
       context.read<AuthBloc>().stream.listen((state) {
-        if (state is IsExpiredToken) {
+        print("AUTH STATE $state");
+        if (state is AuthIsLogin) {
           Navigator.pushNamedAndRemoveUntil(
               context, RouteNames.navbar, (route) => false,
               arguments: const NavbarScreen(
@@ -33,8 +35,6 @@ class _SplashScreenState extends State<SplashScreen> {
         }
       });
     });
-
-    super.initState();
   }
 
   @override
