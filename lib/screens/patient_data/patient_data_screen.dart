@@ -34,6 +34,7 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
   @override
   void initState() {
     print("PATIENT ID ${widget.patientId}");
+    print("PATIENT ID ${widget.outSessionId}");
     final sessionId = widget.outSessionId;
     final patientId = widget.patientId;
 
@@ -48,8 +49,7 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        context.read<PatientBloc>().add(GetOutpatientUnprocessed());
-        context.read<PatientBloc>().add(GetOutpatientApproveds());
+        context.read<PatientBloc>().add(GetPatientSchedule());
         context.read<PatientBloc>().add(GetPatientHistory());
         context.read<UserBloc>().add(GetDataUser());
         return Future.value(true);
@@ -83,6 +83,7 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
             if (state is DetailOutpatientLoaded) {
               OutpatientModel outPatient = state.outpatientModel;
 
+              print(state.historyList);
               return ListView(
                 padding: const EdgeInsets.symmetric(
                     horizontal: Constant.horizontalPadding,
@@ -147,7 +148,8 @@ class _PatientDataScreenState extends State<PatientDataScreen> {
                   BlocBuilder<UserBloc, UserState>(
                     builder: (context, state) {
                       if (state is UserRoleLoaded) {
-                        if (state.roleId == 2) {
+                        if (state.roleId == 2 && outPatient.isFinish == false) {
+                          print("IS FINISH ${outPatient.isFinish}");
                           return GlobalButton(
                             onPressed: () => Navigator.pushNamed(
                               context,

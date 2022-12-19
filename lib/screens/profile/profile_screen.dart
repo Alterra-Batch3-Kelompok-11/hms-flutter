@@ -69,10 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   } else if (state is ProfileNurseLoaded) {
                     return NurseProfileScreen(nurse: state.nurse);
                   } else if (state is NurseError) {
-                    print(state.message);
-                    return const Center(
-                      child: Text("Nurse Error"),
-                    );
+                    return const GlobalLoading(layout: DetailDoctorLoading());
                   } else {
                     print("ELSE NURSE");
                     return const SizedBox.shrink();

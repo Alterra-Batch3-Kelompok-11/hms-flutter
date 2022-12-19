@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_system/screens/global_widgets/global_loading.dart';
 import 'package:hospital_management_system/screens/schedule/doctor_visit_request.dart';
 import 'package:hospital_management_system/utils/constant.dart';
 import 'package:hospital_management_system/screens/schedule/doctor_visit_schedule.dart';
+import 'package:hospital_management_system/view_model/patient_view_model/patient_bloc.dart';
+
+import 'widgets/schedule_loading.dart';
 
 //bloc
 
@@ -15,9 +20,7 @@ class ScheduleScreen extends StatefulWidget {
 class _ScheduleScreenState extends State<ScheduleScreen> {
   @override
   void initState() {
-    // context.read<OutpatientBloc>().add(GetOutpatientUnprocessed());
-    // context.read<OutpatientBloc>().add(GetOutpatientProcessed());
-
+    context.read<PatientBloc>().add(GetPatientSchedule());
     super.initState();
   }
 
@@ -65,12 +68,25 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               ),
             ),
           ),
-          body: const TabBarView(
-            physics: NeverScrollableScrollPhysics(),
-            children: [
-              DoctorVisitRequest(),
-              DoctorVisitSchedule(),
-            ],
+          body: BlocBuilder<PatientBloc, PatientState>(
+            buildWhen: (previous, current) {
+              return current is PatientScheduleLoaded;
+            },
+            builder: (context, state) {
+              if (state is PatientScheduleLoaded) {
+                return TabBarView(
+                  children: [
+                    DoctorVisitRequest(
+                        listOutpatientUnprocessed:
+                            state.listOutpatientUnprocessed),
+                    DoctorVisitSchedule(
+                        listOutPatientApproved: state.listOutpatientApproved),
+                  ],
+                );
+              } else {
+                return const GlobalLoading(layout: ScheduleLoading());
+              }
+            },
           )),
     );
   }

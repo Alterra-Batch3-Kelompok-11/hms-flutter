@@ -67,4 +67,6 @@ class GetHistoryPatientTreatment extends PatientEvent {
 
 class GetPatientHistory extends PatientEvent {}
 
+class GetPatientSchedule extends PatientEvent {}
+
 class GetNotification extends PatientEvent {}
